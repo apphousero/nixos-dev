@@ -1,0 +1,7 @@
+### sample.yaml
+
+some:
+  property:
+  field:
+    and:
+      sub-field: value-value

@@ -1,0 +1,39 @@
+name: Build NixOS WSL2 Tarballs
+
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          tool-cache: true
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+      - name: Install Nix
+        uses: cachix/install-nix-action@v24
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+      - name: Build WSL2 (x86_64)
+        run: |
+          nix build .#nixosConfigurations.wsl-x86_64.config.system.build.tarballBuilder
+      - name: Build Tarball
+        run: |
+          sudo ./result/bin/nixos-wsl-tarball-builder
+          sudo chmod a+rw nixos.wsl
+          mv nixos.wsl nixos.wsl.tar.gz
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nixos-wsl-x86_64
+          path: ./nixos.wsl.tar.gz
+          retention-days: 7
