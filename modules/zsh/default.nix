@@ -47,7 +47,7 @@
       node18 = "nix shell nixpkgs#nodejs_18";
       myvim = "nvim .";
       mn = "myvim";
-      rtty = "exec $SHELL; clear";
+      rtty = "clear; exec $SHELL";
       n = "nitch";
       tk = "tmux kill-session";
     };
