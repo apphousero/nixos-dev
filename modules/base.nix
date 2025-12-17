@@ -134,6 +134,8 @@
     ripgrep
     # good for plex
     rsync
+    # ssh to age
+    ssh-to-age
     # strace
     strace
     # tree command

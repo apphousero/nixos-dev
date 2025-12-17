@@ -12,6 +12,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -29,6 +33,7 @@
       home-manager,
       nixos-wsl,
       self,
+      sops-nix,
       vscode-server,
       ...
     }@inputs:
@@ -45,6 +50,7 @@
               baseModules = [
                 home-manager.nixosModules.home-manager
                 nixvim.nixosModules.nixvim
+                sops-nix.nixosModules.default
                 (./hosts + "/${hostname}.nix")
               ];
               devModules =
