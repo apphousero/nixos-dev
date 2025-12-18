@@ -134,7 +134,9 @@
     ripgrep
     # good for plex
     rsync
-    # ssh to age
+    # age stuff for sops
+    age
+    sops
     ssh-to-age
     # strace
     strace
