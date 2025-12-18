@@ -58,6 +58,8 @@ in
 
         # lazygit popup window
         bind C-g display-popup -w 85% -h 85% -d '#{pane_current_path}' -E 'lazygit'
+        bind -n C-t display-popup -w 85% -h 85% -d '#{pane_current_path}' -E 'zsh'
+        bind -n C-x display-popup -w 85% -h 85% -d '#{pane_current_path}' -E 'bash'
 
         # Send the bracketed paste mode when pasting
         bind ] paste-buffer -p
