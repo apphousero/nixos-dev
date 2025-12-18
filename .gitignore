@@ -43,3 +43,6 @@ luac.out
 *~
 result
 .env
+
+# current
+.zsh_history_local

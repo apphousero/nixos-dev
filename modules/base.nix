@@ -160,6 +160,11 @@
     zsh
   ];
 
+  environment.variables = {
+    VISUAL = "nvim";
+    EDITOR = "nvim";
+  };
+
   # Basic shell configuration
   programs = {
     bash = {
