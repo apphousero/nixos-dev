@@ -56,6 +56,9 @@ in
         bind C-n next-window
         bind C-p previous-window
 
+        # lazygit popup window
+        bind C-g display-popup -w 85% -h 85% -d '#{pane_current_path}' -E 'lazygit'
+
         # Send the bracketed paste mode when pasting
         bind ] paste-buffer -p
 
