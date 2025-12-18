@@ -18,6 +18,8 @@
         sdk_10_0
       ]
     )
+    # Claude
+    claude-code
     # Analyse docker images
     dive
     # Github CLI
