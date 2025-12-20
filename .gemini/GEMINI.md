@@ -1,4 +1,4 @@
-## Gemini Added Memories
+## Gemini Instructions
 
-- This is a public repo at [apphousero/nixos-dev](https://github.com/apphousero/nixos-dev)
-- This flake is referenced by other flakes
+See [CLAUDE.md](../CLAUDE.md) for project documentation and guidelines.
+

@@ -113,6 +113,44 @@
     }
     {
       mode = "n";
+      key = "<leader>F";
+      action.__raw = ''
+        function()
+          local default_files = {
+            "flake.nix",
+            "README.md",
+            "index.tsx",
+            "src/index.tsx",
+            "index.ts",
+            "src/index.ts",
+            "index.jsx",
+            "src/index.jsx",
+            "index.js",
+            "src/index.js",
+            "main.py",
+            "src/main.py",
+          }
+
+          local cwd = vim.fn.getcwd()
+
+          for _, file in ipairs(default_files) do
+            local filepath = cwd .. "/" .. file
+            if vim.fn.filereadable(filepath) == 1 then
+              vim.cmd.edit(filepath)
+              return
+            end
+          end
+
+          vim.notify("No default file found in " .. cwd, vim.log.levels.WARN)
+        end
+      '';
+      options = {
+        desc = "Open default file from current directory";
+        silent = true;
+      };
+    }
+    {
+      mode = "n";
       action.__raw = "MiniFiles.open";
       key = "<leader>w";
       options = {
