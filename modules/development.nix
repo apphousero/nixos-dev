@@ -20,6 +20,8 @@
     )
     # Claude
     claude-code
+    # Some lil DOS box for development
+    dosbox
     # Analyse docker images
     dive
     # Github CLI

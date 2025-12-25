@@ -61,6 +61,9 @@ in
         bind -n C-x display-popup -w 85% -h 85% -d '#{pane_current_path}' -E 'bash'
         bind -n C-t display-popup -w 85% -h 85% -d '#{pane_current_path}' -E 'zsh'
 
+        # Refresh shell
+        bind l send-keys 'exec $SHELL && clear' Enter
+
         # Send the bracketed paste mode when pasting
         bind ] paste-buffer -p
 
