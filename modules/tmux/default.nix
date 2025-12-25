@@ -62,7 +62,7 @@ in
         bind -n C-t display-popup -w 85% -h 85% -d '#{pane_current_path}' -E 'zsh'
 
         # Refresh shell
-        bind l send-keys 'exec $SHELL && clear' Enter
+        bind l send-keys 'clear' Enter
 
         # Send the bracketed paste mode when pasting
         bind ] paste-buffer -p
