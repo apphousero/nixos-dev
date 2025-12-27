@@ -150,6 +150,8 @@
     vault-bin
     # Alternative to curl
     wget
+    # yazi file browser
+    yazi
     # Dev alternative to tmux
     zellij
     # Zip
