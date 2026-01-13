@@ -55,11 +55,16 @@ in
         # Be faster switching windows
         bind C-n next-window
         bind C-p previous-window
+        unbind C-b
+        bind C-b previous-window
 
         # lazygit popup window
-        bind C-g display-popup -w 85% -h 85% -d '#{pane_current_path}' -E 'lazygit'
-        bind -n C-x display-popup -w 85% -h 85% -d '#{pane_current_path}' -E 'bash'
-        bind -n C-t display-popup -w 85% -h 85% -d '#{pane_current_path}' -E 'zsh'
+        unbind C-g
+        bind C-g display-popup -w 90% -h 90% -d '#{pane_current_path}' -E 'lazygit'
+        unbind C-x
+        bind -n C-x display-popup -w 90% -h 90% -d '#{pane_current_path}' -E 'bash'
+        unbind C-t
+        bind -n C-t display-popup -w 90% -h 90% -d '#{pane_current_path}' -E 'zsh'
 
         # Refresh shell
         unbind l
