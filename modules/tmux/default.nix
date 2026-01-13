@@ -62,10 +62,14 @@ in
         bind -n C-t display-popup -w 85% -h 85% -d '#{pane_current_path}' -E 'zsh'
 
         # Refresh shell
+        unbind l
+        unbind C-l
         bind l send-keys 'clear' Enter
+        bind C-l send-keys 'clear' Enter
 
         # Send the bracketed paste mode when pasting
-        bind ] paste-buffer -p
+        unbind y
+        bind y paste-buffer -p
 
         set-option -g set-titles on
 
