@@ -197,5 +197,26 @@
       action = "<cmd>b#<cr>";
       options.desc = "Previous buffer";
     }
+    {
+      mode = "n";
+      action = "gcc";
+      key = "<leader>/";
+      options = {
+        desc = "Toggle comment";
+        remap = true;
+        silent = true;
+      };
+    }
+    {
+      mode = "v";
+      action = "gc";
+      key = "<leader>/";
+      options = {
+        desc = "Toggle comment";
+        remap = true;
+        silent = true;
+      };
+    }
+
   ];
 }

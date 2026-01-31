@@ -65,8 +65,8 @@ in
         key = "gd";
       }
       {
-        action = "<CMD>Lspsaga hover_doc<Enter>";
-        key = "<leader>K";
+        action = "<CMD>LspInfo<Enter>";
+        key = "<leader>li";
       }
     ];
     servers = {
