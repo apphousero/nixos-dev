@@ -90,6 +90,8 @@
     git
     # GNU make
     gnumake
+    # Hetzber Cloud
+    hcloud
     # htop
     htop
     # JSON support in shell
@@ -140,6 +142,8 @@
     strace
     # tree command
     tree
+    # TCP dump
+    tcpdump
     # To complete a shell, ya need tmux
     tmux
     # Unzip
