@@ -2,8 +2,8 @@
   description = "AppHouse NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
+    nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505";
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,6 +20,9 @@
       url = "github:nix-community/nixos-vscode-server";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    determinate = {
+      url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    };
   };
 
   outputs =
@@ -30,6 +33,7 @@
       nixos-wsl,
       self,
       vscode-server,
+      determinate,
       ...
     }@inputs:
     let
@@ -45,6 +49,7 @@
               baseModules = [
                 home-manager.nixosModules.home-manager
                 nixvim.nixosModules.nixvim
+                determinate.nixosModules.default
                 (./hosts + "/${hostname}.nix")
               ];
               devModules =
@@ -87,6 +92,7 @@
             imports = [
               home-manager.nixosModules.default
               nixvim.nixosModules.default
+              determinate.nixosModules.default
               ./modules/base.nix
             ];
           };
@@ -101,6 +107,7 @@
             imports = [
               home-manager.nixosModules.default
               nixvim.nixosModules.default
+              determinate.nixosModules.default
               ./modules/development.nix
             ];
           };
@@ -115,6 +122,7 @@
             imports = [
               home-manager.nixosModules.default
               nixvim.nixosModules.default
+              determinate.nixosModules.default
               ./modules/desktop.nix
             ];
           };
@@ -129,6 +137,7 @@
             imports = [
               home-manager.nixosModules.default
               nixvim.nixosModules.default
+              determinate.nixosModules.default
               ./modules/server.nix
             ];
           };
@@ -143,6 +152,7 @@
             imports = [
               home-manager.nixosModules.default
               nixvim.nixosModules.default
+              determinate.nixosModules.default
               nixos-wsl.nixosModules.default
               vscode-server.nixosModules.default
               ./modules/wsl.nix
