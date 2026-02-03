@@ -82,6 +82,8 @@
     fd
     # file command
     file
+    # Flakehub CLI
+    fh
     # Fuzzy finder
     fzf
     # GCC
