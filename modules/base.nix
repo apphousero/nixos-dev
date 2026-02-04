@@ -48,6 +48,10 @@
     };
   };
 
+  environment.sessionVariables = {
+    MC_SKIN = "dark";
+  };
+
   # Basic system packages that should be available everywhere
   environment.systemPackages = with pkgs; [
     # Grep for something else
@@ -82,6 +86,8 @@
     fd
     # file command
     file
+    # Flakehub CLI
+    fh
     # Fuzzy finder
     fzf
     # GCC
@@ -126,6 +132,8 @@
     nmap
     # The new shell
     nushell
+    # OpenSSL
+    openssl
     # PeteTong
     python3
     # A super file explorer
@@ -140,6 +148,8 @@
     ssh-to-age
     # strace
     strace
+    # tldr any command instead of man, e.g. tldr fd
+    tldr
     # tree command
     tree
     # TCP dump

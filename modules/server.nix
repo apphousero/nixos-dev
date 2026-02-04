@@ -12,14 +12,7 @@
     dive
     # ping but with graph
     gping
-    # For certificates
-    openssl
-    # tldr any command instead of man, e.g. tldr fd
-    tldr
   ];
-  environment.sessionVariables = {
-    MC_SKIN = "dark";
-  };
 
   # Select internationalisation properties.
   console.keyMap = lib.mkDefault "us";
@@ -61,12 +54,5 @@
         KbdInteractiveAuthentication = lib.mkDefault false;
       };
     };
-  };
-  # Podman configuration
-  virtualisation.containers.enable = lib.mkDefault true;
-  virtualisation.podman = {
-    enable = lib.mkDefault true;
-    dockerCompat = lib.mkDefault true;
-    defaultNetwork.settings.dns_enabled = lib.mkDefault true;
   };
 }

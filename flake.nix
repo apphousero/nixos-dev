@@ -141,6 +141,22 @@
               ./modules/server.nix
             ];
           };
+        server-containers =
+          {
+            config,
+            pkgs,
+            lib,
+            ...
+          }:
+          {
+            imports = [
+              home-manager.nixosModules.default
+              nixvim.nixosModules.default
+              determinate.nixosModules.default
+              ./modules/server-containers.nix
+            ];
+          };
+
         wsl =
           {
             config,
