@@ -37,5 +37,9 @@
     brave
     chromium
     firefox
+    # file browsers
+    file-roller
+    # RDP
+    remmina
   ];
 }
