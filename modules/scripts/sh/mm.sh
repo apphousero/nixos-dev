@@ -22,9 +22,9 @@ if ! tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
     tmux send-keys -t "$SESSION_NAME:1" "echo 'neovim here'" C-m
     tmux send-keys -t "$SESSION_NAME:1" "mn"
     # git window
-    tmux new-window -t "$SESSION_NAME:2" -n "git" -c "$CWD"
-    tmux send-keys -t "$SESSION_NAME:2" "echo 'lazygit here'" C-m
-    tmux send-keys -t "$SESSION_NAME:2" "lg"
+    tmux new-window -t "$SESSION_NAME:2" -n "vi2" -c "$CWD"
+    tmux send-keys -t "$SESSION_NAME:2" "echo 'neovim 2nd here'" C-m
+    tmux send-keys -t "$SESSION_NAME:2" "vi2"
     # run window
     tmux new-window -t "$SESSION_NAME:3" -n "run" -c "$CWD"
     tmux send-keys -t "$SESSION_NAME:3" "echo 'run stuff here'" C-m
@@ -32,19 +32,14 @@ if ! tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
     tmux new-window -t "$SESSION_NAME:4" -n "nav" -c "$CWD"
     tmux send-keys -t "$SESSION_NAME:4" "echo 'do your tree here'" C-m
     # docker window
-    tmux new-window -t "$SESSION_NAME:5" -n "docker" -c "$CWD"
+    tmux new-window -t "$SESSION_NAME:5" -n "ssh" -c "$CWD"
     # ssh window
-    tmux new-window -t "$SESSION_NAME:6" -n "ssh" -c "$CWD"
+    tmux new-window -t "$SESSION_NAME:6" -n "cld" -c "$CWD"
     # logs window
-    tmux new-window -t "$SESSION_NAME:7" -n "logs" -c "$CWD"
-    tmux send-keys -t "$SESSION_NAME:7" "echo 'lazyjournal here'" C-m
-    tmux send-keys -t "$SESSION_NAME:7" "lj"
+    tmux new-window -t "$SESSION_NAME:7" -n "gmn" -c "$CWD"
     # other windows
-    tmux new-window -t "$SESSION_NAME:8" -n "sys" -c "$CWD"
-    tmux send-keys -t "$SESSION_NAME:8" "echo 'btop here'" C-m
-    tmux send-keys -t "$SESSION_NAME:8" "btop"
-
-    tmux new-window -t "$SESSION_NAME:9" -n "end" -c "$CWD"
+    tmux new-window -t "$SESSION_NAME:8" -n "logs" -c "$CWD"
+    tmux new-window -t "$SESSION_NAME:9" -n "sys" -c "$CWD"
     # Select window 1 (vi)
     tmux select-window -t "$SESSION_NAME:1"
 fi
