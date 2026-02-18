@@ -102,18 +102,17 @@ in
         set -g @catppuccin_window_current_number "#I"
         set -g @catppuccin_window_current_text "#W"
 
-        set -g @continuum-restore 'on'
+        # Resurrect
         set -g @resurrect-strategy-nvim 'session'
-        set -g @fzf-url-fzf-options '-p 60%,30% --prompt="   " --border-label=" Open URL "'
-        set -g @fzf-url-history-limit '2000'
-
-        set -g @resurrect-strategy-nvim 'session'
-        set -g @resurrect-processes '~nvim ~claude ~gemini ~mc ~btop ~lj ~k9s'
+        set -g @resurrect-processes 'false'
         set -g @resurrect-capture-pane-contents 'on'
 
-        set -g @continuum-restore 'on'
+        set -g @fzf-url-fzf-options '-p 60%,30% --prompt="[open]" --border-label=" Open URL "'
+        set -g @fzf-url-history-limit '2000'
+
+        # Continuum restore
+        set -g @continuum-restore 'off'
         set -g @continuum-save-interval '15'
-        set -g @continuum-boot 'on'
       '';
   };
 }
