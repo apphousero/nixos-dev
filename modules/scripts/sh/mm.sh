@@ -20,11 +20,9 @@ if ! tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
     # neovim window
     tmux new-session -d -s "$SESSION_NAME" -n "vi" -c "$CWD"
     tmux send-keys -t "$SESSION_NAME:1" "echo 'neovim here'" C-m
-    tmux send-keys -t "$SESSION_NAME:1" "mn"
     # git window
     tmux new-window -t "$SESSION_NAME:2" -n "vi2" -c "$CWD"
     tmux send-keys -t "$SESSION_NAME:2" "echo 'neovim 2nd here'" C-m
-    tmux send-keys -t "$SESSION_NAME:2" "vi2"
     # run window
     tmux new-window -t "$SESSION_NAME:3" -n "run" -c "$CWD"
     tmux send-keys -t "$SESSION_NAME:3" "echo 'run stuff here'" C-m
