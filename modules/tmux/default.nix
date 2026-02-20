@@ -55,6 +55,10 @@ in
         # Be faster switching windows
         bind C-n next-window
         bind C-p previous-window
+
+        # Switch between sessions
+        bind C-j switch-client -n
+        bind C-k switch-client -p
         unbind C-b
         bind C-b previous-window
 
@@ -112,7 +116,7 @@ in
 
         # Continuum restore
         set -g @continuum-restore 'off'
-        set -g @continuum-save-interval '15'
+        set -g @continuum-save-interval '0'
       '';
   };
 }

@@ -129,6 +129,8 @@
             "src/index.js",
             "main.py",
             "src/main.py",
+            ".zshrc",
+            ".bashrc",
           }
 
           local cwd = vim.fn.getcwd()

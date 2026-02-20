@@ -191,6 +191,7 @@
       enable = true;
       config = {
         init.defaultBranch = "master";
+        core.autocrlf = false;
       };
     };
     nix-index.enable = true;
@@ -204,6 +205,15 @@
       ];
     };
     ssh.startAgent = lib.mkDefault true;
+    yazi = {
+      enable = lib.mkDefault true;
+      settings = {
+        yazi = {
+          show_hidden = true;
+          show_symlink = true;
+        };
+      };
+    };
   };
 
   # Locale and timezone (can be overridden per host)
