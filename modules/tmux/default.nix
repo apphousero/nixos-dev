@@ -112,7 +112,7 @@ in
 
         # Continuum restore
         set -g @continuum-restore 'off'
-        set -g @continuum-save-interval '15'
+        set -g @continuum-save-interval '0'
       '';
   };
 }
