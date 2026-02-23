@@ -6,6 +6,12 @@
   imports = [
     ./base.nix
   ];
+
+  _module.args.copilot = {
+    chat = true;
+    code = true;
+  };
+
   environment.systemPackages = with pkgs; [
     # Azure CLI... needed, not wanted
     #azure-cli

@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./copilot.nix
     ./cmp.nix
     ./lsp.nix
     ./telescope.nix
