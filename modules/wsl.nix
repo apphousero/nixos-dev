@@ -7,11 +7,6 @@
     ./development.nix
   ];
 
-  _module.args.copilot = {
-    chat = true;
-    code = true;
-  };
-
   # Get latest from here https://github.com/nix-community/NixOS-WSL/releases
   system.stateVersion = "25.05";
 
