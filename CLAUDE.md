@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is a public NixOS configuration flake at [apphousero/nixos-dev](https://github.com/apphousero/nixos-dev).
+This is a public Determinate Nix configuration flake at [apphousero/nixos-dev](https://github.com/apphousero/nixos-dev).
 
 This flake is referenced by other flakes - changes may affect downstream consumers.
 
