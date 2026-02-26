@@ -108,8 +108,29 @@
     {
       mode = "n";
       action.__raw = "vim.lsp.buf.format";
-      key = "<leader>f";
-      options.silent = true;
+      key = "<leader>E";
+      options = {
+        desc = "Format document";
+        silent = true;
+      };
+    }
+    {
+      mode = "v";
+      action.__raw = ''
+        function()
+          vim.lsp.buf.format({
+            range = {
+              ["start"] = vim.api.nvim_buf_get_mark(0, "<"),
+              ["end"] = vim.api.nvim_buf_get_mark(0, ">"),
+            }
+          })
+        end
+      '';
+      key = "<leader>E";
+      options = {
+        desc = "Format selection";
+        silent = true;
+      };
     }
     {
       mode = "n";
