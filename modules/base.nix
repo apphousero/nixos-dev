@@ -14,6 +14,12 @@
     ./zsh
   ];
 
+  # Copilot disabled by default
+  _module.args.copilot = lib.mkDefault {
+    chat = false;
+    code = false;
+  };
+
   # Basic system configuration that all systems should have
   nix = {
     # Automatic garbage collection
