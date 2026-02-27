@@ -1,7 +1,5 @@
 {
-  config,
   pkgs,
-  lib,
   ...
 }:
 {
@@ -29,7 +27,6 @@
     fh
     fzf
     gcc
-    git
     gnumake
     htop
     jq
@@ -58,11 +55,9 @@
     tmux
     unzip
     wget
-    yazi
     zellij
     zip
     zoxide
-    zsh
   ];
 
   # ── Environment variables ───────────────────────────────────────────────
