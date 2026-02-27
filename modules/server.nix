@@ -5,7 +5,7 @@
 }:
 {
   imports = [
-    ./base.nix
+    ./common.nix
   ];
   environment.systemPackages = with pkgs; [
     # Analyse docker images

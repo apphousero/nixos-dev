@@ -80,8 +80,8 @@
         };
     in
     {
-      nixosModules = {
-        base =
+      homeManagerModules = {
+        default =
           {
             config,
             pkgs,
@@ -90,12 +90,13 @@
           }:
           {
             imports = [
-              home-manager.nixosModules.default
-              nixvim.nixosModules.default
-              determinate.nixosModules.default
-              ./modules/base.nix
+              nixvim.homeManagerModules.nixvim
+              ./modules/home.nix
             ];
           };
+      };
+
+      nixosModules = {
         development =
           {
             config,

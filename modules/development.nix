@@ -4,7 +4,7 @@
 }:
 {
   imports = [
-    ./base.nix
+    ./common.nix
   ];
 
   _module.args.copilot = {

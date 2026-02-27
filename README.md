@@ -4,6 +4,8 @@
 
 To be used in upstream flakes but WSL can be used as standalone.
 
+Also provides a `homeManagerModules` output for non-NixOS systems where Nix is used as a package manager.
+
 ## Prerequisites `nerd-fonts`
 
 In order for `nerd-fonts` to work in `WSL2` use [this repo ryanoasis/nerd-fonts](https://github.com/ryanoasis/nerd-fonts) as a source:
@@ -24,6 +26,50 @@ sudo nixos-rebuild switch --flake github:apphousero/nixos-dev#wsl-x86_64
 ```sh
 sudo nixos-rebuild switch --flake .#wsl-aarch64 --show-trace
 sudo nixos-rebuild switch --flake github:apphousero/nixos-dev#wsl-aarch64
+```
+
+## Use as Home Manager Module (non-NixOS)
+
+### Apply Directly
+
+```sh
+# x86_64
+nix run home-manager -- switch --flake github:apphousero/nixos-dev#myuser
+
+# or from local checkout
+home-manager switch --flake .#myuser
+```
+
+### Use in Another Flake
+
+```nix
+{
+  inputs = {
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-dev = {
+      url = "github:apphousero/nixos-dev";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = { nixpkgs, home-manager, nixos-dev, ... }: {
+    homeConfigurations."myuser" = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      modules = [
+        nixos-dev.homeManagerModules.default
+        {
+          home.username = "myuser";
+          home.homeDirectory = "/home/myuser";
+          home.stateVersion = "24.11";
+        }
+      ];
+    };
+  };
+}
 ```
 
 ## Bump Versions

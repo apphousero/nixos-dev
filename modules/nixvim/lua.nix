@@ -5,8 +5,10 @@
   ...
 }:
 let
-  hasPackage =
-    pkg: builtins.any (p: p.pname or p.name or "" == pkg) config.environment.systemPackages;
+  packages =
+    (if config ? environment then config.environment.systemPackages or [] else [])
+    ++ (if config ? home then config.home.packages or [] else []);
+  hasPackage = pkg: builtins.any (p: p.pname or p.name or "" == pkg) packages;
   hasDotnetSdk = hasPackage "dotnet" || hasPackage "dotnet-sdk" || hasPackage "dotnet-sdk_8";
 
 in
