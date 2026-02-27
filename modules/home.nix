@@ -2,23 +2,10 @@
   config,
   pkgs,
   lib,
-  copilot ? {
-    chat = false;
-    code = false;
-  },
   ...
 }:
 
 let
-  # Helper to check if a package is in home.packages (mirrors the NixOS hasPackage helper)
-  hasPackage =
-    pkg: builtins.any (p: p.pname or p.name or "" == pkg) config.home.packages;
-  hasDotnetSdk = hasPackage "dotnet" || hasPackage "dotnet-sdk" || hasPackage "dotnet-sdk_8";
-  hasNodejs = hasPackage "nodejs";
-  hasPython = hasPackage "python3";
-  hasGo = hasPackage "go";
-  hasJava = hasPackage "openjdk" || hasPackage "jdk";
-
   remoteConf = builtins.toFile "tmux.remote.conf" ''
     unbind C-q
     unbind q
@@ -31,17 +18,7 @@ let
 in
 {
   imports = [
-    # Nixvim sub-modules that work as-is (no NixOS-specific references)
-    ./nixvim/colorschemes.nix
-    ./nixvim/globals.nix
-    ./nixvim/keymaps.nix
-    ./nixvim/opts.nix
-    ./nixvim/mini
-    # Plugin sub-modules that work as-is
-    ./nixvim/plugins/cmp.nix
-    ./nixvim/plugins/copilot.nix
-    ./nixvim/plugins/telescope.nix
-    ./nixvim/plugins/treesitter.nix
+    ./nixvim
   ];
 
   # Copilot disabled by default
@@ -288,213 +265,6 @@ in
       set -g @continuum-restore 'off'
       set -g @continuum-save-interval '0'
     '';
-  };
-
-  # ── Nixvim (adapted: uses config.home.packages instead of config.environment.systemPackages) ──
-  programs.nixvim = {
-    enable = true;
-    autoCmd = [
-      {
-        event = [ "FileType" ];
-        pattern = [
-          "cs"
-          "csproj"
-        ];
-        command = "setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab";
-      }
-      {
-        event = [ "FileType" ];
-        pattern = [ "nix" ];
-        command = "setlocal tabstop=2 shiftwidth=2 softtabstop=2 expandtab";
-      }
-    ];
-    extraConfigVim = ''
-      command! W w
-    '';
-    extraPackages =
-      with pkgs;
-      [
-        gcc
-        nil
-      ]
-      ++ lib.lists.optionals hasDotnetSdk [
-        dotnet-sdk
-        netcoredbg
-        omnisharp-roslyn
-      ]
-      ++ lib.lists.optionals hasNodejs [
-        nodejs
-        nodePackages.prettier
-        nodePackages.vscode-langservers-extracted
-        vscode-js-debug
-      ];
-
-    # DAP config for .NET (adapted from lua.nix)
-    extraConfigLua = lib.mkIf hasDotnetSdk ''
-      local dap = require('dap')
-      dap.adapters.coreclr = {
-          type = 'executable',
-          command = '${pkgs.netcoredbg}/bin/netcoredbg',
-          args = { '--interpreter=vscode' }
-        }
-        dap.configurations.cs = {
-          {
-            type = "coreclr",
-            name = "launch - netcoredbg",
-            request = "launch",
-            program = function()
-              return vim.fn.input('Path to dll', vim.fn.getcwd() .. '/bin/Debug/', 'file')
-              end,
-          },
-        }
-    '';
-
-    # Plugin settings from plugins/default.nix (inlined to avoid importing lsp.nix transitively)
-    plugins = {
-      dap.enable = true;
-      dap-ui.enable = true;
-      nvim-tree = {
-        enable = true;
-        settings = {
-          auto_reload_on_write = true;
-          disable_netrw = false;
-          hijack_cursor = false;
-          hijack_netrw = true;
-          hijack_unnamed_buffer_when_opening = true;
-          view.width = 50;
-        };
-      };
-      undotree = {
-        enable = true;
-        autoLoad = true;
-      };
-      web-devicons.enable = true;
-
-      # LSP (adapted from plugins/lsp.nix)
-      lsp.enable = true;
-      lsp-format.enable = true;
-      trouble = {
-        enable = true;
-        settings = {
-          auto_open = false;
-          auto_close = true;
-        };
-      };
-    };
-
-    # LSP servers (adapted from plugins/lsp.nix)
-    lsp = {
-      keymaps = [
-        {
-          key = "gd";
-          lspBufAction = "definition";
-        }
-        {
-          key = "gD";
-          lspBufAction = "references";
-        }
-        {
-          key = "gt";
-          lspBufAction = "type_definition";
-        }
-        {
-          key = "gi";
-          lspBufAction = "implementation";
-        }
-        {
-          key = "<leader>K";
-          lspBufAction = "hover";
-        }
-        {
-          action.__raw = "function() vim.diagnostic.jump({ count=-1, float=true }) end";
-          key = "<leader>k";
-        }
-        {
-          action.__raw = "function() vim.diagnostic.jump({ count=1, float=true }) end";
-          key = "<leader>j";
-        }
-        {
-          action = "<CMD>LspStop<Enter>";
-          key = "<leader>lx";
-        }
-        {
-          action = "<CMD>LspStart<Enter>";
-          key = "<leader>ls";
-        }
-        {
-          action = "<CMD>LspRestart<Enter>";
-          key = "<leader>lr";
-        }
-        {
-          action.__raw = "require('telescope.builtin').lsp_definitions";
-          key = "gd";
-        }
-        {
-          action = "<CMD>LspInfo<Enter>";
-          key = "<leader>li";
-        }
-      ];
-      servers = {
-        bashls.enable = true;
-        clangd.enable = true;
-        cssls.enable = lib.mkDefault hasNodejs;
-        dockerls.enable = true;
-        eslint.enable = lib.mkDefault hasNodejs;
-        gopls = {
-          enable = lib.mkDefault hasGo;
-          config = {
-            gofumpt = true;
-            staticcheck = true;
-            usePlaceholders = true;
-          };
-        };
-        html.enable = lib.mkDefault hasNodejs;
-        htmx.enable = lib.mkDefault hasNodejs;
-        java_language_server.enable = lib.mkDefault hasJava;
-        jsonls.enable = true;
-        lua_ls.enable = true;
-        marksman.enable = true;
-        nil_ls = {
-          enable = true;
-          config.autoArchive = true;
-        };
-        omnisharp = {
-          enable = lib.mkDefault hasDotnetSdk;
-          config = {
-            FormattingOptions = {
-              EnableEditorConfigSupport = true;
-              OrganizImports = true;
-            };
-            RoslynExtensionsOptions = {
-              EnableAnalyzersSupport = true;
-              EnableImportCompletion = true;
-              AnalyzeOpenDocumentsOnly = false;
-            };
-            Sdk.IncludePrereleases = true;
-            EnableRoslynAnalyzers = true;
-            EnableSemanticHighlighting = true;
-          };
-        };
-        pylsp = {
-          enable = lib.mkDefault hasPython;
-          config = {
-            plugins = {
-              pycodestyle.enabled = false;
-              mccabe.enabled = false;
-              pyflakes.enabled = false;
-              flake8.enabled = true;
-              autopep8.enabled = false;
-              yapf.enabled = false;
-              black.enabled = true;
-              isort.enabled = true;
-              mypy.enabled = true;
-            };
-          };
-        };
-        ts_ls.enable = lib.mkDefault hasNodejs;
-        yamlls.enable = true;
-      };
-    };
   };
 
   # ── Yazi ────────────────────────────────────────────────────────────────

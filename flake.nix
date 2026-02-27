@@ -97,21 +97,6 @@
       };
 
       nixosModules = {
-        base =
-          {
-            config,
-            pkgs,
-            lib,
-            ...
-          }:
-          {
-            imports = [
-              home-manager.nixosModules.default
-              nixvim.nixosModules.default
-              determinate.nixosModules.default
-              ./modules/base.nix
-            ];
-          };
         development =
           {
             config,
