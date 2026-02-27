@@ -80,6 +80,22 @@
         };
     in
     {
+      homeManagerModules = {
+        default =
+          {
+            config,
+            pkgs,
+            lib,
+            ...
+          }:
+          {
+            imports = [
+              nixvim.homeManagerModules.nixvim
+              ./modules/home.nix
+            ];
+          };
+      };
+
       nixosModules = {
         base =
           {
