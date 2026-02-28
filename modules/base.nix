@@ -36,6 +36,8 @@
     coreutils
     # Can't not have curl
     curl
+    # dig DNSes
+    dig
     # Analyze docker image layers
     dive
     # dos2unix - too usefull in WSL2
@@ -60,6 +62,8 @@
     gcc
     # GNU make
     gnumake
+    # Hetzner Cloud
+    hcloud
     # htop
     htop
     # JSON support in shell
@@ -72,6 +76,8 @@
     lsof
     # A commander because I was raised in the '90s
     mc
+    # ls but for hardware
+    lshw
     # nano text editor
     nano
     # Another disk utility
@@ -86,6 +92,10 @@
     nix-tree
     # nix output monitor
     nix-output-monitor
+    # nixos generators
+    nixos-generators
+    # NMap
+    nmap
     # The new shell
     nushell
     # OpenSSL
@@ -102,6 +112,10 @@
     age
     sops
     ssh-to-age
+    # strace
+    strace
+    # TCP dump
+    tcpdump
     # tldr any command instead of man, e.g. tldr fd
     tldr
     # tree command
@@ -110,12 +124,15 @@
     unzip
     # Alternative to curl
     wget
+    # Vault CLI
+    vault-bin
     # Dev alternative to tmux
     zellij
     # Zip
     zip
     # zoxide
     zoxide
+
   ];
 
   # Basic shell configuration
