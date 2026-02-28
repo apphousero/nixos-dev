@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  sharedPackages,
   ...
 }:
 {
@@ -51,118 +52,24 @@
   };
 
   # Basic system packages that should be available everywhere
-  environment.systemPackages = with pkgs; [
-    # Grep for something else
-    ast-grep
-    # Simple CLI GUI Postman like
-    atac
-    # Can't remember
-    atuin
-    # Cause cat is not styled enough
-    bat
-    # Monitor resources
-    btop
-    # Required by scripts
-    coreutils
-    # Can't not have curl
-    curl
-    # Analyze docker image layers
-    dive
+  environment.systemPackages = sharedPackages ++ (with pkgs; [
     # dig command
     dig
-    # dos2unix - too usefull in WSL2
-    dos2unix
-    # Disk utility
-    duf
-    # Tree list occupied space
-    dust
-    # Better ls
-    eza
-    # Faster then neofetch
-    fastfetch
-    # Easy alternative to find
-    fd
-    # file command
-    file
-    # Flakehub CLI
-    fh
-    # Fuzzy finder
-    fzf
-    # GCC
-    gcc
-    # GNU make
-    gnumake
-    # Hetzber Cloud
+    # Hetzner Cloud
     hcloud
-    # htop
-    htop
-    # JSON support in shell
-    jq
-    # lazy but for Git
-    lazygit
-    # lazy but for logs
-    lazyjournal
-    # lsof
-    lsof
     # ls but for hardware
     lshw
-    # A commander because I was raised in the '90s
-    mc
-    # nano text editor
-    nano
-    # Another disk utility
-    ncdu
-    # Another fetch
-    nerdfetch
-    # Cool distro display
-    neofetch
-    # Fastest fetch
-    nitch
     # nixos generators
     nixos-generators
-    # nix tree
-    nix-tree
-    # nix output monitor
-    nix-output-monitor
     # NMap
     nmap
-    # The new shell
-    nushell
-    # OpenSSL
-    openssl
-    # PeteTong
-    python3
-    # A super file explorer
-    superfile
-    # grep in rust
-    ripgrep
-    # good for plex
-    rsync
-    # age stuff for sops
-    age
-    sops
-    ssh-to-age
     # strace
     strace
-    # tldr any command instead of man, e.g. tldr fd
-    tldr
-    # tree command
-    tree
     # TCP dump
     tcpdump
-    # Unzip
-    unzip
     # Vault CLI
     vault-bin
-    # Alternative to curl
-    wget
-    # Dev alternative to tmux
-    zellij
-    # Zip
-    zip
-    # zoxide
-    zoxide
-  ];
+  ]);
 
   environment.variables = {
     VISUAL = "nvim";
