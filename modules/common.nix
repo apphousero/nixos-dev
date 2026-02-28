@@ -52,24 +52,10 @@
   };
 
   # Basic system packages that should be available everywhere
-  environment.systemPackages = sharedPackages ++ (with pkgs; [
-    # dig command
-    dig
-    # Hetzner Cloud
-    hcloud
-    # ls but for hardware
-    lshw
-    # nixos generators
-    nixos-generators
-    # NMap
-    nmap
-    # strace
-    strace
-    # TCP dump
-    tcpdump
-    # Vault CLI
-    vault-bin
-  ]);
+  environment.systemPackages =
+    sharedPackages
+    ++ (with pkgs; [
+    ]);
 
   environment.variables = {
     VISUAL = "nvim";

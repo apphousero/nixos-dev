@@ -7,6 +7,10 @@
   imports = [
     ./common.nix
   ];
+  _module.args.copilot = {
+    chat = false;
+    code = false;
+  };
   environment.systemPackages = with pkgs; [
     # Analyse docker images
     dive
