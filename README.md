@@ -72,6 +72,26 @@ home-manager switch --flake .#myuser
 }
 ```
 
+## Apply as Standalone Home Manager (non-NixOS)
+
+### __x86_64__
+
+```sh
+nix run home-manager/master -- switch --flake .#home-x86_64 \
+    --extra-experimental-features nix-command --extra-experimental-features flakes --show-trace
+nix run home-manager/master -- switch --flake github:apphousero/nixos-dev#home-x86_64 \
+    --extra-experimental-features nix-command --extra-experimental-features flakes
+```
+
+### __ARM64__
+
+```sh
+nix run home-manager/master -- switch --flake .#home-aarch64 \
+    --extra-experimental-features nix-command --extra-experimental-features flakes --show-trace
+nix run home-manager/master -- switch --flake github:apphousero/nixos-dev#home-aarch64 \
+    --extra-experimental-features nix-command --extra-experimental-features flakes
+```
+
 ## Bump Versions
 
 ```sh
@@ -99,6 +119,10 @@ Build without applying configuration:
 ```sh
 nixos-rebuild build --flake .#wsl-aarch64
 nixos-rebuild build --flake .#wsl-x86_64
+nix run home-manager/master -- build --flake .#home-aarch64 \
+      --extra-experimental-features nix-command --extra-experimental-features flakes
+nix run home-manager/master -- build --flake .#home-x86_64 \
+      --extra-experimental-features nix-command --extra-experimental-features flakes
 ```
 
 ## Build ISO
