@@ -186,5 +186,21 @@
         "wsl-aarch64" = mkSystem systemAarch64 "wsl";
         "desktop-aarch64" = mkSystem systemAarch64 "desktop";
       };
+      homeConfigurations =
+        let
+          mkHome =
+            system:
+            home-manager.lib.homeManagerConfiguration {
+              pkgs = nixpkgs.legacyPackages.${system};
+              modules = [
+                nixvim.homeManagerModules.nixvim
+                ./modules/home.nix
+              ];
+            };
+        in
+        {
+          "home-x86_64" = mkHome systemX86_64;
+          "home-aarch64" = mkHome systemAarch64;
+        };
     };
 }
