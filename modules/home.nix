@@ -53,6 +53,7 @@
     nix-index.enable = true;
     yazi = {
       enable = lib.mkDefault true;
+      shellWrapperName = lib.mkDefault "y";
       settings = {
         yazi = {
           show_hidden = true;
