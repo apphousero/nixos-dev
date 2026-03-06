@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   sharedPackages,
   ...
@@ -7,6 +8,14 @@
   imports = [
     ./base.nix
   ];
+
+  home.stateVersion = lib.mkDefault "26.05";
+  home.enableNixpkgsReleaseCheck = false;
+
+  _module.args.copilot = {
+    chat = true;
+    code = true;
+  };
 
   # ── Packages (shared + home-only) ──────────────────────────────────────
   home.packages =
@@ -21,4 +30,32 @@
     EDITOR = "nvim";
     MC_SKIN = "dark";
   };
+
+  # ── Programs ────────────────────────────────────────────────────────────
+  programs = {
+    bash = {
+      enable = true;
+      enableCompletion = true;
+    };
+    git = {
+      enable = true;
+      settings = {
+        init.defaultBranch = "master";
+        core.autocrlf = false;
+      };
+    };
+    nix-index.enable = true;
+    yazi = {
+      enable = lib.mkDefault true;
+      settings = {
+        yazi = {
+          show_hidden = true;
+          show_symlink = true;
+        };
+      };
+    };
+  };
+
+  # ── Services ───────────────────────────────────────────────────────────
+  services.ssh-agent.enable = lib.mkDefault true;
 }

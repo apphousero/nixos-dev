@@ -6,7 +6,13 @@
   ...
 }:
 {
-  imports = [ ./base.nix ];
+  imports = [
+    ./base.nix
+    ./zsh
+  ];
+
+  # NixOS state version - this should be set per host
+  system.stateVersion = lib.mkDefault "26.05";
 
   # Basic system configuration that all systems should have
   nix = {
@@ -123,9 +129,6 @@
     configurationRevision = lib.mkIf (
       config.system.nixos.revision != null
     ) config.system.nixos.revision;
-
-    # NixOS state version - this should be set per host
-    stateVersion = lib.mkDefault "25.05";
   };
 
   # Basic user configuration
@@ -142,6 +145,43 @@
     enable = lib.mkDefault false;
     nixos.enable = lib.mkDefault false;
     man.enable = lib.mkDefault true;
+  };
+
+  # Basic shell configuration
+  programs = {
+    bash = {
+      completion = {
+        enable = lib.mkDefault true;
+      };
+      enableLsColors = true;
+    };
+    git = {
+      enable = true;
+      config = {
+        init.defaultBranch = "master";
+        core.autocrlf = false;
+      };
+    };
+    nix-index.enable = true;
+    # Enable nix-ld for running dynamic executables
+    nix-ld = {
+      enable = lib.mkDefault true;
+      libraries = with pkgs; [
+        stdenv.cc.cc
+        zlib
+        openssl
+      ];
+    };
+    ssh.startAgent = lib.mkDefault true;
+    yazi = {
+      enable = lib.mkDefault true;
+      settings = {
+        yazi = {
+          show_hidden = true;
+          show_symlink = true;
+        };
+      };
+    };
   };
 
 }
