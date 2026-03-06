@@ -34,10 +34,10 @@ sudo nixos-rebuild switch --flake github:apphousero/nixos-dev#wsl-aarch64
 
 ```sh
 # x86_64
-nix run home-manager -- switch --flake github:apphousero/nixos-dev#myuser
+nix run home-manager -- switch --flake github:apphousero/nixos-dev#home-aarch64
 
 # or from local checkout
-home-manager switch --flake .#myuser
+home-manager switch --flake .#home-aarch64
 ```
 
 ### Use in Another Flake
