@@ -40,38 +40,6 @@ nix run home-manager -- switch --flake github:apphousero/nixos-dev#home-aarch64
 home-manager switch --flake .#home-aarch64
 ```
 
-### Use in Another Flake
-
-```nix
-{
-  inputs = {
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos-dev = {
-      url = "github:apphousero/nixos-dev";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
-
-  outputs = { nixpkgs, home-manager, nixos-dev, ... }: {
-    homeConfigurations."myuser" = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      modules = [
-        nixos-dev.homeManagerModules.default
-        {
-          home.username = "myuser";
-          home.homeDirectory = "/home/myuser";
-          home.stateVersion = "24.11";
-        }
-      ];
-    };
-  };
-}
-```
-
 ## Apply as Standalone Home Manager (non-NixOS)
 
 ### __x86_64__
@@ -90,6 +58,7 @@ home-manager switch --flake github:apphousero/nixos-dev#home-aarch64
 # OR
 home-manager switch --flake github:apphousero/nixos-dev#home-x86_64
 ```
+
 ## Bump Versions
 
 ```sh

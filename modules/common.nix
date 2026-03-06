@@ -12,7 +12,7 @@
   ];
 
   # NixOS state version - this should be set per host
-  system.stateVersion = lib.mkDefault "26.05";
+  system.stateVersion = lib.mkDefault "25.11";
 
   # Basic system configuration that all systems should have
   nix = {
