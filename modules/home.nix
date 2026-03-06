@@ -10,7 +10,7 @@
     ./base.nix
   ];
 
-  home.stateVersion = lib.mkDefault "26.05";
+  home.stateVersion = lib.mkDefault "25.11";
   home.enableNixpkgsReleaseCheck = false;
 
   _module.args.copilot = {
@@ -69,5 +69,4 @@
   # Force stuff
   home.file.".bashrc".force = true;
   home.file.".profile".force = true;
-  home.file.".zshrc".force = true;
 }
