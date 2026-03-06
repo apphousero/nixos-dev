@@ -34,42 +34,10 @@ sudo nixos-rebuild switch --flake github:apphousero/nixos-dev#wsl-aarch64
 
 ```sh
 # x86_64
-nix run home-manager -- switch --flake github:apphousero/nixos-dev#myuser
+nix run home-manager -- switch --flake github:apphousero/nixos-dev#home-aarch64
 
 # or from local checkout
-home-manager switch --flake .#myuser
-```
-
-### Use in Another Flake
-
-```nix
-{
-  inputs = {
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos-dev = {
-      url = "github:apphousero/nixos-dev";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-  };
-
-  outputs = { nixpkgs, home-manager, nixos-dev, ... }: {
-    homeConfigurations."myuser" = home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.x86_64-linux;
-      modules = [
-        nixos-dev.homeManagerModules.default
-        {
-          home.username = "myuser";
-          home.homeDirectory = "/home/myuser";
-          home.stateVersion = "24.11";
-        }
-      ];
-    };
-  };
-}
+home-manager switch --flake .#home-aarch64
 ```
 
 ## Apply as Standalone Home Manager (non-NixOS)
@@ -77,19 +45,18 @@ home-manager switch --flake .#myuser
 ### __x86_64__
 
 ```sh
-nix run home-manager/master -- switch --flake .#home-x86_64 \
-    --extra-experimental-features nix-command --extra-experimental-features flakes --show-trace
-nix run home-manager/master -- switch --flake github:apphousero/nixos-dev#home-x86_64 \
-    --extra-experimental-features nix-command --extra-experimental-features flakes
-```
+# 1. Determinate Nix
+curl --proto '=https' --tlsv1.2 -sSf -L \
+  https://install.determinate.systems/nix | sh -s -- install
+. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
 
-### __ARM64__
+# 2. Home Manager CLI
+nix profile install home-manager/master#home-manager
 
-```sh
-nix run home-manager/master -- switch --flake .#home-aarch64 \
-    --extra-experimental-features nix-command --extra-experimental-features flakes --show-trace
-nix run home-manager/master -- switch --flake github:apphousero/nixos-dev#home-aarch64 \
-    --extra-experimental-features nix-command --extra-experimental-features flakes
+# 3. Apply your flake
+home-manager switch --flake github:apphousero/nixos-dev#home-aarch64
+# OR
+home-manager switch --flake github:apphousero/nixos-dev#home-x86_64
 ```
 
 ## Bump Versions

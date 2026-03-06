@@ -10,8 +10,12 @@
     ./base.nix
   ];
 
-  home.stateVersion = lib.mkDefault "26.05";
+  # Home configuration
+  home.stateVersion = lib.mkDefault "25.11";
   home.enableNixpkgsReleaseCheck = false;
+  # Force stuff
+  home.file.".bashrc".force = true;
+  home.file.".profile".force = true;
 
   _module.args.copilot = {
     chat = true;
@@ -37,6 +41,11 @@
     bash = {
       enable = true;
       enableCompletion = true;
+      initExtra = ''
+        if [[ $- == *i* ]] && [[ -x "${pkgs.zsh}/bin/zsh" ]]; then
+          exec "${pkgs.zsh}/bin/zsh"
+        fi
+      '';
     };
     git = {
       enable = true;
@@ -48,6 +57,7 @@
     nix-index.enable = true;
     yazi = {
       enable = lib.mkDefault true;
+      shellWrapperName = lib.mkDefault "y";
       settings = {
         yazi = {
           show_hidden = true;
