@@ -59,6 +59,12 @@ home-manager switch --flake github:apphousero/nixos-dev#home-aarch64
 home-manager switch --flake github:apphousero/nixos-dev#home-x86_64
 ```
 
+If _refresh_ is not done use:
+
+```sh
+home-manager switch --flake github:apphousero/nixos-dev#home-aarch64 --refresh
+```
+
 ## Bump Versions
 
 ```sh

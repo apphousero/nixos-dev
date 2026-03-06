@@ -166,7 +166,6 @@
     lazysql
     # NodeJS
     nodejs_24
-    nodejs_22
     #nodejs_20
     #nodejs_18
     nodePackages.node-gyp
