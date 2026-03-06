@@ -37,6 +37,11 @@
     bash = {
       enable = true;
       enableCompletion = true;
+      initExtra = ''
+        if [[ $- == *i* ]] && [[ -x "${pkgs.zsh}/bin/zsh" ]]; then
+          exec "${pkgs.zsh}/bin/zsh"
+        fi
+      '';
     };
     git = {
       enable = true;
