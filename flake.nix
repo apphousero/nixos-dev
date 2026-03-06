@@ -80,7 +80,7 @@
         };
     in
     {
-      homeManagerModules = {
+      homeModules = {
         default =
           {
             config,
@@ -90,7 +90,7 @@
           }:
           {
             imports = [
-              nixvim.homeManagerModules.nixvim
+              nixvim.homeModules.nixvim
               ./modules/home.nix
             ];
           };
@@ -193,8 +193,12 @@
             home-manager.lib.homeManagerConfiguration {
               pkgs = nixpkgs.legacyPackages.${system};
               modules = [
-                nixvim.homeManagerModules.nixvim
+                nixvim.homeModules.nixvim
                 ./modules/home.nix
+                {
+                  home.username = "andrei";
+                  home.homeDirectory = "/home/andrei";
+                }
               ];
             };
         in
