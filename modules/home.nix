@@ -10,8 +10,12 @@
     ./base.nix
   ];
 
+  # Home configuration
   home.stateVersion = lib.mkDefault "25.11";
   home.enableNixpkgsReleaseCheck = false;
+  # Force stuff
+  home.file.".bashrc".force = true;
+  home.file.".profile".force = true;
 
   _module.args.copilot = {
     chat = true;
@@ -72,7 +76,4 @@
   };
   # ── Services ───────────────────────────────────────────────────────────
   services.ssh-agent.enable = lib.mkDefault true;
-  # Force stuff
-  home.file.".bashrc".force = true;
-  home.file.".profile".force = true;
 }
