@@ -77,21 +77,19 @@ home-manager switch --flake .#myuser
 ### __x86_64__
 
 ```sh
-nix run home-manager/master -- switch --flake .#home-x86_64 \
-    --extra-experimental-features nix-command --extra-experimental-features flakes --show-trace
-nix run home-manager/master -- switch --flake github:apphousero/nixos-dev#home-x86_64 \
-    --extra-experimental-features nix-command --extra-experimental-features flakes
+# 1. Determinate Nix
+curl --proto '=https' --tlsv1.2 -sSf -L \
+  https://install.determinate.systems/nix | sh -s -- install
+. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+
+# 2. Home Manager CLI
+nix profile install home-manager/master#home-manager
+
+# 3. Apply your flake
+home-manager switch --flake github:apphousero/nixos-dev#home-aarch64
+# OR
+home-manager switch --flake github:apphousero/nixos-dev#home-x86_64
 ```
-
-### __ARM64__
-
-```sh
-nix run home-manager/master -- switch --flake .#home-aarch64 \
-    --extra-experimental-features nix-command --extra-experimental-features flakes --show-trace
-nix run home-manager/master -- switch --flake github:apphousero/nixos-dev#home-aarch64 \
-    --extra-experimental-features nix-command --extra-experimental-features flakes
-```
-
 ## Bump Versions
 
 ```sh

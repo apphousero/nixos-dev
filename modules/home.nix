@@ -66,4 +66,8 @@
   };
   # ── Services ───────────────────────────────────────────────────────────
   services.ssh-agent.enable = lib.mkDefault true;
+  # Force stuff
+  home.file.".bashrc".force = true;
+  home.file.".profile".force = true;
+  home.file.".zshrc".force = true;
 }

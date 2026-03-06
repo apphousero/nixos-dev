@@ -126,7 +126,6 @@
     zip
     # zoxide
     zoxide
-
   ];
 
   _module.args.zsh = {
