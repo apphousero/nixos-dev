@@ -1,4 +1,5 @@
 {
+  devPackages,
   lib,
   pkgs,
   sharedPackages,
@@ -25,6 +26,7 @@
   # ── Packages (shared + home-only) ──────────────────────────────────────
   home.packages =
     sharedPackages
+    ++ devPackages
     ++ (with pkgs; [
       spotify-player
     ]);
