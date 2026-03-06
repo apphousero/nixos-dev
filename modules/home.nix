@@ -2,6 +2,7 @@
   lib,
   pkgs,
   sharedPackages,
+  zsh,
   ...
 }:
 {
@@ -54,8 +55,15 @@
         };
       };
     };
+    zsh = {
+      enable = true;
+      shellAliases = zsh.shellAliases;
+      initContent = ''
+        ${zsh.promptInit}
+        ${zsh.interactiveShellInit}
+      '';
+    };
   };
-
   # ── Services ───────────────────────────────────────────────────────────
   services.ssh-agent.enable = lib.mkDefault true;
 }

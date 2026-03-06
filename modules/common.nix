@@ -3,12 +3,12 @@
   lib,
   pkgs,
   sharedPackages,
+  zsh,
   ...
 }:
 {
   imports = [
     ./base.nix
-    ./zsh
   ];
 
   # NixOS state version - this should be set per host
@@ -182,6 +182,14 @@
         };
       };
     };
+    zsh = {
+      enable = true;
+      enableCompletion = true;
+      autosuggestions.enable = true;
+      syntaxHighlighting.enable = true;
+      promptInit = zsh.promptInit;
+      shellAliases = zsh.shellAliases;
+      interactiveShellInit = zsh.interactiveShellInit;
+    };
   };
-
 }
