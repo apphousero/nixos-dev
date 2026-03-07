@@ -106,6 +106,8 @@
     age
     sops
     ssh-to-age
+    # sqlite
+    sqlite
     # strace
     strace
     # TCP dump
