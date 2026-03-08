@@ -39,14 +39,14 @@ in
       with pkgs.tmuxPlugins;
       ''
         # Window naming settings
-        set-option -g automatic-rename off
         set-option -g allow-rename off
+        set-window-option -g automatic-rename off
 
         bind-key R run-shell ' \
           tmux source-file /etc/tmux.conf > /dev/null; \
           tmux display-message "sourced /etc/tmux.conf"'
 
-        if -F "$SSH_CONNECTION" "source-file '${remoteConf}'"
+        if-shell 'test -n "$SSH_CLIENT" || test -n "$SSH_TTY" || test -n "$SSH_CONNECTION"' "source-file '${remoteConf}'"
 
         set-option -g status-right ' #{prefix_highlight} "#{=21:pane_title}" %H:%M %d-%b-%y'
         set-option -g status-left-length 40
