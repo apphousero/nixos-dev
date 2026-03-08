@@ -94,6 +94,8 @@
     nushell
     # OpenSSL
     openssl
+    # PostgreSQL client
+    postgresql
     # PeteTong
     python3
     # A super file explorer
