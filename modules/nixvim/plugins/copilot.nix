@@ -1,8 +1,5 @@
 {
-  copilot ? {
-    chat = false;
-    code = false;
-  },
+  copilot,
   ...
 }:
 {
