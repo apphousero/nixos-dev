@@ -132,6 +132,7 @@ in
           };
         };
       };
+      sqls.enable = true;
       ts_ls.enable = lib.mkDefault hasNodejs;
       #tsserver.enable = lib.mkDefault hasNodejs;
       yamlls.enable = true;
