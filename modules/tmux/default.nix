@@ -46,6 +46,10 @@ in
           tmux source-file /etc/tmux.conf > /dev/null; \
           tmux display-message "sourced /etc/tmux.conf"'
 
+        # Local prefix bindings (shortcut is "q" -> C-q)
+        bind q send-prefix
+        bind C-q last-window
+
         if-shell 'test -n "$SSH_CLIENT" || test -n "$SSH_TTY" || test -n "$SSH_CONNECTION"' "source-file '${remoteConf}'"
 
         set-option -g status-right ' #{prefix_highlight} "#{=21:pane_title}" %H:%M %d-%b-%y'
