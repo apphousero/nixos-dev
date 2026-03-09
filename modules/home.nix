@@ -18,6 +18,7 @@
   home.file.".bashrc".force = true;
   home.file.".profile".force = true;
 
+  _module.args.isNixOS = false;
   _module.args.copilot = {
     chat = true;
     code = true;

@@ -1,5 +1,9 @@
-{ config, pkgs, ... }:
-
+{
+  config,
+  isNixOS,
+  pkgs,
+  ...
+}:
 let
   # Thanks: https://github.com/DanielFGray/dotfiles/blob/master/tmux.remote.conf
   remoteConf = builtins.toFile "tmux.remote.conf" ''
@@ -43,8 +47,12 @@ in
         set-window-option -g automatic-rename off
 
         bind-key R run-shell ' \
-          tmux source-file /etc/tmux.conf > /dev/null; \
-          tmux display-message "sourced /etc/tmux.conf"'
+          tmux source-file ${
+            if isNixOS then "/etc/tmux.conf" else "~/.config/tmux/tmux.conf"
+          } > /dev/null; \
+          tmux display-message "sourced ${
+            if isNixOS then "/etc/tmux.conf" else "~/.config/tmux/tmux.conf"
+          }"'
 
         # Local prefix bindings (shortcut is "q" -> C-q)
         bind q send-prefix
@@ -111,9 +119,7 @@ in
         set -g @catppuccin_window_current_text "#W"
 
         # Resurrect
-        set -g @resurrect-strategy-nvim 'session'
         set -g @resurrect-processes 'false'
-        set -g @resurrect-capture-pane-contents 'on'
 
         set -g @fzf-url-fzf-options '-p 60%,30% --prompt="[open]" --border-label=" Open URL "'
         set -g @fzf-url-history-limit '2000'
