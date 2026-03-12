@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -10,7 +11,7 @@ let
     ++ (if config ? home then config.home.packages or [ ] else [ ]);
   hasPackage = pkg: builtins.any (p: p.pname or p.name or "" == pkg) packages;
   # Language server availability checks
-  hasDotnetSdk = hasPackage "dotnet" || hasPackage "dotnet-sdk" || hasPackage "dotnet-sdk_8";
+  hasDotnetSdk = hasPackage "dotnet" || hasPackage "dotnet-sdk" || hasPackage "dotnet-sdk-wrapped";
   hasNodejs = hasPackage "nodejs";
   hasPython = hasPackage "python3";
   hasGo = hasPackage "go";
@@ -21,6 +22,7 @@ in
     lsp.enable = true;
   };
   programs.nixvim.lsp = {
+    enable = true;
     keymaps = [
       {
         key = "gd";
@@ -75,6 +77,9 @@ in
       bashls.enable = true;
       clangd.enable = true;
       cssls.enable = lib.mkDefault hasNodejs;
+      csharp_ls = {
+        enable = lib.mkDefault hasDotnetSdk;
+      };
       dockerls.enable = true;
       eslint.enable = lib.mkDefault hasNodejs;
       gopls = {
@@ -98,22 +103,98 @@ in
         };
       };
       omnisharp = {
-        enable = lib.mkDefault hasDotnetSdk;
+        # enable = lib.mkDefault hasDotnetSdk;
+        enable = false;
         config = {
-          FormattingOptions = {
-            EnableEditorConfigSupport = true;
-            OrganizImports = true;
+          settings = {
+            RoslynExtensionsOptions = {
+              documentAnalysisTimeoutMs = 30000;
+              enableDecompilationSupport = true;
+              enableImportCompletion = true;
+              enableAnalyzersSupport = true;
+              diagnosticWorkersThreadCount = 8;
+              locationPaths = [ ];
+              inlayHintsOptions = {
+                enableForParameters = true;
+                forLiteralParameters = true;
+                forIndexerParameters = true;
+                forObjectCreationParameters = true;
+                forOtherParameters = true;
+                suppressForParametersThatDifferOnlyBySuffix = false;
+                suppressForParametersThatMatchMethodIntent = false;
+                suppressForParametersThatMatchArgumentName = false;
+                enableForTypes = true;
+                forImplicitVariableTypes = true;
+                forLambdaParameterTypes = true;
+                forImplicitObjectCreation = true;
+              };
+            };
+            FormattingOptions = {
+              EnableEditorConfigSupport = false;
+              OrganizeImports = false;
+              NewLine = "\n";
+              UseTabs = false;
+              TabSize = 4;
+              IndentationSize = 4;
+              SpacingAfterMethodDeclarationName = false;
+              SpaceWithinMethodDeclarationParenthesis = false;
+              SpaceBetweenEmptyMethodDeclarationParentheses = false;
+              SpaceAfterMethodCallName = false;
+              SpaceWithinMethodCallParentheses = false;
+              SpaceBetweenEmptyMethodCallParentheses = false;
+              SpaceAfterControlFlowStatementKeyword = true;
+              SpaceWithinExpressionParentheses = false;
+              SpaceWithinCastParentheses = false;
+              SpaceWithinOtherParentheses = false;
+              SpaceAfterCast = false;
+              SpacesIgnoreAroundVariableDeclaration = false;
+              SpaceBeforeOpenSquareBracket = false;
+              SpaceBetweenEmptySquareBrackets = false;
+              SpaceWithinSquareBrackets = false;
+              SpaceAfterColonInBaseTypeDeclaration = true;
+              SpaceAfterComma = true;
+              SpaceAfterDot = false;
+              SpaceAfterSemicolonsInForStatement = true;
+              SpaceBeforeColonInBaseTypeDeclaration = true;
+              SpaceBeforeComma = false;
+              SpaceBeforeDot = false;
+              SpaceBeforeSemicolonsInForStatement = false;
+              SpacingAroundBinaryOperator = "single";
+              IndentBraces = false;
+              IndentBlock = true;
+              IndentSwitchSection = true;
+              IndentSwitchCaseSection = true;
+              IndentSwitchCaseSectionWhenBlock = true;
+              LabelPositioning = "oneLess";
+              WrappingPreserveSingleLine = true;
+              WrappingKeepStatementsOnSingleLine = true;
+              NewLinesForBracesInTypes = true;
+              NewLinesForBracesInMethods = true;
+              NewLinesForBracesInProperties = true;
+              NewLinesForBracesInAccessors = true;
+              NewLinesForBracesInAnonymousMethods = true;
+              NewLinesForBracesInControlBlocks = true;
+              NewLinesForBracesInAnonymousTypes = true;
+              NewLinesForBracesInObjectCollectionArrayInitializers = true;
+              NewLinesForBracesInLambdaExpressionBody = true;
+              NewLineForElse = true;
+              NewLineForCatch = true;
+              NewLineForFinally = true;
+              NewLineForMembersInObjectInit = true;
+              NewLineForMembersInAnonymousTypes = true;
+              NewLineForClausesInQuery = true;
+            };
+            RenameOptions = {
+              RenameInComments = false;
+              RenameOverloads = false;
+              RenameInStrings = false;
+            };
+            Sdk = {
+              IncludePrereleases = false;
+            };
+            enableRoslynAnalyzers = true;
+            enableSemanticHighlighting = true;
           };
-          RoslynExtensionsOptions = {
-            EnableAnalyzersSupport = true;
-            EnableImportCompletion = true;
-            AnalyzeOpenDocumentsOnly = false;
-          };
-          Sdk = {
-            IncludePrereleases = true;
-          };
-          EnableRoslynAnalyzers = true;
-          EnableSemanticHighlighting = true;
         };
       };
       pylsp = {

@@ -20,7 +20,7 @@
     ]);
 
   environment.sessionVariables = {
-    DOTNET_ROOT = "${pkgs.dotnetCorePackages.sdk_8_0}";
+    DOTNET_ROOT = "${pkgs.dotnetCorePackages.sdk_10_0}";
     MC_SKIN = "dark";
   };
   #nixpkgs.config.permittedInsecurePackages = [
