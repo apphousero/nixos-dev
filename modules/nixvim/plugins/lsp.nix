@@ -78,7 +78,15 @@ in
       clangd.enable = true;
       cssls.enable = lib.mkDefault hasNodejs;
       csharp_ls = {
-        enable = lib.mkDefault hasDotnetSdk;
+        # enable = lib.mkDefault hasDotnetSdk;
+        enable = false;
+        config = {
+          cmd = [
+            "csharp-ls"
+            "--features"
+            "metadata-uris"
+          ];
+        };
       };
       dockerls.enable = true;
       eslint.enable = lib.mkDefault hasNodejs;
@@ -103,8 +111,8 @@ in
         };
       };
       omnisharp = {
-        # enable = lib.mkDefault hasDotnetSdk;
-        enable = false;
+        enable = lib.mkDefault hasDotnetSdk;
+        # enable = false;
         config = {
           settings = {
             RoslynExtensionsOptions = {
