@@ -187,8 +187,6 @@
     # For docs
     pandoc
     python3Packages.virtualenv
-    # something I need
-    seq-cli
     (texlive.combine {
       inherit (texlive)
         scheme-basic
@@ -199,8 +197,6 @@
     })
     # tldr any command instead of man, e.g. tldr fd
     tldr
-    # TUI client for SQL
-    usql
     # HTTP load testing tool
     vegeta
     # NodeJS package manager
