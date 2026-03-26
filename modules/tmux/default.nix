@@ -104,6 +104,9 @@ in
         set-option -g mouse on
         set-option -g focus-events on
 
+        # Enable OSC 52 clipboard passthrough (allows copy over SSH via terminal)
+        set-option -g set-clipboard on
+
         # Stay in same directory when split
         bind % split-window -h -c "#{pane_current_path}"
         bind '"' split-window -v -c "#{pane_current_path}"
