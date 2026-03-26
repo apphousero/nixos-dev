@@ -78,9 +78,9 @@ in
         unbind C-g
         bind C-g display-popup -w 90% -h 90% -d '#{pane_current_path}' -E 'lazygit'
         unbind C-x
-        bind -n C-x display-popup -w 90% -h 90% -d '#{pane_current_path}' -E 'bash'
+        bind C-x display-popup -w 90% -h 90% -d '#{pane_current_path}' -E 'bash'
         unbind C-t
-        bind -n C-t display-popup -w 90% -h 90% -d '#{pane_current_path}' -E 'zsh'
+        bind C-t display-popup -w 90% -h 90% -d '#{pane_current_path}' -E 'zsh'
 
         # Refresh shell
         unbind l
@@ -103,6 +103,9 @@ in
 
         set-option -g mouse on
         set-option -g focus-events on
+
+        # Enable OSC 52 clipboard passthrough (allows copy over SSH via terminal)
+        set-option -g set-clipboard on
 
         # Stay in same directory when split
         bind % split-window -h -c "#{pane_current_path}"
