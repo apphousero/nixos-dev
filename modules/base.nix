@@ -176,6 +176,7 @@
     nodejs_24
     #nodejs_20
     #nodejs_18
+    node-gyp
     # aaah, mermaid
     mermaid-cli
     # HTTP load generator

@@ -2,6 +2,8 @@
 
 This directory contains the Neovim configuration using nixvim.
 
+[Github shortcut to it.](https://github.com/apphousero/nixos-dev/blob/master/modules/nixvim/README.md)
+
 ## Custom Keymaps
 
 ### General Keymaps (keymaps.nix)

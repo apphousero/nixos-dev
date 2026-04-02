@@ -54,6 +54,8 @@ in
       ]
       ++ lib.lists.optionals hasNodejs [
         nodejs
+        prettier
+        vscode-langservers-extracted
         vscode-js-debug
       ];
   };
