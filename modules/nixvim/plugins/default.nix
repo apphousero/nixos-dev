@@ -12,6 +12,7 @@
       enable = true;
     };
     dap-ui.enable = true;
+    friendly-snippets.enable = true;
     nvim-tree = {
       enable = true;
       settings = {

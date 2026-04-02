@@ -241,5 +241,115 @@
       };
     }
 
+    # DAP (Debug Adapter Protocol) keymaps - leader-based for terminal/tmux/SSH safety
+    {
+      mode = "n";
+      action.__raw = "require('dap').continue";
+      key = "<leader>dc";
+      options = {
+        desc = "DAP continue / start debugging";
+        silent = true;
+      };
+    }
+    {
+      mode = "n";
+      action.__raw = "require('dap').step_over";
+      key = "<leader>do";
+      options = {
+        desc = "DAP step over";
+        silent = true;
+      };
+    }
+    {
+      mode = "n";
+      action.__raw = "require('dap').step_into";
+      key = "<leader>di";
+      options = {
+        desc = "DAP step into";
+        silent = true;
+      };
+    }
+    {
+      mode = "n";
+      action.__raw = "require('dap').step_out";
+      key = "<leader>dO";
+      options = {
+        desc = "DAP step out";
+        silent = true;
+      };
+    }
+    {
+      mode = "n";
+      action.__raw = "require('dap').toggle_breakpoint";
+      key = "<leader>db";
+      options = {
+        desc = "DAP toggle breakpoint";
+        silent = true;
+      };
+    }
+    {
+      mode = "n";
+      action.__raw = ''
+        function()
+          require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))
+        end
+      '';
+      key = "<leader>dB";
+      options = {
+        desc = "DAP conditional breakpoint";
+        silent = true;
+      };
+    }
+    {
+      mode = "n";
+      action.__raw = "require('dapui').toggle";
+      key = "<leader>du";
+      options = {
+        desc = "DAP UI toggle";
+        silent = true;
+      };
+    }
+    {
+      mode = "n";
+      action.__raw = "require('dap').repl.open";
+      key = "<leader>dr";
+      options = {
+        desc = "DAP open REPL";
+        silent = true;
+      };
+    }
+    {
+      mode = "n";
+      action.__raw = "require('dap').run_last";
+      key = "<leader>dl";
+      options = {
+        desc = "DAP run last debug config";
+        silent = true;
+      };
+    }
+
+    # LSP code action and rename keymaps
+    {
+      mode = [
+        "n"
+        "v"
+      ];
+      action.__raw = "vim.lsp.buf.code_action";
+      key = "<leader>ca";
+      options = {
+        desc = "LSP code action";
+        silent = true;
+      };
+    }
+    {
+      mode = "n";
+      action.__raw = "vim.lsp.buf.rename";
+      key = "<leader>rn";
+      options = {
+        desc = "LSP rename symbol";
+        silent = true;
+      };
+    }
+
   ];
 }
