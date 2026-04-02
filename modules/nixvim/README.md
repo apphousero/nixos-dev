@@ -2,6 +2,8 @@
 
 This directory contains the Neovim configuration using nixvim.
 
+[Github shortcut to it.](https://github.com/apphousero/nixos-dev/blob/master/modules/nixvim/README.md)
+
 ## Custom Keymaps
 
 ### General Keymaps (keymaps.nix)
@@ -29,6 +31,29 @@ This directory contains the Neovim configuration using nixvim.
 | Normal | `<leader>n` | `:set list!` | Toggle display of white spaces |
 | Normal | `<leader>l` | `0v$y` | Copy current line |
 | Normal | `<leader>b` | `:b#` | Previous buffer |
+
+### DAP Keymaps (keymaps.nix)
+
+All leader-based to work reliably in terminal, tmux, SSH+tmux, and WSL2.
+
+| Mode | Key | Action | Description |
+|------|-----|--------|-------------|
+| Normal | `<leader>dc` | `dap.continue` | Start / continue debugging |
+| Normal | `<leader>do` | `dap.step_over` | Step over |
+| Normal | `<leader>di` | `dap.step_into` | Step into |
+| Normal | `<leader>dO` | `dap.step_out` | Step out |
+| Normal | `<leader>db` | `dap.toggle_breakpoint` | Toggle breakpoint |
+| Normal | `<leader>dB` | `dap.set_breakpoint(condition)` | Conditional breakpoint |
+| Normal | `<leader>du` | `dapui.toggle` | Toggle DAP UI |
+| Normal | `<leader>dr` | `dap.repl.open` | Open DAP REPL |
+| Normal | `<leader>dl` | `dap.run_last` | Re-run last debug config |
+
+### LSP Code Action Keymaps (keymaps.nix)
+
+| Mode | Key | Action | Description |
+|------|-----|--------|-------------|
+| Normal/Visual | `<leader>ca` | `vim.lsp.buf.code_action` | Code action (quick fix, imports, etc.) |
+| Normal | `<leader>rn` | `vim.lsp.buf.rename` | Rename symbol |
 
 ### LSP Keymaps (plugins/lsp.nix)
 
