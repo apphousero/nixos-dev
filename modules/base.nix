@@ -19,7 +19,7 @@
       code = false;
     };
     dotnet = {
-      useOmnisharp = true;
+      useOmnisharp = false;
     };
   };
 

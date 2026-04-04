@@ -10,8 +10,9 @@ let
   useOmnisharp = nixvim.dotnet.useOmnisharp or false;
 in
 {
-  programs.nixvim.plugins.roslyn-nvim = lib.mkIf (!useOmnisharp) {
+  programs.nixvim.plugins.roslyn = lib.mkIf (!useOmnisharp) {
     enable = lib.mkDefault hasDotnetSdk;
+    autoLoad = lib.mkDefault hasDotnetSdk;
     settings = {
       config = {
         settings = {
