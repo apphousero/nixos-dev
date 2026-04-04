@@ -1,5 +1,5 @@
 {
-  copilot,
+  nixvim,
   lib,
   ...
 }:
@@ -17,7 +17,7 @@
           "<CR>" = "cmp.mapping.confirm({ select = true })";
         };
         sources =
-          lib.optionals copilot.code [
+          lib.optionals nixvim.copilot.code [
             {
               name = "copilot";
               group_index = 2;

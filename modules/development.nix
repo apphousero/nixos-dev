@@ -8,7 +8,7 @@
     ./common.nix
   ];
 
-  _module.args.copilot = {
+  _module.args.nixvim.copilot = {
     chat = true;
     code = true;
   };

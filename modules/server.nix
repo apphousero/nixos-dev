@@ -7,7 +7,7 @@
   imports = [
     ./common.nix
   ];
-  _module.args.copilot = {
+  _module.args.nixvim.copilot = {
     chat = false;
     code = false;
   };

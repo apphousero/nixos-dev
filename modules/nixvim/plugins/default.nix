@@ -4,6 +4,7 @@
     ./copilot.nix
     ./cmp.nix
     ./lsp.nix
+    ./lsp.omnisharp.nix
     ./telescope.nix
     ./treesitter.nix
   ];

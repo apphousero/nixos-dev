@@ -19,7 +19,7 @@
   home.file.".profile".force = true;
 
   _module.args.isNixOS = false;
-  _module.args.copilot = {
+  _module.args.nixvim.copilot = {
     chat = true;
     code = true;
   };
