@@ -1,17 +1,17 @@
 {
-  copilot,
+  nixvim,
   ...
 }:
 {
   programs.nixvim.plugins = {
     copilot-lua = {
-      enable = copilot.code or copilot.chat;
+      enable = nixvim.copilot.code or nixvim.copilot.chat;
     };
     copilot-cmp = {
-      enable = copilot.code;
+      enable = nixvim.copilot.code;
     };
     copilot-chat = {
-      enable = copilot.chat;
+      enable = nixvim.copilot.chat;
     };
   };
 }

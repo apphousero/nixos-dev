@@ -19,9 +19,14 @@
   home.file.".profile".force = true;
 
   _module.args.isNixOS = false;
-  _module.args.copilot = {
-    chat = true;
-    code = true;
+  _module.args.nixvim = {
+    copilot = {
+      chat = true;
+      code = true;
+    };
+    dotnet = {
+      useOmnisharp = true;
+    };
   };
 
   # ── Packages (shared + home-only) ──────────────────────────────────────

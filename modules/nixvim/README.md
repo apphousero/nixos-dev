@@ -103,7 +103,7 @@ All leader-based to work reliably in terminal, tmux, SSH+tmux, and WSL2.
 | lua_ls | Lua | Always |
 | marksman | Markdown | Always |
 | nil_ls | Nix | Always |
-| omnisharp | C# | .NET SDK installed |
+| roslyn/omnisharp | C# | .NET SDK installed |
 | pylsp | Python | Python installed |
 | tsserver | TypeScript/JavaScript | Node.js installed |
 | yamlls | YAML | Always |

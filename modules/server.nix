@@ -7,9 +7,14 @@
   imports = [
     ./common.nix
   ];
-  _module.args.copilot = {
-    chat = false;
-    code = false;
+  _module.args.nixvim = {
+    copilot = {
+      chat = false;
+      code = false;
+    };
+    dotnet = {
+      useOmnisharp = true;
+    };
   };
   environment.systemPackages = with pkgs; [
     # Analyse docker images

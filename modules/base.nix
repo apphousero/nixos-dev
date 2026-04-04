@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   lib,
   ...
@@ -14,11 +13,18 @@
 
   # True if it is NixOS install, false if it is other OS with Nix and Home Manager
   _module.args.isNixOS = lib.mkDefault true;
+  _module.args.nixvim = lib.mkDefault {
+    copilot = {
+      chat = false;
+      code = false;
+    };
+    dotnet = {
+      useOmnisharp = false;
+    };
+  };
 
   # Copilot disabled by default
   _module.args.copilot = lib.mkDefault {
-    chat = lib.mkDefault false;
-    code = lib.mkDefault false;
   };
 
   # Shared packages available in both NixOS and Home Manager contexts
