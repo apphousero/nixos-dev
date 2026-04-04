@@ -10,7 +10,7 @@ let
   useOmnisharp = nixvim.dotnet.useOmnisharp or false;
 in
 {
-  programs.nixvim.lsp = lib.mkIf useOmnisharp {
+  programs.nixvim.lsp.servers = lib.mkIf useOmnisharp {
     omnisharp = {
       enable = lib.mkDefault hasDotnetSdk;
       config = {

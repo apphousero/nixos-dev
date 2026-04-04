@@ -8,9 +8,14 @@
     ./common.nix
   ];
 
-  _module.args.nixvim.copilot = {
-    chat = true;
-    code = true;
+  _module.args.nixvim = {
+    copilot = {
+      chat = true;
+      code = true;
+    };
+    dotnet = {
+      useOmnisharp = true;
+    };
   };
 
   # Development system packages that should be available everywhere

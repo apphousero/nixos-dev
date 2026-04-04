@@ -14,12 +14,12 @@
   # True if it is NixOS install, false if it is other OS with Nix and Home Manager
   _module.args.isNixOS = lib.mkDefault true;
   _module.args.nixvim = lib.mkDefault {
-    copilot = lib.mkDefault {
-      chat = lib.mkDefault false;
-      code = lib.mkDefault false;
+    copilot = {
+      chat = false;
+      code = false;
     };
-    dotnet = lib.mkDefault {
-      useOmnisharp = lib.mkDefault true;
+    dotnet = {
+      useOmnisharp = true;
     };
   };
 
