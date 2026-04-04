@@ -55,6 +55,22 @@ All leader-based to work reliably in terminal, tmux, SSH+tmux, and WSL2.
 | Normal/Visual | `<leader>ca` | `vim.lsp.buf.code_action` | Code action (quick fix, imports, etc.) |
 | Normal | `<leader>rn` | `vim.lsp.buf.rename` | Rename symbol |
 
+### Copilot Chat Keymaps (keymaps.nix)
+
+| Mode | Key | Action | Description |
+|------|-----|--------|-------------|
+| Normal | `<leader>cc` | `:CopilotChatToggle` | Toggle chat window |
+| Visual | `<leader>cc` | `:CopilotChatToggle` | Chat with selected text as context |
+| Visual | `<leader>ce` | `:CopilotChatExplain` | Explain selected code |
+| Visual | `<leader>cr` | `:CopilotChatReview` | Review selected code |
+| Visual | `<leader>cf` | `:CopilotChatFix` | Suggest fix for selected code |
+| Visual | `<leader>co` | `:CopilotChatOptimize` | Optimize selected code |
+| Normal | `<leader>ct` | `:CopilotChatTests` | Generate tests for current buffer |
+| Visual | `<leader>cd` | `:CopilotChatDocs` | Generate docs for selected code |
+| Normal/Visual | `<leader>cq` | (prompt input) | Quick chat with custom prompt |
+| Normal | `<leader>cm` | `:CopilotChatModels` | Select model |
+| Normal | `<leader>cx` | `:CopilotChatReset` | Reset chat history |
+
 ### LSP Keymaps (plugins/lsp.nix)
 
 | Key | Action | Description |

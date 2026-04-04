@@ -16,31 +16,33 @@ PARENT_CWD_NAME=$(echo "$PARENT_CWD_NAME" | tr -d '.')
 HOST_NAME=$(hostname)
 
 # Create session name in format "cwd (parent-cwd)"
-SESSION_NAME="${CWD_NAME} (${HOST_NAME})"
+SESSION_NAME="${CWD_NAME}(${HOST_NAME})"
 
 # Check if tmux session already exists
 if ! tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
     # neovim window
-    tmux new-session -d -s "$SESSION_NAME" -n "vi ($HOST_NAME)" -c "$CWD"
+    tmux new-session -d -s "$SESSION_NAME" -n "vi" -c "$CWD"
     tmux send-keys -t "$SESSION_NAME:1" "echo 'neovim here'" C-m
     # git window
-    tmux new-window -t "$SESSION_NAME:2" -n "vi2 ($HOST_NAME)" -c "$CWD"
+    tmux new-window -t "$SESSION_NAME:2" -n "vi2" -c "$CWD"
     tmux send-keys -t "$SESSION_NAME:2" "echo 'neovim 2nd here'" C-m
-    # run window
-    tmux new-window -t "$SESSION_NAME:3" -n "run ($HOST_NAME)" -c "$CWD"
+    # run window (split)
+    tmux new-window -t "$SESSION_NAME:3" -n "run" -c "$CWD"
     tmux send-keys -t "$SESSION_NAME:3" "echo 'run stuff here'" C-m
-    # nav window
-    tmux new-window -t "$SESSION_NAME:4" -n "nav ($HOST_NAME)" -c "$CWD"
+    tmux split-window -t "$SESSION_NAME:3" -h -c "$CWD"
+    # nav window (split)
+    tmux new-window -t "$SESSION_NAME:4" -n "nav" -c "$CWD"
     tmux send-keys -t "$SESSION_NAME:4" "echo 'do your tree here'" C-m
+    tmux split-window -t "$SESSION_NAME:4" -h -c "$CWD"
     # docker window
-    tmux new-window -t "$SESSION_NAME:5" -n "ssh ($HOST_NAME)" -c "$CWD"
+    tmux new-window -t "$SESSION_NAME:5" -n "ssh" -c "$CWD"
     # ssh window
-    tmux new-window -t "$SESSION_NAME:6" -n "cld ($HOST_NAME)" -c "$CWD"
+    tmux new-window -t "$SESSION_NAME:6" -n "cld" -c "$CWD"
     # logs window
-    tmux new-window -t "$SESSION_NAME:7" -n "gmn ($HOST_NAME)" -c "$CWD"
+    tmux new-window -t "$SESSION_NAME:7" -n "gmn" -c "$CWD"
     # other windows
-    tmux new-window -t "$SESSION_NAME:8" -n "logs ($HOST_NAME)" -c "$CWD"
-    tmux new-window -t "$SESSION_NAME:9" -n "sys ($HOST_NAME)" -c "$CWD"
+    tmux new-window -t "$SESSION_NAME:8" -n "logs" -c "$CWD"
+    tmux new-window -t "$SESSION_NAME:9" -n "sys" -c "$CWD"
     # Select window 1 (vi)
     tmux select-window -t "$SESSION_NAME:1"
 fi
