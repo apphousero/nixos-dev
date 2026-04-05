@@ -97,7 +97,8 @@ in
         };
       };
       html.enable = lib.mkDefault hasNodejs;
-      htmx.enable = lib.mkDefault hasNodejs;
+      # htmx.enable = lib.mkDefault hasNodejs;
+      htmx.enable = false;
       java_language_server.enable = lib.mkDefault hasJava;
       jsonls.enable = true;
       lua_ls.enable = true;
