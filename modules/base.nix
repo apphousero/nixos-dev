@@ -200,6 +200,8 @@
         xcolor
         ;
     })
+    # Qwen code
+    qwen-code
     # tldr any command instead of man, e.g. tldr fd
     tldr
     # HTTP load testing tool
