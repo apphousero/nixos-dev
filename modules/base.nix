@@ -154,6 +154,8 @@
         sdk_10_0
       ]
     )
+    # Aider
+    aider-chat-full
     # Claude
     claude-code
     # Some lil DOS box for development
