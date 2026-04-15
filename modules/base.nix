@@ -155,13 +155,16 @@
       ]
     )
     # Aider
-    aider-chat-full
+    # aider-chat-full
     # Claude
     claude-code
     # Some lil DOS box for development
     dosbox
     # Analyse docker images
     dive
+    # HTML Tools
+    htmlq
+    hyperfine
     # Github CLI
     gh
     # GCP CLI
@@ -208,6 +211,9 @@
     tldr
     # HTTP load testing tool
     vegeta
+    # XML
+    libxml2
+    libxslt
     # NodeJS package manager
     yarn
   ];
