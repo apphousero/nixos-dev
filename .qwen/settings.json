@@ -3,5 +3,6 @@
     "allow": [
       "Bash(nix *)"
     ]
-  }
+  },
+  "$version": 3
 }

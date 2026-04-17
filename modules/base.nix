@@ -146,6 +146,8 @@
   _module.args.devPackages = with pkgs; [
     # Azure CLI... needed, not wanted
     #azure-cli
+    # Python package manager and runner (provides uvx)
+    uv
     # .NET SDK packages
     (
       with dotnetCorePackages;
