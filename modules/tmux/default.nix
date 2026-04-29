@@ -44,6 +44,7 @@ in
       ''
         # Extended keys (fixes modified Enter key etc.)
         set -g extended-keys on
+        set -g extended-keys-format csi-u
 
         # Window naming settings
         set-option -g allow-rename off
