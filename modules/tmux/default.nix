@@ -42,6 +42,10 @@ in
       with config.theme;
       with pkgs.tmuxPlugins;
       ''
+        # Extended keys (fixes modified Enter key etc.)
+        set -g extended-keys on
+        set -g extended-keys-format csi-u
+
         # Window naming settings
         set-option -g allow-rename off
         set-window-option -g automatic-rename off
