@@ -10,7 +10,7 @@ in
 {
   programs.nixvim.plugins = {
     lsp.enable = true;
-    lsp-format.enable = true;
+    #lsp-format.enable = true;
     trouble = {
       enable = true;
       settings = {
