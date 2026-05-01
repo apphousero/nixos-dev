@@ -5,7 +5,12 @@
 }:
 let
   helpers = import ../../lib.nix { inherit config; };
-  inherit (helpers) hasNodejs hasPython hasGo hasJava;
+  inherit (helpers)
+    hasNodejs
+    hasPython
+    hasGo
+    hasJava
+    ;
 in
 {
   programs.nixvim.plugins = {
