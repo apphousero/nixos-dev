@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Automates updating aph-pi.nix to a newer version of @mariozechner/pi-coding-agent.
+# Automates updating pi.nix to a newer version of @mariozechner/pi-coding-agent.
 #
 # Usage:
-#   ./update-aph-pi.sh                           # interactively pick latest version
-#   ./update-aph-pi.sh 0.71.0                    # update to a specific version
-#   ./update-aph-pi.sh --dry-run 0.71.0          # show what would change without writing
+#   ./packages/update-pi.sh                           # interactively pick latest version
+#   ./packages/update-pi.sh 0.71.1                    # update to a specific version
+#   ./packages/update-pi.sh --dry-run 0.71.1          # show what would change without writing
 #
 # Environment:
-#   PI_NIX_FILE  Path to aph-pi.nix (default: ./packages/aph-pi.nix)
+#   PI_NIX_FILE  Path to pi.nix (default: ./packages/pi.nix)
 
 set -euo pipefail
 
@@ -19,7 +19,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-NIX_FILE="${PI_NIX_FILE:-$(dirname "$0")/aph-pi.nix}"
+NIX_FILE="${PI_NIX_FILE:-$(dirname "$0")/pi.nix}"
 
 if [[ -z "${TARGET_VERSION:-}" ]]; then
   echo "Fetching latest version..."
