@@ -8,26 +8,52 @@ This flake is referenced by other flakes - changes may affect downstream consume
 
 ## Structure
 
-- `flake.nix` - Main flake with nixosModules exports (base, development, desktop, server, wsl)
-- `hosts/` - Host-specific configurations (dev.nix, wsl.nix, desktop.nix)
+- `flake.nix` - Main flake with `homeModules` and `nixosModules` exports
+- `flake.lock` - Lock file
+- `hosts/` - Host-specific configurations (`dev.nix`, `wsl.nix`, `desktop.nix`)
 - `modules/` - Reusable NixOS modules
   - `base.nix` - Base configuration
+  - `common.nix` - Shared/common configuration
+  - `home.nix` - Home Manager configuration
+  - `lib.nix` - Library/utility functions
   - `development.nix` - Development tools
   - `desktop.nix` - Desktop environment
   - `server.nix` - Server configuration
+  - `server-containers.nix` - Server container configuration
   - `wsl.nix` - WSL-specific settings
   - `nixvim/` - Neovim configuration via nixvim
+    - `colorschemes.nix`, `globals.nix`, `keymaps.nix`, `lua.nix`, `opts.nix`
+    - `mini/`, `plugins/`, `default.nix`, `README.md`
   - `tmux/` - Tmux configuration
-  - `zsh/` - Zsh configuration
-  - `scripts/` - Custom scripts
+    - `default.nix`
+  - `scripts/` - Custom scripts (`sh/`)
+- `packages/` - Custom Nix packages
+  - `pi.nix` - `pi` AI coding agent package
+  - `update-aph-pi.sh` - Script to update `pi` version
+  - `README.md` - Package documentation
+- `res/samples/` - Sample configurations
+- `.github/workflows/build-and-publish.yml` - CI/CD pipeline
+- `.env` / `.env/secrets` - Environment variables and secrets
+
+## Flake Exports
+
+### `nixosModules`
+- `development` - Full development module (imports home-manager, nixvim, determinate, development.nix)
+- `desktop` - Full desktop module (imports home-manager, nixvim, determinate, desktop.nix)
+
+### `homeModules`
+- `default` - Home Manager configuration (imports nixvim, home.nix)
+
+Host-specific modules (`devModules`, `desktopModules`, `wslModules`) are applied inside the flake's `nixosConfigurations` based on hostname.
 
 ## Key Dependencies
 
-- nixpkgs (unstable and 25.05 stable)
+- nixpkgs (unstable)
 - home-manager
 - nixvim
 - nixos-wsl
 - vscode-server
+- determinate
 
 ## Guidelines
 

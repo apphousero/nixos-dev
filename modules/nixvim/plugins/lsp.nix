@@ -5,12 +5,17 @@
 }:
 let
   helpers = import ../../lib.nix { inherit config; };
-  inherit (helpers) hasNodejs hasPython hasGo hasJava;
+  inherit (helpers)
+    hasNodejs
+    hasPython
+    hasGo
+    hasJava
+    ;
 in
 {
   programs.nixvim.plugins = {
     lsp.enable = true;
-    lsp-format.enable = true;
+    #lsp-format.enable = true;
     trouble = {
       enable = true;
       settings = {
