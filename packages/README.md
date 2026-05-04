@@ -49,7 +49,7 @@ This script handles all 6 steps below automatically.
 4. Get the npm deps hash — build with the new source, then hash the resulting `npmDeps`:
 
    ```sh
-   nix-build -E 'let pkgs = import <nixpkgs> {}; in (pkgs.callPackage ./packages/aph-pi.nix {}).overrideAttrs (old: { version = "<VERSION>"; })'
+   nix-build -E 'let pkgs = import <nixpkgs> {}; in (pkgs.callPackage ./packages/pi.nix {}).overrideAttrs (old: { version = "<VERSION>"; })'
    # Find the npm-deps store path in output and hash it:
    nix hash path /nix/store/...-npm-deps
    ```
