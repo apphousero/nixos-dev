@@ -89,8 +89,8 @@ in
         # Refresh shell
         unbind l
         unbind C-l
-        bind l send-keys 'clear' Enter
-        bind C-l send-keys 'clear' Enter
+        bind l send-keys 'clear && exec $SHELL' Enter
+        bind C-l send-keys 'clear && exec $SHELL' Enter
 
         # Send the bracketed paste mode when pasting
         unbind y
