@@ -24,8 +24,12 @@
 
   services.vscode-server.enable = lib.mkDefault true;
 
+  wsl.interop.register = true;
+  programs.nix-ld.enable = true;
+
   # Networking optimizations for WSL
   networking = {
+    hostName = "nixos";
     # Use WSL's networking instead of systemd-networkd
     dhcpcd.enable = false;
     useNetworkd = false;
