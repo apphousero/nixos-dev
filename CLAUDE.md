@@ -61,3 +61,12 @@ Host-specific modules (`devModules`, `desktopModules`, `wslModules`) are applied
 - Test changes with `nix flake check` before committing
 - Consider both x86_64-linux and aarch64-linux architectures
 - Remember this flake exports nixosModules consumed by other flakes
+
+## Test Build
+
+Test using the following command (ask about architecture first):
+
+```sh
+nix build .#nixosConfigurations.wsl-x86_64.config.system.build.toplevel --show-trace
+nix build .#nixosConfigurations.wsl-aarch64.config.system.build.toplevel --show-trace
+```
