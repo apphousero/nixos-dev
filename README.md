@@ -85,17 +85,13 @@ sudo nix-collect-garbage -d
 sudo nixos-rebuild switch --rollback
 ```
 
-## Development
+## Development - Test Build
 
-Build without applying configuration:
+Depending on your architecture, choose one of the following:
 
 ```sh
-nixos-rebuild build --flake .#wsl-aarch64
-nixos-rebuild build --flake .#wsl-x86_64
-nix run home-manager/master -- build --flake .#home-aarch64 \
-      --extra-experimental-features nix-command --extra-experimental-features flakes
-nix run home-manager/master -- build --flake .#home-x86_64 \
-      --extra-experimental-features nix-command --extra-experimental-features flakes
+nix build .#nixosConfigurations.wsl-x86_64.config.system.build.toplevel --show-trace
+nix build .#nixosConfigurations.wsl-aarch64.config.system.build.toplevel --show-trace
 ```
 
 ## Build ISO
