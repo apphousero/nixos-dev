@@ -21,8 +21,8 @@
   _module.args.isNixOS = false;
   _module.args.nixvim = {
     copilot = {
-      chat = true;
-      code = true;
+      chat = false;
+      code = false;
     };
     dotnet = {
       useOmnisharp = true;
