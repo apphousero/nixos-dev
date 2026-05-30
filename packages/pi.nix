@@ -2,16 +2,16 @@
 
 pkgs.buildNpmPackage {
   pname = "pi";
-  version = "0.73.1";
+  version = "0.78.0";
 
   src = pkgs.fetchFromGitHub {
-    owner = "badlogic";
+    owner = "earendil-works";
     repo = "pi-mono";
-    rev = "781152fc24841dc54b22284514604048ebe5e2c9";
-    hash = "sha256-ZcqMWghMACzEUswLujwClPF1pbwjTKzTbcYW86ZvjL4=";
+    rev = "0897f175e4d46592c0f59b3a2d399f11b8d078af";
+    hash = "sha256-Cw+W5w6yuL+cH+JfgCbEwiyeXloMb7yFd46TXJPZGTg=";
   };
 
-  npmDepsHash = "sha256-tneAcwtTIfkcqQ8/Ch1Xa6OiOkTjJNYbH8wfhNneT/g=";
+  npmDepsHash = "sha256-TxMiT7nJqLZRXKFoxb4FpsETGe3I99qU7olTgNsoQd4=";
 
   nodejs = pkgs.nodejs_22;
 
@@ -34,7 +34,7 @@ pkgs.buildNpmPackage {
 
   preBuild = ''
     substituteInPlace packages/ai/package.json \
-      --replace-fail '"build": "npm run generate-models && tsgo -p tsconfig.build.json"' \
+      --replace-fail '"build": "npm run generate-models && npm run generate-image-models && tsgo -p tsconfig.build.json"' \
                       '"build": "tsgo -p tsconfig.build.json"'
   '';
 
@@ -63,7 +63,7 @@ pkgs.buildNpmPackage {
 
   meta = with pkgs.lib; {
     description = "An AI coding agent that can read/write files, execute commands, and edit code";
-    homepage = "https://github.com/badlogic/pi-mono";
+    homepage = "https://github.com/earendil-works/pi-mono";
     license = licenses.mit;
     platforms = platforms.unix;
   };
