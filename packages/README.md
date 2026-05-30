@@ -4,9 +4,9 @@ Custom Nix packages for `nixos-dev`.
 
 ## pi
 
-[pi](https://github.com/badlogic/pi-mono) - an AI coding agent that can read/write files, execute commands, and edit code.
+[pi](https://github.com/earendil-works/pi-mono) - an AI coding agent that can read/write files, execute commands, and edit code.
 
-- npm: [@mariozechner/pi-coding-agent](https://www.npmjs.com/package/@mariozechner/pi-coding-agent)
+- npm: [@earendil-works/pi-coding-agent](https://www.npmjs.com/package/@earendil-works/pi-coding-agent)
 - Binary: `pi`
 
 ### Updating pi
@@ -31,19 +31,19 @@ This script handles all 6 steps below automatically.
 1. Get the latest version:
 
    ```sh
-   curl -s 'https://registry.npmjs.org/@mariozechner/pi-coding-agent/latest' | jq -r '.version'
+   curl -s 'https://registry.npmjs.org/@earendil-works/pi-coding-agent/latest' | jq -r '.version'
    ```
 
 2. Get the git commit for that version:
 
    ```sh
-   curl -s 'https://registry.npmjs.org/@mariozechner/pi-coding-agent/<VERSION>' | jq -r '.gitHead'
+   curl -s 'https://registry.npmjs.org/@earendil-works/pi-coding-agent/<VERSION>' | jq -r '.gitHead'
    ```
 
 3. Get the source hash:
 
    ```sh
-   nix hash to-sri --type sha256 $(nix-prefetch-url --unpack "https://github.com/badlogic/pi-mono/archive/<COMMIT>.tar.gz" 2>&1 | tail -1)
+   nix hash to-sri --type sha256 $(nix-prefetch-url --unpack "https://github.com/earendil-works/pi-mono/archive/<COMMIT>.tar.gz" 2>&1 | tail -1)
    ```
 
 4. Get the npm deps hash — build with the new source, then hash the resulting `npmDeps`:
@@ -59,7 +59,7 @@ This script handles all 6 steps below automatically.
 6. Verify the `preBuild` patch still applies:
 
    ```sh
-   curl -sL "https://raw.githubusercontent.com/badlogic/pi-mono/<COMMIT>/packages/ai/package.json" | grep '"build":'
+   curl -sL "https://raw.githubusercontent.com/earendil-works/pi-mono/<COMMIT>/packages/ai/package.json" | grep '"build":'
    ```
 
    If the build script changed, update the `--replace-fail` strings in `preBuild`.
