@@ -28,11 +28,9 @@ if ! tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
     tmux send-keys -t "$SESSION_NAME:2" "echo 'neovim 2nd here'" C-m
     # run window (split)
     tmux new-window -t "$SESSION_NAME:3" -n "run" -c "$CWD"
-    tmux send-keys -t "$SESSION_NAME:3" "echo 'run stuff here'" C-m
     tmux split-window -t "$SESSION_NAME:3" -h -c "$CWD"
     # nav window (split)
     tmux new-window -t "$SESSION_NAME:4" -n "nav" -c "$CWD"
-    tmux send-keys -t "$SESSION_NAME:4" "echo 'do your tree here'" C-m
     tmux split-window -t "$SESSION_NAME:4" -h -c "$CWD"
     # docker window
     tmux new-window -t "$SESSION_NAME:5" -n "ssh" -c "$CWD"
