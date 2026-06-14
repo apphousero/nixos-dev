@@ -8,7 +8,7 @@
   ];
 
   # Get latest from here https://github.com/nix-community/NixOS-WSL/releases
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 
   wsl = {
     enable = lib.mkDefault true;
