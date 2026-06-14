@@ -1,6 +1,11 @@
-{ config, pkgs, ... }:
+{
+  pkgs,
+  sharedPackages,
+  devPackages,
+  ...
+}:
 let
-  helpers = import ../lib.nix { inherit config; };
+  helpers = import ../lib.nix { packages = sharedPackages ++ devPackages; };
   inherit (helpers) hasDotnetSdk hasNodejs;
 in
 {

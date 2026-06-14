@@ -1,11 +1,12 @@
 {
-  config,
   nixvim,
   lib,
+  sharedPackages,
+  devPackages,
   ...
 }:
 let
-  helpers = import ../../lib.nix { inherit config; };
+  helpers = import ../../lib.nix { packages = sharedPackages ++ devPackages; };
   inherit (helpers) hasDotnetSdk;
   useOmnisharp = nixvim.dotnet.useOmnisharp or false;
 in

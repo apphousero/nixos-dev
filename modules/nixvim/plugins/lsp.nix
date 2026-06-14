@@ -1,10 +1,11 @@
 {
-  config,
   lib,
+  sharedPackages,
+  devPackages,
   ...
 }:
 let
-  helpers = import ../../lib.nix { inherit config; };
+  helpers = import ../../lib.nix { packages = sharedPackages ++ devPackages; };
   inherit (helpers)
     hasNodejs
     hasPython
@@ -25,7 +26,6 @@ in
     };
   };
   programs.nixvim.lsp = {
-    enable = true;
     keymaps = [
       {
         key = "gd";
