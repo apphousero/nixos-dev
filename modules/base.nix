@@ -191,6 +191,8 @@
     node-gyp
     # aaah, mermaid
     mermaid-cli
+    # Mistral CLI
+    mistral-vibe
     # HTTP load generator
     oha
     # For certificates

@@ -12,7 +12,7 @@
   ];
 
   # Home configuration
-  home.stateVersion = lib.mkDefault "25.11";
+  home.stateVersion = lib.mkDefault "26.05";
   home.enableNixpkgsReleaseCheck = false;
   # Force stuff
   home.file.".bashrc".force = true;
