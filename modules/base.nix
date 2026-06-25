@@ -192,7 +192,10 @@
     # aaah, mermaid
     mermaid-cli
     # Mistral CLI
-    mistral-vibe
+    (mistral-vibe.overrideAttrs (old: rec {
+      doCheck = false;
+      doInstallCheck = false;
+    }))
     # HTTP load generator
     oha
     # For certificates
