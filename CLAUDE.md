@@ -70,3 +70,22 @@ Test using the following command (ask about architecture first):
 nix build .#nixosConfigurations.wsl-x86_64.config.system.build.toplevel --show-trace
 nix build .#nixosConfigurations.wsl-aarch64.config.system.build.toplevel --show-trace
 ```
+
+## Flake Update and Build
+
+When asked to "flake update" (or "flake update and build", or similar), detect the
+current running CPU architecture with `uname -m` and build for that architecture
+only. Map `x86_64` to `wsl-x86_64` and `aarch64`/`arm64` to `wsl-aarch64`. Always
+print the detected architecture so the user is aware of the build target. Only ask
+the user if the architecture cannot be determined. Then run `nix flake update` and
+build:
+
+```sh
+# x86_64 (uname -m == x86_64)
+nix flake update
+nix build .#nixosConfigurations.wsl-x86_64.config.system.build.toplevel --show-trace
+
+# aarch64 (uname -m == aarch64 / arm64)
+nix flake update
+nix build .#nixosConfigurations.wsl-aarch64.config.system.build.toplevel --show-trace
+```
