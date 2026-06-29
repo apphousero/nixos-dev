@@ -38,8 +38,8 @@ if ! tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
     tmux new-window -t "$SESSION_NAME:6" -n "cld" -c "$CWD"
     # logs window
     tmux new-window -t "$SESSION_NAME:7" -n "pi" -c "$CWD"
+    tmux new-window -t "$SESSION_NAME:8" -n "mst" -c "$CWD"
     # other windows
-    tmux new-window -t "$SESSION_NAME:8" -n "logs" -c "$CWD"
     tmux new-window -t "$SESSION_NAME:9" -n "sys" -c "$CWD"
     # Select window 1 (vi)
     tmux select-window -t "$SESSION_NAME:1"
