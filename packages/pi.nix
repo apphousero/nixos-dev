@@ -2,16 +2,16 @@
 
 pkgs.buildNpmPackage {
   pname = "pi";
-  version = "0.80.3";
+  version = "0.80.6";
 
   src = pkgs.fetchFromGitHub {
     owner = "earendil-works";
     repo = "pi-mono";
-    rev = "a23abe4a695df8b69b613f73e9fdda2a8af894d4";
-    hash = "sha256-wQTrWKsb2HCGwzSAFEk8NWSDpqxSY/lv1/R6ghcmbaA=";
+    rev = "2b3fda9921b5590f285165287bd442a25817f17b";
+    hash = "sha256-e/wcHruEcBAHDF5tKvwew7LXjVp0eraHh2k+QaL2sCA=";
   };
 
-  npmDepsHash = "sha256-geh8LH88OZybFXkR/jDeTdew6TNMdFM6jhCSYKn//dU=";
+  npmDepsHash = "sha256-xXEOR0epZcfbXayYGyJdBiFVliamBexqA+1Sd7wlGhU=";
 
   nodejs = pkgs.nodejs_22;
 

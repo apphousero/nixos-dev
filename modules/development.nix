@@ -21,6 +21,7 @@
   # Development system packages that should be available everywhere
   environment.systemPackages = devPackages ++ ([
     (pkgs.callPackage ../packages/pi.nix { })
+    (pkgs.callPackage ../packages/pi-acp.nix { })
   ]);
 
   environment.sessionVariables = {
