@@ -22,6 +22,7 @@
   environment.systemPackages = devPackages ++ ([
     (pkgs.callPackage ../packages/pi.nix { })
     (pkgs.callPackage ../packages/pi-acp.nix { })
+    (pkgs.callPackage ../packages/claude-agent-acp.nix { })
   ]);
 
   environment.sessionVariables = {
