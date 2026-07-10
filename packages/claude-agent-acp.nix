@@ -1,13 +1,13 @@
 { pkgs }:
 
-pkgs.buildNpmPackage rec {
+pkgs.buildNpmPackage {
   pname = "claude-agent-acp";
   version = "0.58.1";
 
   src = pkgs.fetchFromGitHub {
     owner = "agentclientprotocol";
     repo = "claude-agent-acp";
-    rev = "v${version}";
+    rev = "3500ef736ffe816ab5b01c0c20669015fb4cf8b7";
     hash = "sha256-9bnUVYfE3iMOcHFg9PK25MoMla978/YbkZLzWgVkd84=";
   };
 
