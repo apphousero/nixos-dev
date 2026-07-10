@@ -1,13 +1,13 @@
 { pkgs }:
 
-pkgs.buildNpmPackage rec {
+pkgs.buildNpmPackage {
   pname = "pi-acp";
   version = "0.0.31";
 
   src = pkgs.fetchFromGitHub {
     owner = "svkozak";
     repo = "pi-acp";
-    rev = "v9e857dcc05a057404eb1537e5f31e5aef88a5863";
+    rev = "9e857dcc05a057404eb1537e5f31e5aef88a5863";
     hash = "sha256-bM3V/3fxkY2Ib+OyfT82StIIRSLXGDuYUbt1CZKpTuo=";
   };
 
