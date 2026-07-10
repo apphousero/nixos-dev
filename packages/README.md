@@ -26,6 +26,26 @@ Custom Nix packages for `nixos-dev`.
 
 This script handles all 6 steps below automatically.
 
+## claude-agent-acp
+
+[claude-agent-acp](https://github.com/agentclientprotocol/claude-agent-acp) - an ACP-compatible coding agent powered by the Claude Agent SDK (TypeScript).
+
+- npm: [@agentclientprotocol/claude-agent-acp](https://www.npmjs.com/package/@agentclientprotocol/claude-agent-acp)
+- Binary: `claude-agent-acp`
+
+### Updating claude-agent-acp
+
+```sh
+# Auto-pick latest version
+./packages/update-claude-agent-acp.sh
+
+# Update to a specific version
+./packages/update-claude-agent-acp.sh 0.58.1
+
+# Preview changes without writing
+./packages/update-claude-agent-acp.sh --dry-run 0.58.1
+```
+
 **Manual steps:**
 
 1. Get the latest version:
