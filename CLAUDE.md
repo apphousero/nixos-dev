@@ -58,34 +58,43 @@ Host-specific modules (`devModules`, `desktopModules`, `wslModules`) are applied
 ## Guidelines
 
 - Use Nix formatting conventions (nixfmt-style)
-- Test changes with `nix flake check` before committing
+- Test changes with `nix flake check` before committing (fast — only validates syntax and types)
 - Consider both x86_64-linux and aarch64-linux architectures
 - Remember this flake exports nixosModules consumed by other flakes
 
+## Build Timeouts
+
+**Never let `nix build` run longer than 60 seconds.** Use `timeout 60` (or `timeout 30` for quick checks) on every `nix build` invocation. If it hasn't finished in that time, assume it's stuck or too expensive and stop. A full build of this flake takes minutes — it is **not** a quick validation step.
+
 ## Test Build
 
-Test using the following command (ask about architecture first):
+The default and recommended action is:
 
 ```sh
-nix build .#nixosConfigurations.wsl-x86_64.config.system.build.toplevel --show-trace
-nix build .#nixosConfigurations.wsl-aarch64.config.system.build.toplevel --show-trace
+nix flake check
 ```
+
+This validates syntax, types, and integrity quickly — use this for routine testing. A full `nix build` should only be run on **explicit user request** and must be capped with a timeout.
 
 ## Flake Update and Build
 
-When asked to "flake update" (or "flake update and build", or similar), detect the
-current running CPU architecture with `uname -m` and build for that architecture
-only. Map `x86_64` to `wsl-x86_64` and `aarch64`/`arm64` to `wsl-aarch64`. Always
-print the detected architecture so the user is aware of the build target. Only ask
-the user if the architecture cannot be determined. Then run `nix flake update` and
-build:
+When asked to "flake update" (or "flake update and build", or similar), first run
+`nix flake check` to validate syntax and types (fast). Then detect the current
+running CPU architecture with `uname -m` and build for that architecture only.
+Map `x86_64` to `wsl-x86_64` and `aarch64`/`arm64` to `wsl-aarch64`. Always print
+the detected architecture so the user is aware of the build target. Only ask the
+user if the architecture cannot be determined.
 
 ```sh
 # x86_64 (uname -m == x86_64)
 nix flake update
-nix build .#nixosConfigurations.wsl-x86_64.config.system.build.toplevel --show-trace
+./packages/update-all.sh
+nix flake check
+timeout 60 nix build .#nixosConfigurations.wsl-x86_64.config.system.build.toplevel --show-trace
 
 # aarch64 (uname -m == aarch64 / arm64)
 nix flake update
-nix build .#nixosConfigurations.wsl-aarch64.config.system.build.toplevel --show-trace
+./packages/update-all.sh
+nix flake check
+timeout 60 nix build .#nixosConfigurations.wsl-aarch64.config.system.build.toplevel --show-trace
 ```
