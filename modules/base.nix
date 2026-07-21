@@ -203,14 +203,13 @@
     # For docs
     pandoc
     python3Packages.virtualenv
-    (texlive.combine {
-      inherit (texlive)
-        scheme-basic
+    (texliveSmall.withPackages (
+      ps: with ps; [
         latex-bin
         latexmk
         xcolor
-        ;
-    })
+      ]
+    ))
     # Qwen code
     qwen-code
     # tldr any command instead of man, e.g. tldr fd

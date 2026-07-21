@@ -19,5 +19,6 @@ export NIX_FILE="${PI_NIX_FILE:-$(dirname "$0")/pi.nix}"
 export REV_STRATEGY="commit"
 export NPM_TARBALL_FALLBACK="false"
 export PREBUILD_PKG_JSON="packages/ai/package.json"
+export DATA_NPM_PKG="@earendil-works/pi-ai"
 
 exec "$(dirname "$0")/update-npm-package.sh" "$@"

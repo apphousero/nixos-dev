@@ -20,6 +20,11 @@ in
   ];
   programs.nixvim = {
     enable = true;
+    # Pin nixvim's nixpkgs to the same source used to build this system.
+    # This suppresses the `programs.nixvim.nixpkgs.source` follows warning and
+    # gives the generated `options.json` a properly-contexted store reference
+    # for downstream consumers that set `inputs.nixvim.inputs.nixpkgs.follows`.
+    nixpkgs.source = pkgs.path;
     version.enableNixpkgsReleaseCheck = false;
     autoCmd = [
       {

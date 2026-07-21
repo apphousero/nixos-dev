@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixvim = { url = "github:nix-community/nixvim"; };
     home-manager = { url = "github:nix-community/home-manager"; };
     nixos-wsl = { url = "github:nix-community/NixOS-WSL"; };

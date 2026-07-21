@@ -35,6 +35,14 @@
 #                         ref; "false" fails instead.
 #   PREBUILD_PKG_JSON     repo-relative path of a package.json to diff against the
 #                         --replace-fail patch in NIX_FILE (empty = skip check).
+#   DATA_NPM_PKG          npm registry package name of an auxiliary tarball the
+#                         .nix fetches (via fetchurl) for the same version, e.g.
+#                         prebuilt data that can't be produced in the sandbox.
+#                         When set, its .tgz hash is recomputed and substituted
+#                         into the `hash` line following the `url = "...tgz"`
+#                         line. The .nix is expected to derive that url from
+#                         ${version}, so only the hash is rewritten.
+#                         (empty = no auxiliary tarball).
 
 set -euo pipefail
 
@@ -46,6 +54,7 @@ REV_STRATEGY="${REV_STRATEGY:-tag}"
 WRITE_REV="${WRITE_REV:-true}"
 NPM_TARBALL_FALLBACK="${NPM_TARBALL_FALLBACK:-true}"
 PREBUILD_PKG_JSON="${PREBUILD_PKG_JSON:-}"
+DATA_NPM_PKG="${DATA_NPM_PKG:-}"
 
 # Basename of the npm package (strip any @scope/), used for the .tgz fallback URL.
 PKG_BASENAME="${NPM_PKG##*/}"
@@ -141,6 +150,22 @@ else
   echo "Npm deps hash: ${NPM_DEPS_HASH}"
 fi
 
+# Step 4b: auxiliary data tarball hash (optional).
+DATA_HASH=""
+if [[ -n "$DATA_NPM_PKG" ]]; then
+  DATA_BASENAME="${DATA_NPM_PKG##*/}"
+  DATA_URL="https://registry.npmjs.org/${DATA_NPM_PKG}/-/${DATA_BASENAME}-${TARGET_VERSION}.tgz"
+  echo "Fetching data tarball hash (${DATA_URL})..."
+  DATA_RAW=$(nix-prefetch-url "$DATA_URL" 2>&1 | tail -1)
+  DATA_HASH=$(nix hash to-sri --type sha256 "$DATA_RAW" 2>/dev/null || true)
+  if [[ -z "$DATA_HASH" || "$DATA_HASH" != sha256-* ]]; then
+    echo "ERROR: could not compute a valid hash for ${DATA_URL}"
+    echo "Output was: ${DATA_RAW:-<empty>}"
+    exit 1
+  fi
+  echo "Data hash: ${DATA_HASH}"
+fi
+
 # Step 5: check preBuild patch compatibility (optional).
 if [[ -n "$PREBUILD_PKG_JSON" ]]; then
   echo ""
@@ -170,6 +195,9 @@ if [[ -n "$NPM_DEPS_HASH" ]]; then
 else
   echo "  npmDepsHash: (update manually)"
 fi
+if [[ -n "$DATA_NPM_PKG" ]]; then
+  echo "  dataHash:    ${DATA_HASH}"
+fi
 
 if $DRY_RUN; then
   echo ""
@@ -192,7 +220,7 @@ else
   WRITE_REV="$WRITE_REV" python3 -c "
 import os, re, sys
 
-nix_file, version, rev, source_hash, npm_deps_hash = sys.argv[1:6]
+nix_file, version, rev, source_hash, npm_deps_hash, data_hash = sys.argv[1:7]
 write_rev = os.environ['WRITE_REV'] == 'true'
 
 with open(nix_file) as f:
@@ -201,11 +229,18 @@ with open(nix_file) as f:
 content = re.sub(r'(^  version = \")([^\"]+)(\")', lambda m: m.group(1) + version + m.group(3), content, count=1, flags=re.MULTILINE)
 if write_rev:
     content = re.sub(r'(^    rev = \")([^\"]+)(\")', lambda m: m.group(1) + rev + m.group(3), content, count=1, flags=re.MULTILINE)
-content = re.sub(r'(^    hash = \")([^\"]+)(\")', lambda m: m.group(1) + source_hash + m.group(3), content, count=1, flags=re.MULTILINE)
+# Anchor the source hash to the rev line so an auxiliary fetchurl hash elsewhere
+# in the file is never mistaken for it.
+content, n = re.subn(r'(rev = \"[^\"]*\";\s*\n\s*hash = \")([^\"]+)(\")', lambda m: m.group(1) + source_hash + m.group(3), content, count=1)
+assert n == 1, 'could not locate the source hash (rev/hash block)'
 content = re.sub(r'(^  npmDepsHash = \")([^\"]+)(\")', lambda m: m.group(1) + npm_deps_hash + m.group(3), content, count=1, flags=re.MULTILINE)
+# Auxiliary data tarball: rewrite the hash following its .tgz url line.
+if data_hash:
+    content, n = re.subn(r'(url = \"[^\"]*\.tgz\";\s*\n\s*hash = \")([^\"]+)(\")', lambda m: m.group(1) + data_hash + m.group(3), content, count=1)
+    assert n == 1, 'could not locate the data tarball hash (url/hash block)'
 
 with open(nix_file, 'w') as f:
     f.write(content)
-" "$NIX_FILE" "$TARGET_VERSION" "$REV_ARG" "$SOURCE_HASH" "$NPM_DEPS_HASH"
+" "$NIX_FILE" "$TARGET_VERSION" "$REV_ARG" "$SOURCE_HASH" "$NPM_DEPS_HASH" "$DATA_HASH"
   echo "Done. Verify, test, and commit."
 fi
