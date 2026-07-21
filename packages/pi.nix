@@ -1,8 +1,15 @@
 { pkgs }:
 
+let
+  version = "0.81.0";
+  piAiModelData = pkgs.fetchurl {
+    url = "https://registry.npmjs.org/@earendil-works/pi-ai/-/pi-ai-${version}.tgz";
+    hash = "sha256-YuCrwc/6xDHQkcvI6I7u/LTEKLx40nAuxSvPXe/h/1o=";
+  };
+in
 pkgs.buildNpmPackage {
   pname = "pi";
-  version = "0.81.0";
+  inherit version;
 
   src = pkgs.fetchFromGitHub {
     owner = "earendil-works";
@@ -33,9 +40,13 @@ pkgs.buildNpmPackage {
   npmBuildScript = "build";
 
   preBuild = ''
+    mkdir -p packages/ai/src/providers/data
+    tar -xzf ${piAiModelData} -C packages/ai/src/providers/data \
+      --strip-components=4 package/dist/providers/data
+
     substituteInPlace packages/ai/package.json \
-      --replace-fail '"build": "npm run generate-models && npm run generate-image-models && tsgo -p tsconfig.build.json"' \
-                      '"build": "tsgo -p tsconfig.build.json"'
+      --replace-fail '"build": "npm run generate-models && npm run build:offline"' \
+                      '"build": "npm run build:offline"'
   '';
 
   dontNpmInstall = true;
