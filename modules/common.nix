@@ -16,40 +16,16 @@
 
   _module.args.isNixOS = true;
 
-  # Basic system configuration that all systems should have
+  # Nix settings: Determinate Nix writes its own /etc/nix/nix.conf.
+  # Settings here go to /etc/nix/nix.custom.conf and are appended.
   nix = {
-    # Automatic garbage collection
     gc = {
       automatic = true;
       dates = "weekly";
       options = "--delete-older-than 7d";
     };
-
     settings = {
-      # Trusted users for binary cache
-      trusted-users = [
-        "root"
-        "@wheel"
-      ];
-
-      # Substituters
-      substituters = [
-        "https://cache.nixos.org/"
-        "https://nix-community.cachix.org"
-        "https://cache.flakehub.com"
-      ];
-
-      trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
-      ];
-
-      # Use all available CPU cores for parallel builds
       max-jobs = lib.mkDefault "auto";
-      cores = lib.mkDefault 0;
-
-      # Parallel substitution downloads
       http-connections = lib.mkDefault 128;
       max-substitution-jobs = lib.mkDefault 128;
     };
