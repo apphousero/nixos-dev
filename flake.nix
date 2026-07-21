@@ -4,24 +4,12 @@
   inputs = {
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos-wsl = {
-      url = "github:nix-community/NixOS-WSL";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    vscode-server = {
-      url = "github:nix-community/nixos-vscode-server";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixvim = { url = "github:nix-community/nixvim"; };
+    home-manager = { url = "github:nix-community/home-manager"; };
+    nixos-wsl = { url = "github:nix-community/NixOS-WSL"; };
+    vscode-server = { url = "github:nix-community/nixos-vscode-server"; };
     determinate = {
-      url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+      url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
     };
   };
 
