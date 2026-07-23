@@ -1,10 +1,10 @@
 { pkgs }:
 
 let
-  version = "0.81.0";
+  version = "0.81.1";
   piAiModelData = pkgs.fetchurl {
     url = "https://registry.npmjs.org/@earendil-works/pi-ai/-/pi-ai-${version}.tgz";
-    hash = "sha256-YuCrwc/6xDHQkcvI6I7u/LTEKLx40nAuxSvPXe/h/1o=";
+    hash = "sha256-x53MD5DU370ZdNoz36P+OWZjGVpoM5sfVcEU2/ckDy8=";
   };
 in
 pkgs.buildNpmPackage {
@@ -14,11 +14,11 @@ pkgs.buildNpmPackage {
   src = pkgs.fetchFromGitHub {
     owner = "earendil-works";
     repo = "pi-mono";
-    rev = "9c480b6ad2c7419875a7a850fb4ad5f9232313b8";
-    hash = "sha256-/TIYea6baa0vlz2G5wUv1aOknjEdo8zoo7eZI0Afjmk=";
+    rev = "20be4b18d4c57487f8993d2762bace129f0cf7c6";
+    hash = "sha256-xo3uoR7HceOCL3wqoMcacOe8WXP1o7ReAXne5t6Hgao=";
   };
 
-  npmDepsHash = "sha256-i0RwHPWBD06nh7FCM5F3R4kTOkH+7ulLFwIIDdH0vH0=";
+  npmDepsHash = "sha256-lzKQZbnITzgV9koucsMno6f61ubBLYUcwQEXtak1r1s=";
 
   nodejs = pkgs.nodejs_22;
 
