@@ -105,6 +105,8 @@
     openssl
     # PostgreSQL client
     postgresql
+    # killall, fuser, pstree, etc.
+    psmisc
     # PeteTong
     python3
     # A super file explorer
