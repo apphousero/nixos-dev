@@ -193,5 +193,12 @@
           "home-x86_64" = mkHome systemX86_64;
           "home-aarch64" = mkHome systemAarch64;
         };
+
+      packages = nixpkgs.lib.genAttrs [ systemX86_64 systemAarch64 ] (system: let
+        pkgs' = nixpkgs.legacyPackages.${system};
+      in {
+        pi-acp = pkgs'.callPackage ./packages/pi-acp.nix { };
+        claude-agent-acp = pkgs'.callPackage ./packages/claude-agent-acp.nix { };
+      });
     };
 }
