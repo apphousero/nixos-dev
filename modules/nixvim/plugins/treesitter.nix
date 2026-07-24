@@ -35,7 +35,6 @@
       rust
       sql
       ssh_config
-      tmux
       tsx
       typescript
       vim
