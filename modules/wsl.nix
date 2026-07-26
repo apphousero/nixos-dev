@@ -83,9 +83,6 @@ in
     environment = {
       variables = {
         BROWSER = "${system32}/cmd.exe /c start";
-        USERPROFILE = "${winMount}/Users/${winUser}";
-        APPDATA = "${winMount}/Users/${winUser}/AppData/Roaming";
-        WSLENV = "USERPROFILE/p:APPDATA/p";
       };
 
       shellAliases = {
@@ -94,7 +91,7 @@ in
         notepad = "${system32}/notepad.exe";
         cmd = "${system32}/cmd.exe";
         powershell = "${system32}/WindowsPowerShell/v1.0/powershell.exe";
-        code = "${vscodeBin}/code.cmd";
+        code = "'${vscodeBin}/code'";
       };
     };
   };
