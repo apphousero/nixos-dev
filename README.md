@@ -28,6 +28,30 @@ sudo nixos-rebuild switch --flake .#wsl-aarch64 --show-trace
 sudo nixos-rebuild switch --flake github:apphousero/nixos-dev#wsl-aarch64
 ```
 
+## WSL Options
+
+The WSL module exposes options under `nixos-dev.wsl` for locating per-user
+Windows executables (VS Code, `explorer`, `powershell`, ...) from inside WSL.
+They default to the Linux user and `/mnt/c`, so most setups need no changes.
+Override them in a downstream flake when the Windows account name differs from
+the Linux user, or the C: drive is mounted elsewhere:
+
+```nix
+{
+  # inside a NixOS module of your downstream flake
+  nixos-dev.wsl = {
+    # Linux user created inside WSL, wired to `wsl.defaultUser`.
+    # Defaults to "andrei".
+    defaultUser = "john";
+    # Windows-side username used to build per-user Windows paths.
+    # Defaults to `wsl.defaultUser` (i.e. the value above).
+    windowsUsername = "john";
+    # Mount point of the Windows C: drive inside WSL. Defaults to "/mnt/c".
+    windowsMount = "/mnt/c";
+  };
+}
+```
+
 ## Use as Home Manager Module (non-NixOS)
 
 ### Apply Directly
