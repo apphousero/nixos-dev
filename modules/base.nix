@@ -31,6 +31,11 @@
   _module.args.sharedPackages = with pkgs; [
     # Custom tmux session launcher
     (writeScriptBin "mm" (builtins.readFile ./scripts/sh/mm.sh))
+    # Attach to tmux, or resurrect the last saved session if none is running
+    (writeShellScriptBin "rmux" ''
+      export RESTORE_SCRIPT="${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/restore.sh"
+      ${builtins.readFile ./scripts/sh/rmux.sh}
+    '')
     # Grep for something else
     ast-grep
     # Simple CLI GUI Postman like
