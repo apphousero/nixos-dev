@@ -2,16 +2,16 @@
 
 pkgs.buildNpmPackage {
   pname = "pi-acp";
-  version = "0.0.32";
+  version = "0.0.33";
 
   src = pkgs.fetchFromGitHub {
     owner = "svkozak";
     repo = "pi-acp";
-    rev = "2f6e3c530819489bd09a84139b0b757df6895556";
-    hash = "sha256-NksKacRpopm8lAaOG9tbHxJAcr4rlU0uL3dl/VkFbAA=";
+    rev = "1bfcb394088ed879db8fd936b570bb626017f878";
+    hash = "sha256-fENOOdooi4XbIDjcr02q8qzUCzdo2IW/Bca43SawZ44=";
   };
 
-  npmDepsHash = "sha256-sRBrTwBwo8pcOy5WGDxHE86fvldgOtlppuvcbiB+7uc=";
+  npmDepsHash = "sha256-/fX79XucKojL/6gZbK5eizEfrXso8rlTgiHfJffmDuY=";
 
   nodejs = pkgs.nodejs_22;
 
