@@ -199,6 +199,7 @@
       in {
         pi-acp = pkgs'.callPackage ./packages/pi-acp.nix { };
         claude-agent-acp = pkgs'.callPackage ./packages/claude-agent-acp.nix { };
+        aoaoe = pkgs'.callPackage ./packages/aoaoe.nix { };
       });
     };
 }
