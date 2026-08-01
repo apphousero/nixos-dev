@@ -7,11 +7,11 @@ pkgs.buildNpmPackage {
   src = pkgs.fetchFromGitHub {
     owner = "Talador12";
     repo = "agent-of-agent-of-empires";
-    rev = "0000000000000000000000000000000000000000";
-    hash = pkgs.lib.fakeHash;
+    rev = "34926ae9684d2bfaa7ba3bcace417deee06d7b01";
+    hash = "sha256-/UF8S21XC1kjp6TNjmjBDxau2lEQ11xNQR2HENFXPjk=";
   };
 
-  npmDepsHash = pkgs.lib.fakeHash;
+  npmDepsHash = "sha256-qwdC9I3L/ntxtwxP/BpIzjwBgEaudrv6SEC1xB8qZ3U=";
 
   nodejs = pkgs.nodejs_22;
 
