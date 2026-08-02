@@ -6,6 +6,9 @@
   zsh,
   ...
 }:
+let
+  lspPackages = import ./nixvim/lsp-packages.nix { inherit config lib; };
+in
 {
   imports = [
     ./base.nix
@@ -38,6 +41,7 @@
   # Basic system packages that should be available everywhere
   environment.systemPackages =
     sharedPackages
+    ++ lspPackages
     ++ (with pkgs; [
     ]);
 

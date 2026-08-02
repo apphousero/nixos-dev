@@ -1,4 +1,5 @@
 {
+  config,
   devPackages,
   lib,
   pkgs,
@@ -6,6 +7,9 @@
   zsh,
   ...
 }:
+let
+  lspPackages = import ./nixvim/lsp-packages.nix { inherit config lib; };
+in
 {
   imports = [
     ./base.nix
@@ -34,6 +38,7 @@
   home.packages =
     sharedPackages
     ++ devPackages
+    ++ lspPackages
     ++ (with pkgs; [
       spotify-player
       (pkgs.callPackage ../packages/pi.nix { })
