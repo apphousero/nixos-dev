@@ -2,13 +2,15 @@
   description = "AppHouse NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
+    nixpkgs = { url = "https://flakehub.com/f/NixOS/nixpkgs/0"; };
     nixvim = { url = "github:nix-community/nixvim"; };
     home-manager = { url = "github:nix-community/home-manager"; };
     nixos-wsl = { url = "github:nix-community/NixOS-WSL"; };
     vscode-server = { url = "github:nix-community/nixos-vscode-server"; };
-    determinate = {
-      url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+    determinate = { url = "https://flakehub.com/f/DeterminateSystems/determinate/3"; };
+    oh-my-pi-flake = {
+      url = "github:apphousero/oh-my-pi-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -21,11 +23,15 @@
       self,
       vscode-server,
       determinate,
+      oh-my-pi-flake,
       ...
     }@inputs:
     let
       systemAarch64 = "aarch64-linux";
       systemX86_64 = "x86_64-linux";
+      ompOverlay = {
+        nixpkgs.overlays = [ oh-my-pi-flake.overlays.default ];
+      };
       mkSystem =
         system: hostname:
         nixpkgs.lib.nixosSystem {
@@ -37,6 +43,7 @@
                 home-manager.nixosModules.home-manager
                 nixvim.nixosModules.nixvim
                 determinate.nixosModules.default
+                ompOverlay
                 (./hosts + "/${hostname}.nix")
               ];
               devModules =
@@ -78,6 +85,7 @@
           {
             imports = [
               nixvim.homeModules.nixvim
+              oh-my-pi-flake.homeManagerModules.default
               ./modules/home.nix
             ];
           };
@@ -96,6 +104,7 @@
               home-manager.nixosModules.default
               nixvim.nixosModules.default
               determinate.nixosModules.default
+              ompOverlay
               ./modules/development.nix
             ];
           };
@@ -111,6 +120,7 @@
               home-manager.nixosModules.default
               nixvim.nixosModules.default
               determinate.nixosModules.default
+              ompOverlay
               ./modules/desktop.nix
             ];
           };
@@ -159,6 +169,7 @@
               determinate.nixosModules.default
               nixos-wsl.nixosModules.default
               vscode-server.nixosModules.default
+              ompOverlay
               ./modules/wsl.nix
             ];
           };
@@ -181,6 +192,7 @@
               pkgs = nixpkgs.legacyPackages.${system};
               modules = [
                 nixvim.homeModules.nixvim
+                oh-my-pi-flake.homeManagerModules.default
                 ./modules/home.nix
                 {
                   home.username = "andrei";

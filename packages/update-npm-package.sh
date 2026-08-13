@@ -4,7 +4,7 @@
 # Automates bumping a *.nix file to a newer version of an upstream npm package
 # that is built from its GitHub source. Callers configure it via environment
 # variables (see below) and pass through the version/--dry-run arguments; the
-# per-package wrappers (update-pi.sh, update-pi-acp.sh, ...) are thin shims
+# per-package wrappers (update-pi-acp.sh, update-claude-agent-acp.sh, ...) are thin shims
 # around this script.
 #
 # Usage (via a wrapper, or directly with the env vars set):

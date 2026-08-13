@@ -41,8 +41,9 @@ in
     ++ lspPackages
     ++ (with pkgs; [
       spotify-player
-      (pkgs.callPackage ../packages/pi.nix { })
     ]);
+
+  programs.oh-my-pi.enable = true;
 
   # ── Environment variables ───────────────────────────────────────────────
   home.sessionVariables = {
