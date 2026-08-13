@@ -43,6 +43,8 @@ in
       spotify-player
     ]);
 
+  programs.oh-my-pi.enable = true;
+
   # ── Environment variables ───────────────────────────────────────────────
   home.sessionVariables = {
     VISUAL = "nvim";

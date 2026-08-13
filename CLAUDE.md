@@ -40,11 +40,11 @@ This flake is referenced by other flakes - changes may affect downstream consume
 ## Flake Exports
 
 ### `nixosModules`
-- `development` - Full development module (imports home-manager, nixvim, determinate, development.nix)
-- `desktop` - Full desktop module (imports home-manager, nixvim, determinate, desktop.nix)
+- `development` - Full development module (imports home-manager, nixvim, determinate, oh-my-pi overlay, development.nix)
+- `desktop` - Full desktop module (imports home-manager, nixvim, determinate, oh-my-pi overlay, desktop.nix)
 
 ### `homeModules`
-- `default` - Home Manager configuration (imports nixvim, home.nix)
+- `default` - Home Manager configuration (imports nixvim, oh-my-pi Home Manager module, home.nix)
 
 Host-specific modules (`devModules`, `desktopModules`, `wslModules`) are applied inside the flake's `nixosConfigurations` based on hostname.
 
@@ -56,6 +56,7 @@ Host-specific modules (`devModules`, `desktopModules`, `wslModules`) are applied
 - nixos-wsl
 - vscode-server
 - determinate
+- oh-my-pi-flake (`omp` agent: overlay for NixOS, Home Manager module for `programs.oh-my-pi`)
 
 ## Guidelines
 

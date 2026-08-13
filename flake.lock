@@ -386,6 +386,26 @@
         "type": "github"
       }
     },
+    "oh-my-pi-flake": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1786650020,
+        "narHash": "sha256-WjDwTQKtZrZgRCVMwJNlfenjII9wgmUWXTwVA9QCx/0=",
+        "owner": "apphousero",
+        "repo": "oh-my-pi-flake",
+        "rev": "0c4b6a2872896ffd7b70657b3f2d8c57ad582553",
+        "type": "github"
+      },
+      "original": {
+        "owner": "apphousero",
+        "repo": "oh-my-pi-flake",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "determinate": "determinate",
@@ -393,6 +413,7 @@
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_5",
         "nixvim": "nixvim",
+        "oh-my-pi-flake": "oh-my-pi-flake",
         "vscode-server": "vscode-server"
       }
     },

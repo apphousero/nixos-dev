@@ -19,7 +19,7 @@
   };
 
   # Development system packages that should be available everywhere
-  environment.systemPackages = devPackages;
+  environment.systemPackages = devPackages ++ [ pkgs.oh-my-pi ];
 
   environment.sessionVariables = {
     DOTNET_ROOT = "${pkgs.dotnetCorePackages.sdk_10_0}";
