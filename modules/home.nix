@@ -41,7 +41,6 @@ in
     ++ lspPackages
     ++ (with pkgs; [
       spotify-player
-      (pkgs.callPackage ../packages/pi.nix { })
     ]);
 
   # ── Environment variables ───────────────────────────────────────────────

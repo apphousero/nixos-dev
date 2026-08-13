@@ -28,8 +28,10 @@ This flake is referenced by other flakes - changes may affect downstream consume
     - `default.nix`
   - `scripts/` - Custom scripts (`sh/`)
 - `packages/` - Custom Nix packages
-  - `pi.nix` - `pi` AI coding agent package
-  - `update-aph-pi.sh` - Script to update `pi` version
+  - `pi-acp.nix` - `pi-acp` ACP adapter package
+  - `claude-agent-acp.nix` - `claude-agent-acp` package
+  - `aoaoe.nix` - `aoaoe` supervisor package
+  - `update-*.sh` - Scripts to update package versions
   - `README.md` - Package documentation
 - `res/samples/` - Sample configurations
 - `.github/workflows/build-and-publish.yml` - CI/CD pipeline
