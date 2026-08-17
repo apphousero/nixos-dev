@@ -177,8 +177,6 @@
     gh
     # GCP CLI
     google-cloud-sdk
-    # and Gemini CLI
-    gemini-cli
     # ping but with graph
     gping
     # kubectl and its relatives
@@ -198,11 +196,6 @@
     node-gyp
     # aaah, mermaid
     mermaid-cli
-    # Mistral CLI
-    (mistral-vibe.overrideAttrs (old: rec {
-      doCheck = false;
-      doInstallCheck = false;
-    }))
     # HTTP load generator
     oha
     # For certificates
@@ -217,8 +210,6 @@
         xcolor
       ]
     ))
-    # Qwen code
-    qwen-code
     # tldr any command instead of man, e.g. tldr fd
     tldr
     # HTTP load testing tool
