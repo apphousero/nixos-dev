@@ -208,10 +208,15 @@
 
       packages = nixpkgs.lib.genAttrs [ systemX86_64 systemAarch64 ] (system: let
         pkgs' = nixpkgs.legacyPackages.${system};
+        pkgsUnfree = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
       in {
         pi-acp = pkgs'.callPackage ./packages/pi-acp.nix { };
         claude-agent-acp = pkgs'.callPackage ./packages/claude-agent-acp.nix { };
         aoaoe = pkgs'.callPackage ./packages/aoaoe.nix { };
+        mistral-vibe = pkgsUnfree.callPackage ./packages/mistral-vibe.nix { };
       });
     };
 }

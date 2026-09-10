@@ -43,3 +43,10 @@ Custom Nix packages for `nixos-dev`.
 ./packages/update-aoaoe.sh --dry-run 8.0.0
 ```
 
+## mistral-vibe
+
+[mistral-vibe](https://github.com/mistralai/mistral-vibe) - Mistral CLI, re-exported from nixpkgs with `doCheck`/`doInstallCheck` disabled (upstream tests fail in the Nix sandbox).
+
+- Binary: `vibe`
+- Version follows the pinned `nixpkgs`; no update script needed.
+
