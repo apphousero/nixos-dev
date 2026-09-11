@@ -266,6 +266,7 @@
       mn = "myvim";
       rtty = "clear; exec $SHELL";
       n = "nitch";
+      ta = "tmux attach";
       tk = "tmux kill-session";
     };
     interactiveShellInit = ''

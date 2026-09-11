@@ -43,3 +43,11 @@ Custom Nix packages for `nixos-dev`.
 ./packages/update-aoaoe.sh --dry-run 8.0.0
 ```
 
+## mistral-vibe
+
+[mistral-vibe](https://github.com/mistralai/mistral-vibe) - Mistral CLI, re-exported from nixpkgs with the upstream pytest suite skipped via `dontUsePytestCheck = true` (the ~2900 Textual/pytest-asyncio tests are flaky under `pytest-xdist`, and there is no aarch64 cache hit so every rebuild would run them). `pythonImportsCheck` and `versionCheckHook` still run, so `import vibe` and `vibe --version` are verified at build time.
+
+- Binary: `vibe`
+- Version follows the pinned `nixpkgs`; no update script needed.
+- Applied to `pkgs.mistral-vibe` by the overlay in `nixosModules.development` / `desktop` / `wsl`; also available directly as `nixos-dev.packages.${system}.mistral-vibe`.
+

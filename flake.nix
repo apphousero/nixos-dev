@@ -29,8 +29,14 @@
     let
       systemAarch64 = "aarch64-linux";
       systemX86_64 = "x86_64-linux";
-      ompOverlay = {
-        nixpkgs.overlays = [ oh-my-pi-flake.overlays.default ];
+      localOverlay = _final: prev: {
+        mistral-vibe = import ./packages/mistral-vibe.nix { pkgs = prev; };
+      };
+      overlaysModule = {
+        nixpkgs.overlays = [
+          oh-my-pi-flake.overlays.default
+          localOverlay
+        ];
       };
       mkSystem =
         system: hostname:
@@ -43,7 +49,7 @@
                 home-manager.nixosModules.home-manager
                 nixvim.nixosModules.nixvim
                 determinate.nixosModules.default
-                ompOverlay
+                overlaysModule
                 (./hosts + "/${hostname}.nix")
               ];
               devModules =
@@ -104,7 +110,7 @@
               home-manager.nixosModules.default
               nixvim.nixosModules.default
               determinate.nixosModules.default
-              ompOverlay
+              overlaysModule
               ./modules/development.nix
             ];
           };
@@ -120,7 +126,7 @@
               home-manager.nixosModules.default
               nixvim.nixosModules.default
               determinate.nixosModules.default
-              ompOverlay
+              overlaysModule
               ./modules/desktop.nix
             ];
           };
@@ -169,7 +175,7 @@
               determinate.nixosModules.default
               nixos-wsl.nixosModules.default
               vscode-server.nixosModules.default
-              ompOverlay
+              overlaysModule
               ./modules/wsl.nix
             ];
           };
@@ -208,10 +214,15 @@
 
       packages = nixpkgs.lib.genAttrs [ systemX86_64 systemAarch64 ] (system: let
         pkgs' = nixpkgs.legacyPackages.${system};
+        pkgsUnfree = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
       in {
         pi-acp = pkgs'.callPackage ./packages/pi-acp.nix { };
         claude-agent-acp = pkgs'.callPackage ./packages/claude-agent-acp.nix { };
         aoaoe = pkgs'.callPackage ./packages/aoaoe.nix { };
+        mistral-vibe = pkgsUnfree.callPackage ./packages/mistral-vibe.nix { };
       });
     };
 }
