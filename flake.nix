@@ -29,8 +29,14 @@
     let
       systemAarch64 = "aarch64-linux";
       systemX86_64 = "x86_64-linux";
-      ompOverlay = {
-        nixpkgs.overlays = [ oh-my-pi-flake.overlays.default ];
+      localOverlay = _final: prev: {
+        mistral-vibe = import ./packages/mistral-vibe.nix { pkgs = prev; };
+      };
+      overlaysModule = {
+        nixpkgs.overlays = [
+          oh-my-pi-flake.overlays.default
+          localOverlay
+        ];
       };
       mkSystem =
         system: hostname:
@@ -43,7 +49,7 @@
                 home-manager.nixosModules.home-manager
                 nixvim.nixosModules.nixvim
                 determinate.nixosModules.default
-                ompOverlay
+                overlaysModule
                 (./hosts + "/${hostname}.nix")
               ];
               devModules =
@@ -104,7 +110,7 @@
               home-manager.nixosModules.default
               nixvim.nixosModules.default
               determinate.nixosModules.default
-              ompOverlay
+              overlaysModule
               ./modules/development.nix
             ];
           };
@@ -120,7 +126,7 @@
               home-manager.nixosModules.default
               nixvim.nixosModules.default
               determinate.nixosModules.default
-              ompOverlay
+              overlaysModule
               ./modules/desktop.nix
             ];
           };
@@ -169,7 +175,7 @@
               determinate.nixosModules.default
               nixos-wsl.nixosModules.default
               vscode-server.nixosModules.default
-              ompOverlay
+              overlaysModule
               ./modules/wsl.nix
             ];
           };
