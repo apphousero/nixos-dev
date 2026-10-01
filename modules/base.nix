@@ -201,7 +201,6 @@
     # For certificates
     openssl
     # For docs
-    docling
     python3Packages.markitdown
     pandoc
     python3Packages.virtualenv
