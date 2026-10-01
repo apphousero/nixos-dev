@@ -24,23 +24,10 @@
 
   # Environment optimizations
   environment = {
-    # WSL-specific environment variables
+    # WSL-specific environment variables (BROWSER and Windows interop aliases
+    # come from modules/wsl.nix, which derives the paths from winMount/winUser)
     variables = {
-      # Use Windows browser for opening URLs
-      BROWSER = "/mnt/c/Windows/System32/cmd.exe /c start";
-      # WSL-specific paths
       WSLENV = "USERPROFILE/p:APPDATA/p";
-    };
-
-    # Shell aliases for WSL convenience
-    shellAliases = {
-      # Quick access to Windows directories
-      cdwin = "cd /mnt/c/Users/$USER";
-      # Windows interop
-      explorer = "explorer.exe";
-      notepad = "notepad.exe";
-      cmd = "cmd.exe";
-      powershell = "powershell.exe";
     };
   };
 }
