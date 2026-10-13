@@ -2,16 +2,16 @@
 
 pkgs.buildNpmPackage {
   pname = "claude-agent-acp";
-  version = "0.88.0";
+  version = "0.89.1";
 
   src = pkgs.fetchFromGitHub {
     owner = "agentclientprotocol";
     repo = "claude-agent-acp";
-    rev = "d43fec3fa3118e88ff8a8ed99b85d2a5f444e538";
-    hash = "sha256-xLS5aCBOwFEaQgPiRhdUWV7rQFa7H0DQ1vFYtqZRERU=";
+    rev = "4e1fc1e8df2b9af3b1b2d6880ba90c5862283ba8";
+    hash = "sha256-BjvDhs6GYgJQFYwnWC2qzz+zB4UQERA8RbgvzzFTDNE=";
   };
 
-  npmDepsHash = "sha256-4rJRg46lpT5ts4JRQEd7FsyA6OUO5zAU41Ctnv9CjZ4=";
+  npmDepsHash = "sha256-2kYULgvRwfA/OL9Yiy8hYb37M4heFRkYwU9Bc0V1YLk=";
 
   nodejs = pkgs.nodejs_22;
 
