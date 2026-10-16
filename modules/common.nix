@@ -3,6 +3,7 @@
   lib,
   pkgs,
   sharedPackages,
+  sharedShellAliases,
   zsh,
   ...
 }:
@@ -44,6 +45,8 @@ in
     ++ lspPackages
     ++ (with pkgs; [
     ]);
+
+  environment.shellAliases = sharedShellAliases;
 
   environment.variables = {
     VISUAL = "nvim";
@@ -170,7 +173,6 @@ in
       autosuggestions.enable = true;
       syntaxHighlighting.enable = true;
       promptInit = zsh.promptInit;
-      shellAliases = zsh.shellAliases;
       interactiveShellInit = zsh.interactiveShellInit;
     };
   };

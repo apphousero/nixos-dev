@@ -222,6 +222,28 @@
     yarn
   ];
 
+  # Shared shell aliases deployed identically in both contexts:
+  # NixOS via `environment.shellAliases`, Home Manager via `home.shellAliases`
+  # (both feed bash and zsh).
+  _module.args.sharedShellAliases = {
+    la = "eza -la";
+    l = "la";
+    ld = "lazydocker";
+    lg = "lazygit";
+    lj = "lazyjournal";
+    gs = "git status";
+    node24 = "nix shell nixpkgs#nodejs_24";
+    node22 = "nix shell nixpkgs#nodejs_22";
+    node20 = "nix shell nixpkgs#nodejs_20";
+    node18 = "nix shell nixpkgs#nodejs_18";
+    myvim = "nvim .";
+    mn = "myvim";
+    rtty = "clear; exec $SHELL";
+    n = "nitch";
+    ta = "tmux attach";
+    tk = "tmux kill-session";
+  };
+
   _module.args.zsh = {
     promptInit = ''
       # Load zinit
@@ -250,24 +272,6 @@
         nitch
       fi
     '';
-    shellAliases = {
-      la = "eza -la";
-      l = "la";
-      ld = "lazydocker";
-      lg = "lazygit";
-      lj = "lazyjournal";
-      gs = "git status";
-      node24 = "nix shell nixpkgs#nodejs_24";
-      node22 = "nix shell nixpkgs#nodejs_22";
-      node20 = "nix shell nixpkgs#nodejs_20";
-      node18 = "nix shell nixpkgs#nodejs_18";
-      myvim = "nvim .";
-      mn = "myvim";
-      rtty = "clear; exec $SHELL";
-      n = "nitch";
-      ta = "tmux attach";
-      tk = "tmux kill-session";
-    };
     interactiveShellInit = ''
       shhh() {
         if [[ -n "$SSH_CONNECTION" || -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
