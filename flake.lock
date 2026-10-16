@@ -408,11 +408,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792047105,
-        "narHash": "sha256-eZ5APiTxkoNVLpeBzPjvonxyVpDE8peYqMDPd35cDWU=",
+        "lastModified": 1792149919,
+        "narHash": "sha256-LVJqK2z0QkVUodj5ocgR7b2fT8VhspceduMzlAvEhI0=",
         "owner": "apphousero",
         "repo": "oh-my-pi-flake",
-        "rev": "ef67954b503002665aec17d6fd25ceb02e642c33",
+        "rev": "ac3816cc1202c6918374088ccdc7477cb51473c3",
         "type": "github"
       },
       "original": {
