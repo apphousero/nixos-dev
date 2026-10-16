@@ -4,6 +4,7 @@
   lib,
   pkgs,
   sharedPackages,
+  sharedShellAliases,
   zsh,
   ...
 }:
@@ -45,6 +46,8 @@ in
 
   programs.oh-my-pi.enable = true;
 
+  home.shellAliases = sharedShellAliases;
+
   # ── Environment variables ───────────────────────────────────────────────
   home.sessionVariables = {
     VISUAL = "nvim";
@@ -83,7 +86,6 @@ in
     };
     zsh = {
       enable = true;
-      shellAliases = zsh.shellAliases;
       initContent = ''
         ${zsh.promptInit}
         ${zsh.interactiveShellInit}
