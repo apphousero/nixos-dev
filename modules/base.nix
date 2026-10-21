@@ -242,6 +242,7 @@
     n = "nitch";
     ta = "tmux attach";
     tk = "tmux kill-session";
+    txx = "tmux kill-server";
   };
 
   _module.args.zsh = {
