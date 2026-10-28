@@ -238,6 +238,7 @@
     node18 = "nix shell nixpkgs#nodejs_18";
     myvim = "nvim .";
     mn = "myvim";
+    o = "omp";
     rtty = "clear; exec $SHELL";
     n = "nitch";
     ta = "tmux attach";
