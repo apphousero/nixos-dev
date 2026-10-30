@@ -52,6 +52,45 @@ the Linux user, or the C: drive is mounted elsewhere:
 }
 ```
 
+## USB Devices (USB/IP)
+
+The WSL module enables `wsl.usbip`, which installs the `usbip` client and
+udev inside WSL. WSL2 has no direct USB passthrough, so devices are shared
+from Windows over USB/IP using [usbipd-win](https://github.com/dorssel/usbipd-win)
+(x64 and ARM64).
+
+One-time setup in an **elevated** `PowerShell` on Windows:
+
+```powershell
+winget install --interactive --exact dorssel.usbipd-win
+usbipd list                     # find the BUSID of the device, e.g. 4-1
+usbipd bind --busid <BUSID>     # share it (persists across reboots)
+```
+
+Attach the device to WSL (non-elevated is fine after `bind`):
+
+```powershell
+usbipd attach --wsl --busid <BUSID>
+```
+
+Inside WSL, verify with `usbip port`. While attached, the device is unavailable
+to Windows; release it with `usbipd detach --busid <BUSID>`.
+
+To re-attach devices automatically after `wsl --shutdown`, list their bus IDs
+in a downstream flake:
+
+```nix
+{
+  wsl.usbip = {
+    autoAttach = [ "4-1" ];
+    # required when .wslconfig uses networkingMode=mirrored
+    # snippetIpAddress = "127.0.0.1";
+  };
+}
+```
+
+Disable it with `wsl.usbip.enable = false;`.
+
 ## Use as Home Manager Module (non-NixOS)
 
 ### Apply Directly

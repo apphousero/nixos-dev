@@ -63,6 +63,7 @@ in
         network.generateHosts = lib.mkDefault false;
       };
       interop.register = lib.mkDefault true;
+      usbip.enable = lib.mkDefault true;
     };
 
     services.vscode-server.enable = lib.mkDefault true;
