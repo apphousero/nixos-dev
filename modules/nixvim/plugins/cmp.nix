@@ -15,7 +15,9 @@
           "<C-y>" = "cmp.mapping.confirm({ select = true })";
           "<C-f>" = "cmp.mapping.complete()";
           "<CR>" = "cmp.mapping.confirm({ select = true })";
+          "<A-y>" = "require('minuet').make_cmp_map()";
         };
+        performance.fetching_timeout = 2000;
         sources =
           lib.optionals nixvim.copilot.code [
             {
@@ -24,6 +26,10 @@
             }
           ]
           ++ [
+            {
+              name = "minuet";
+              group_index = 2;
+            }
             {
               name = "nvim_lsp";
               group_index = 2;

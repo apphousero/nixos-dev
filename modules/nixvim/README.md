@@ -71,6 +71,32 @@ All leader-based to work reliably in terminal, tmux, SSH+tmux, and WSL2.
 | Normal | `<leader>cm` | `:CopilotChatModels` | Select model |
 | Normal | `<leader>cx` | `:CopilotChatReset` | Reset chat history |
 
+### CodeCompanion Keymaps (plugins/codecompanion.nix)
+
+CodeCompanion uses the Mistral API with model `zai-glm-latest` for chat, inline and command interactions; `mistral-medium-latest` is selectable from the chat (`ga`).
+It is set up only when `MISTRAL_API_KEY` is set and non-empty when Neovim starts; otherwise the plugin, its commands and these keymaps are not registered.
+
+| Mode | Key | Action | Description |
+|------|-----|--------|-------------|
+| Normal/Visual | `<leader>aa` | `:CodeCompanionActions` | Open the action palette |
+| Normal | `<leader>ac` | `:CodeCompanionChat Toggle` | Toggle chat buffer |
+| Visual | `<leader>ac` | `:CodeCompanionChat Add` | Add selection to the chat |
+| Normal | `<leader>an` | `:CodeCompanionChat` | Open a new chat |
+| Normal | `<leader>ai` | `:CodeCompanion` | Inline prompt in the current buffer |
+| Visual | `<leader>ai` | `:'<,'>CodeCompanion` | Inline prompt on the selection |
+| Visual | `<leader>ae` | `:'<,'>CodeCompanion /explain` | Explain selected code |
+| Visual | `<leader>af` | `:'<,'>CodeCompanion /fix` | Fix selected code |
+| Visual | `<leader>at` | `:'<,'>CodeCompanion /tests` | Generate tests for selected code |
+
+### AI Autocomplete (plugins/minuet.nix, plugins/cmp.nix)
+
+minuet-ai adds fill-in-the-middle completions from Mistral `codestral-latest` (`https://api.mistral.ai/v1/fim/completions`) as the `minuet` nvim-cmp source.
+Like CodeCompanion, it is set up only when `MISTRAL_API_KEY` is set and non-empty when Neovim starts.
+
+| Mode | Key | Action | Description |
+|------|-----|--------|-------------|
+| Insert | `<A-y>` | `require('minuet').make_cmp_map()` | Request Codestral completions only |
+
 ### LSP Keymaps (plugins/lsp.nix)
 
 | Key | Action | Description |
