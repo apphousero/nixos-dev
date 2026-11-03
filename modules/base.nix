@@ -36,7 +36,7 @@ in
     # Simple CLI GUI Postman like
     atac
     # Can't remember
-    atuin
+    (if stdenv.hostPlatform.isAarch64 then atuin.overrideAttrs { doCheck = false; } else atuin)
     # Cause cat is not styled enough
     bat
     # Monitor resources
