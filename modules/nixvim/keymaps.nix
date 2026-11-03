@@ -57,9 +57,10 @@
     }
     {
       mode = "n";
-      action = ":Git<CR>";
+      action = "<cmd>Git status<CR>";
       key = "<leader>gs";
       options = {
+        desc = "Git status (mini.git)";
         silent = true;
       };
     }
@@ -86,15 +87,15 @@
         "n"
         "v"
       ];
-      action = "[[\"y]]";
+      action = "\"+y";
       key = "<leader>y";
-      options.desc = "Yanks the text that is selected by the motion command that follows, of the previous function or block";
+      options.desc = "Yank into the system clipboard";
     }
     {
       mode = "n";
-      action = "[[\"Y]]";
+      action = "\"+Y";
       key = "<leader>Y";
-      options.desc = "Yanks the entire line of the previous function or block";
+      options.desc = "Yank to end of line into the system clipboard";
     }
     {
       mode = [

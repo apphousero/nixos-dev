@@ -159,10 +159,16 @@ nix build .#nixosConfigurations.wsl-aarch64.config.system.build.toplevel --show-
 
 ## Build ISO
 
+The `dev-*` and `desktop-*` configurations are bootable installer ISOs
+(`installation-cd-minimal` plus the `development` / `desktop` modules):
+
 ```sh
-nix build --flake .#nixosConfigurations.desktop-x86_64.config.system.build.isoImage
-nix build --flake github:apphousero/nixos-dev#nixosConfigurations.desktop-x86_64.config.system.build.isoImage
+nix build .#nixosConfigurations.desktop-x86_64.config.system.build.isoImage
+nix build .#nixosConfigurations.dev-aarch64.config.system.build.isoImage
+nix build github:apphousero/nixos-dev#nixosConfigurations.desktop-x86_64.config.system.build.isoImage
 ```
+
+The image is written to `result/iso/`.
 
 ## Build WSL Distro From Scratch
 

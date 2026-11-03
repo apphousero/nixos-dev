@@ -10,6 +10,7 @@
     };
     extensions = {
       file-browser = {
+        enable = true;
         settings = {
           hidden = true;
           respect_git_ignore = true;
@@ -19,22 +20,21 @@
     settings = {
       defaults = {
         file_ignore_patterns = [
-          ".git/"
+          "%.git/"
           "[Bb]in/"
           "[Oo]bj/"
-          "*~"
+          "~$"
         ];
-        hidden = true;
       };
       pickers = {
         find_files = {
           hidden = true;
         };
         grep_string = {
-          additionl_args = [ "--hidden" ];
+          additional_args = [ "--hidden" ];
         };
         live_grep = {
-          additionl_args = [ "--hidden" ];
+          additional_args = [ "--hidden" ];
         };
       };
     };

@@ -1,10 +1,13 @@
 {
   config,
   isNixOS,
+  lib,
   pkgs,
   ...
 }:
 let
+  sshCheck = ''test -n "$SSH_CLIENT" || test -n "$SSH_TTY" || test -n "$SSH_CONNECTION"'';
+
   # Thanks: https://github.com/DanielFGray/dotfiles/blob/master/tmux.remote.conf
   remoteConf = builtins.toFile "tmux.remote.conf" ''
     unbind C-q
@@ -13,11 +16,43 @@ let
     bind a send-prefix
     bind C-a last-window
     set-option -g status-position top
-    set -g @catppuccin_flavor "mocha"
   '';
+
+  pluginOptions = ''
+    # Catppuccin theme configuration
+    set -g @catppuccin_flavor "frappe"
+    if-shell '${sshCheck}' 'set -g @catppuccin_flavor "mocha"'
+    set -g @catppuccin_window_number "#I"
+    set -g @catppuccin_window_text "#W"
+    set -g @catppuccin_window_current_number "#I"
+    set -g @catppuccin_window_current_text "#W"
+
+    # Resurrect
+    set -g @resurrect-processes 'false'
+
+    set -g @fzf-url-fzf-options '-p 60%,30% --prompt="[open]" --border-label=" Open URL "'
+    set -g @fzf-url-history-limit '2000'
+
+    # Continuum restore
+    set -g @continuum-restore 'off'
+    set -g @continuum-save-interval '0'
+  '';
+
+  plugins = with pkgs.tmuxPlugins; [
+    catppuccin
+    continuum
+    copycat
+    resurrect
+    sensible
+    tmux-fzf
+    tmux-thumbs
+    fzf-tmux-url
+    urlview
+    yank
+  ];
 in
 {
-  programs.tmux = {
+  programs.tmux = lib.optionalAttrs isNixOS { extraConfigBeforePlugins = pluginOptions; } // {
     enable = true;
     shortcut = "q";
     escapeTime = 10;
@@ -25,18 +60,17 @@ in
     terminal = "tmux-256color";
     historyLimit = 10000;
 
-    plugins = with pkgs.tmuxPlugins; [
-      catppuccin
-      continuum
-      copycat
-      resurrect
-      sensible
-      tmux-fzf
-      tmux-thumbs
-      fzf-tmux-url
-      urlview
-      yank
-    ];
+    plugins =
+      if isNixOS then
+        plugins
+      else
+        [
+          {
+            plugin = builtins.head plugins;
+            extraConfig = pluginOptions;
+          }
+        ]
+        ++ builtins.tail plugins;
 
     extraConfig =
       with config.theme;
@@ -62,7 +96,7 @@ in
         bind q send-prefix
         bind C-q last-window
 
-        if-shell 'test -n "$SSH_CLIENT" || test -n "$SSH_TTY" || test -n "$SSH_CONNECTION"' "source-file '${remoteConf}'"
+        if-shell '${sshCheck}' "source-file '${remoteConf}'"
 
         set-option -g status-right ' #{prefix_highlight} "#{=21:pane_title}" %H:%M %d-%b-%y'
         set-option -g status-left-length 40
@@ -117,23 +151,6 @@ in
 
         set-option -g base-index 1
         set-option -g renumber-windows on
-
-        # Catppuccin theme configuration
-        set -g @catppuccin_flavor "frappe"
-        set -g @catppuccin_window_number "#I"
-        set -g @catppuccin_window_text "#W"
-        set -g @catppuccin_window_current_number "#I"
-        set -g @catppuccin_window_current_text "#W"
-
-        # Resurrect
-        set -g @resurrect-processes 'false'
-
-        set -g @fzf-url-fzf-options '-p 60%,30% --prompt="[open]" --border-label=" Open URL "'
-        set -g @fzf-url-history-limit '2000'
-
-        # Continuum restore
-        set -g @continuum-restore 'off'
-        set -g @continuum-save-interval '0'
       '';
   };
 }
