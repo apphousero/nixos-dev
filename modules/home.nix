@@ -18,7 +18,6 @@ in
   ];
 
   # Home configuration
-  home.stateVersion = lib.mkDefault "26.05";
   home.enableNixpkgsReleaseCheck = false;
   manual.manpages.enable = lib.mkDefault false;
   # Force stuff

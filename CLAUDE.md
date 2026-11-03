@@ -48,6 +48,8 @@ This flake is referenced by other flakes - changes may affect downstream consume
 
 Host-specific modules (`devModules`, `desktopModules`, `wslModules`) are applied inside the flake's `nixosConfigurations` based on hostname.
 
+Exported modules never set `system.stateVersion` or `home.stateVersion`; only this flake's own `hosts/*.nix` and `homeConfigurations` do. Consumers pin them per host.
+
 ## Key Dependencies
 
 - nixpkgs (unstable)

@@ -15,9 +15,6 @@ in
     ./base.nix
   ];
 
-  # NixOS state version - this should be set per host
-  system.stateVersion = lib.mkDefault "26.05";
-
   _module.args.isNixOS = true;
 
   # Nix settings: Determinate Nix writes its own /etc/nix/nix.conf.

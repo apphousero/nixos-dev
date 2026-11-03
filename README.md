@@ -6,6 +6,8 @@ To be used in upstream flakes but WSL can be used as standalone.
 
 Also provides a `homeModules.default` output for non-NixOS systems where Nix is used as a package manager.
 
+The exported `nixosModules` and `homeModules.default` do not set `system.stateVersion` / `home.stateVersion`. Set them in each consumer host to the release it was first installed with, and never bump them afterwards.
+
 ## Prerequisites `nerd-fonts`
 
 In order for `nerd-fonts` to work in `WSL2` use [this repo ryanoasis/nerd-fonts](https://github.com/ryanoasis/nerd-fonts) as a source:

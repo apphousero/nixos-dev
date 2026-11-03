@@ -118,6 +118,7 @@
                 {
                   home.username = "andrei";
                   home.homeDirectory = "/home/andrei";
+                  home.stateVersion = "26.05";
                 }
               ];
             };
