@@ -8,11 +8,12 @@ Custom Nix packages for `nixos-dev`.
 
 - npm: [@agentclientprotocol/claude-agent-acp](https://www.npmjs.com/package/@agentclientprotocol/claude-agent-acp)
 - Binary: `claude-agent-acp`
+- Install: default `npmInstallHook` (devDependencies pruned, bin from upstream `package.json`)
 
 ### Updating claude-agent-acp
 
 ```sh
-# Auto-pick latest version
+# Update to the latest npm version
 ./packages/update-claude-agent-acp.sh
 
 # Update to a specific version
@@ -28,12 +29,12 @@ Custom Nix packages for `nixos-dev`.
 
 - npm: [aoaoe](https://www.npmjs.com/package/aoaoe)
 - Binaries: `aoaoe`, `aoaoe-chat`
-- Runtime: shells out to `aoe`, `tmux`, `gh` (and optionally `claude`/`opencode`); `tmux`+`gh` are pinned into the wrapper, `aoe` resolves from the ambient PATH on `useAoe` hosts.
+- Runtime: shells out to `aoe`, `tmux`, `gh` (and optionally `claude`/`opencode`); `tmux`+`gh` are prefixed onto PATH by `wrapProgram` around the npm-generated bin, `aoe` resolves from the ambient PATH on `useAoe` hosts.
 
 ### Updating aoaoe
 
 ```sh
-# Auto-pick latest version
+# Update to the latest npm version
 ./packages/update-aoaoe.sh
 
 # Update to a specific version
@@ -51,3 +52,7 @@ Custom Nix packages for `nixos-dev`.
 - Version follows the pinned `nixpkgs`; no update script needed.
 - Applied to `pkgs.mistral-vibe` by the overlay in `nixosModules.development` / `desktop` / `wsl`; also available directly as `nixos-dev.packages.${system}.mistral-vibe`.
 
+
+## Updating all
+
+`./packages/update-all.sh` runs every `update-*.sh` above (pi-acp, claude-agent-acp, aoaoe) in order and stops on the first failure. `prefetch-npm-deps` runs from this flake's locked nixpkgs.

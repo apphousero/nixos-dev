@@ -3,13 +3,31 @@ name: Build NixOS WSL2 Tarballs
 on:
   workflow_dispatch:
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
+      - name: Install Nix
+        uses: DeterminateSystems/determinate-nix-action@v3
+      - name: Flake check
+        run: nix flake check --no-build --all-systems
+  build:
+    needs: check
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64
+            runner: ubuntu-latest
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
       - name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@main
+        uses: jlumbroso/free-disk-space@v1.3.1
         with:
           tool-cache: true
           android: true
@@ -19,21 +37,18 @@ jobs:
           docker-images: true
           swap-storage: true
       - name: Install Nix
-        uses: cachix/install-nix-action@v24
-        with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-      - name: Build WSL2 (x86_64)
+        uses: DeterminateSystems/determinate-nix-action@v3
+      - name: Build WSL2 (${{ matrix.arch }})
         run: |
-          nix build .#nixosConfigurations.wsl-x86_64.config.system.build.tarballBuilder
+          nix build .#nixosConfigurations.wsl-${{ matrix.arch }}.config.system.build.tarballBuilder
       - name: Build Tarball
         run: |
           sudo ./result/bin/nixos-wsl-tarball-builder
           sudo chmod a+rw nixos.wsl
           mv nixos.wsl nixos.wsl.tar.gz
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: nixos-wsl-x86_64
+          name: nixos-wsl-${{ matrix.arch }}
           path: ./nixos.wsl.tar.gz
           retention-days: 7

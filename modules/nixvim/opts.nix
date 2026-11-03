@@ -9,7 +9,6 @@
     incsearch = true;
     list = true;
     listchars = "space:·,tab:→ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨";
-    nu = true;
     number = true;
     relativenumber = true;
     scrolloff = 8;

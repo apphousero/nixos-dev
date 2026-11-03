@@ -20,7 +20,7 @@
       ██║ ╚████║██║██╔╝ ██╗ ╚████╔╝ ██║██║ ╚═╝ ██║
     '';
     items = {
-      "__unkeyed-1.buildtin_actions" = {
+      "__unkeyed-1.builtin_actions" = {
         __raw = "require('mini.starter').sections.builtin_actions()";
       };
       "__unkeyed-2.recent_files_current_directory" = {
@@ -28,9 +28,6 @@
       };
       "__unkeyed-3.recent_files" = {
         __raw = "require('mini.starter').sections.recent_files(10, true)";
-      };
-      "__unkeyed-4.sessions" = {
-        __raw = "require('mini.starter').sections.sessions(5, true)";
       };
     };
   };

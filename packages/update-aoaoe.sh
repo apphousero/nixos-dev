@@ -3,7 +3,7 @@
 # Talador12/agent-of-agent-of-empires.
 #
 # Usage:
-#   ./packages/update-aoaoe.sh                  # interactively pick latest version
+#   ./packages/update-aoaoe.sh                  # update to the latest npm version
 #   ./packages/update-aoaoe.sh 8.0.0            # update to a specific version
 #   ./packages/update-aoaoe.sh --dry-run 8.0.0  # show what would change without writing
 #

@@ -2,12 +2,24 @@
   description = "AppHouse NixOS configuration";
 
   inputs = {
-    nixpkgs = { url = "https://flakehub.com/f/NixOS/nixpkgs/0"; };
-    nixvim = { url = "github:nix-community/nixvim"; };
-    home-manager = { url = "github:nix-community/home-manager"; };
-    nixos-wsl = { url = "github:nix-community/NixOS-WSL"; };
-    vscode-server = { url = "github:nix-community/nixos-vscode-server"; };
-    determinate = { url = "https://flakehub.com/f/DeterminateSystems/determinate/3"; };
+    nixpkgs = {
+      url = "https://flakehub.com/f/NixOS/nixpkgs/0";
+    };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+    };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+    };
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+    };
+    vscode-server = {
+      url = "github:nix-community/nixos-vscode-server";
+    };
+    determinate = {
+      url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+    };
     oh-my-pi-flake = {
       url = "github:apphousero/oh-my-pi-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,147 +50,52 @@
           localOverlay
         ];
       };
+      commonModules = [
+        home-manager.nixosModules.default
+        nixvim.nixosModules.default
+        determinate.nixosModules.default
+      ];
+      wslModules = [
+        nixos-wsl.nixosModules.default
+        vscode-server.nixosModules.default
+        overlaysModule
+        ./modules/wsl.nix
+      ];
+      mkModule = modules: { imports = commonModules ++ modules; };
+      hostModules = {
+        dev = [
+          overlaysModule
+          ./modules/development.nix
+        ];
+        desktop = [
+          overlaysModule
+          ./modules/desktop.nix
+        ];
+        wsl = wslModules;
+      };
       mkSystem =
         system: hostname:
         nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs; };
-          modules =
-            let
-              baseModules = [
-                home-manager.nixosModules.home-manager
-                nixvim.nixosModules.nixvim
-                determinate.nixosModules.default
-                overlaysModule
-                (./hosts + "/${hostname}.nix")
-              ];
-              devModules =
-                if hostname == "dev" then
-                  [
-                    ./modules/development.nix
-                  ]
-                else
-                  [ ];
-              desktopModules =
-                if hostname == "desktop" then
-                  [
-                    ./modules/desktop.nix
-                  ]
-                else
-                  [ ];
-              wslModules =
-                if hostname == "wsl" then
-                  [
-                    ./modules/wsl.nix
-                    nixos-wsl.nixosModules.default
-                    vscode-server.nixosModules.default
-                  ]
-                else
-                  [ ];
-            in
-            baseModules ++ devModules ++ wslModules ++ desktopModules;
+          modules = commonModules ++ hostModules.${hostname} ++ [ (./hosts + "/${hostname}.nix") ];
         };
     in
     {
-      homeModules = {
-        default =
-          {
-            config,
-            pkgs,
-            lib,
-            ...
-          }:
-          {
-            imports = [
-              nixvim.homeModules.nixvim
-              oh-my-pi-flake.homeManagerModules.default
-              ./modules/home.nix
-            ];
-          };
+      homeModules.default = {
+        imports = [
+          nixvim.homeModules.nixvim
+          oh-my-pi-flake.homeManagerModules.default
+          ./modules/home.nix
+        ];
       };
 
       nixosModules = {
-        development =
-          {
-            config,
-            pkgs,
-            lib,
-            ...
-          }:
-          {
-            imports = [
-              home-manager.nixosModules.default
-              nixvim.nixosModules.default
-              determinate.nixosModules.default
-              overlaysModule
-              ./modules/development.nix
-            ];
-          };
-        desktop =
-          {
-            config,
-            pkgs,
-            lib,
-            ...
-          }:
-          {
-            imports = [
-              home-manager.nixosModules.default
-              nixvim.nixosModules.default
-              determinate.nixosModules.default
-              overlaysModule
-              ./modules/desktop.nix
-            ];
-          };
-        server =
-          {
-            config,
-            pkgs,
-            lib,
-            ...
-          }:
-          {
-            imports = [
-              home-manager.nixosModules.default
-              nixvim.nixosModules.default
-              determinate.nixosModules.default
-              ./modules/server.nix
-            ];
-          };
-        server-containers =
-          {
-            config,
-            pkgs,
-            lib,
-            ...
-          }:
-          {
-            imports = [
-              home-manager.nixosModules.default
-              nixvim.nixosModules.default
-              determinate.nixosModules.default
-              ./modules/server-containers.nix
-            ];
-          };
-
-        wsl =
-          {
-            config,
-            pkgs,
-            lib,
-            ...
-          }:
-          {
-            imports = [
-              home-manager.nixosModules.default
-              nixvim.nixosModules.default
-              determinate.nixosModules.default
-              nixos-wsl.nixosModules.default
-              vscode-server.nixosModules.default
-              overlaysModule
-              ./modules/wsl.nix
-            ];
-          };
+        development = mkModule hostModules.dev;
+        desktop = mkModule hostModules.desktop;
+        server = mkModule [ ./modules/server.nix ];
+        server-containers = mkModule [ ./modules/server-containers.nix ];
+        wsl = mkModule wslModules;
       };
       nixosConfigurations = {
         # x86_64 configurations
@@ -197,12 +114,11 @@
             home-manager.lib.homeManagerConfiguration {
               pkgs = nixpkgs.legacyPackages.${system};
               modules = [
-                nixvim.homeModules.nixvim
-                oh-my-pi-flake.homeManagerModules.default
-                ./modules/home.nix
+                self.homeModules.default
                 {
                   home.username = "andrei";
                   home.homeDirectory = "/home/andrei";
+                  home.stateVersion = "26.05";
                 }
               ];
             };
@@ -212,17 +128,21 @@
           "home-aarch64" = mkHome systemAarch64;
         };
 
-      packages = nixpkgs.lib.genAttrs [ systemX86_64 systemAarch64 ] (system: let
-        pkgs' = nixpkgs.legacyPackages.${system};
-        pkgsUnfree = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        };
-      in {
-        pi-acp = pkgs'.callPackage ./packages/pi-acp.nix { };
-        claude-agent-acp = pkgs'.callPackage ./packages/claude-agent-acp.nix { };
-        aoaoe = pkgs'.callPackage ./packages/aoaoe.nix { };
-        mistral-vibe = pkgsUnfree.callPackage ./packages/mistral-vibe.nix { };
-      });
+      packages = nixpkgs.lib.genAttrs [ systemX86_64 systemAarch64 ] (
+        system:
+        let
+          pkgs' = nixpkgs.legacyPackages.${system};
+          pkgsUnfree = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+        in
+        {
+          pi-acp = pkgs'.callPackage ./packages/pi-acp.nix { };
+          claude-agent-acp = pkgs'.callPackage ./packages/claude-agent-acp.nix { };
+          aoaoe = pkgs'.callPackage ./packages/aoaoe.nix { };
+          mistral-vibe = pkgsUnfree.callPackage ./packages/mistral-vibe.nix { };
+        }
+      );
     };
 }

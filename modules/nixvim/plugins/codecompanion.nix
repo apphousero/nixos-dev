@@ -1,4 +1,4 @@
-{ nixvim, ... }:
+{ config, ... }:
 let
   adapter = {
     name = "mistral";
@@ -7,7 +7,7 @@ let
 in
 {
   programs.nixvim.plugins.codecompanion = {
-    enable = nixvim.mistral.chat or false;
+    enable = config.nixos-dev.nixvim.mistral.chat;
     luaConfig.pre = ''
       if (vim.env.MISTRAL_API_KEY or "") ~= "" then
     '';

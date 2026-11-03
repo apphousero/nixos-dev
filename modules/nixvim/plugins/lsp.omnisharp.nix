@@ -1,5 +1,5 @@
 {
-  nixvim,
+  config,
   lib,
   sharedPackages,
   devPackages,
@@ -8,7 +8,7 @@
 let
   helpers = import ../../lib.nix { packages = sharedPackages ++ devPackages; };
   inherit (helpers) hasDotnetSdk;
-  useOmnisharp = nixvim.dotnet.useOmnisharp or false;
+  useOmnisharp = config.nixos-dev.nixvim.dotnet.useOmnisharp;
 in
 {
   programs.nixvim.lsp.servers = lib.mkIf useOmnisharp {

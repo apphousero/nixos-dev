@@ -2,10 +2,8 @@
 {
 
   #
-  # cmp (autocomplete) keymaps are in cmp.nix and it would like bellow
+  # cmp (autocomplete) keymaps are in plugins/cmp.nix
   #
-  # "<C-p>" = "cmp.mapping.select_prev_item(cmp_select)";
-  # "<C-n>" = "cmp.mapping.select_next_item(cmp_select)";
   # "<C-y>" = "cmp.mapping.confirm({ select = true })";
   # "<C-f>" = "cmp.mapping.complete()";
   # "<CR>" = "cmp.mapping.confirm({ select = true })";
@@ -33,7 +31,7 @@
       action = "<cmd>bdelete<bar>b#<CR>";
       key = "<leader>q";
       options = {
-        desc = "Closes current buffere (:bdelete)";
+        desc = "Closes current buffer (:bdelete)";
         silent = true;
       };
     }
@@ -57,9 +55,10 @@
     }
     {
       mode = "n";
-      action = ":Git<CR>";
+      action = "<cmd>Git status<CR>";
       key = "<leader>gs";
       options = {
+        desc = "Git status (mini.git)";
         silent = true;
       };
     }
@@ -86,15 +85,15 @@
         "n"
         "v"
       ];
-      action = "[[\"y]]";
+      action = "\"+y";
       key = "<leader>y";
-      options.desc = "Yanks the text that is selected by the motion command that follows, of the previous function or block";
+      options.desc = "Yank into the system clipboard";
     }
     {
       mode = "n";
-      action = "[[\"Y]]";
+      action = "\"+Y";
       key = "<leader>Y";
-      options.desc = "Yanks the entire line of the previous function or block";
+      options.desc = "Yank to end of line into the system clipboard";
     }
     {
       mode = [
@@ -102,7 +101,7 @@
         "v"
       ];
       action = "\"_d";
-      key = "<leader>d";
+      key = "<leader>D";
       options.desc = "Delete into the black hole register";
     }
     {
@@ -152,6 +151,9 @@
             "src/main.py",
             ".zshrc",
             ".bashrc",
+            "CLAUDE.md",
+            "AGENTS.md",
+            ".github/copilot-instructions.md",
           }
 
           local cwd = vim.fn.getcwd()
@@ -194,25 +196,19 @@
       mode = "n";
       action = "<cmd>cnext<CR>zz";
       key = "<C-k>";
-      options.desc = "Navigate to the previous error";
+      options.desc = "Navigate to the next quickfix item";
     }
     {
       mode = "n";
       action = "<cmd>cprev<CR>zz";
       key = "<C-j>";
-      options.desc = "Navigate to the next error";
+      options.desc = "Navigate to the previous quickfix item";
     }
     {
       mode = "n";
       action = ":set list!<CR>";
       key = "<leader>n";
       options.desc = "Toggle display of white spaces";
-    }
-    {
-      mode = "n";
-      action = "0v$y";
-      key = "<leader>l";
-      options.desc = "Copy current line";
     }
     {
       mode = "n";
@@ -350,117 +346,5 @@
         silent = true;
       };
     }
-
-    # Copilot Chat keymaps
-    {
-      mode = "n";
-      action = "<cmd>CopilotChatToggle<cr>";
-      key = "<leader>cc";
-      options = {
-        desc = "Copilot Chat toggle";
-        silent = true;
-      };
-    }
-    {
-      mode = "v";
-      action = "<cmd>CopilotChatToggle<cr>";
-      key = "<leader>cc";
-      options = {
-        desc = "Copilot Chat with selection";
-        silent = true;
-      };
-    }
-    {
-      mode = "v";
-      action = "<cmd>CopilotChatExplain<cr>";
-      key = "<leader>ce";
-      options = {
-        desc = "Copilot explain selection";
-        silent = true;
-      };
-    }
-    {
-      mode = "v";
-      action = "<cmd>CopilotChatReview<cr>";
-      key = "<leader>cr";
-      options = {
-        desc = "Copilot review selection";
-        silent = true;
-      };
-    }
-    {
-      mode = "v";
-      action = "<cmd>CopilotChatFix<cr>";
-      key = "<leader>cf";
-      options = {
-        desc = "Copilot suggest fix";
-        silent = true;
-      };
-    }
-    {
-      mode = "v";
-      action = "<cmd>CopilotChatOptimize<cr>";
-      key = "<leader>co";
-      options = {
-        desc = "Copilot optimize selection";
-        silent = true;
-      };
-    }
-    {
-      mode = "n";
-      action = "<cmd>CopilotChatTests<cr>";
-      key = "<leader>ct";
-      options = {
-        desc = "Copilot generate tests";
-        silent = true;
-      };
-    }
-    {
-      mode = "v";
-      action = "<cmd>CopilotChatDocs<cr>";
-      key = "<leader>cd";
-      options = {
-        desc = "Copilot generate docs for selection";
-        silent = true;
-      };
-    }
-    {
-      mode = [
-        "n"
-        "v"
-      ];
-      action.__raw = ''
-        function()
-          local input = vim.fn.input("Quick Chat: ")
-          if input ~= "" then
-            vim.cmd("CopilotChat " .. input)
-          end
-        end
-      '';
-      key = "<leader>cq";
-      options = {
-        desc = "Copilot quick chat";
-        silent = true;
-      };
-    }
-    {
-      mode = "n";
-      action = "<cmd>CopilotChatModels<cr>";
-      key = "<leader>cm";
-      options = {
-        desc = "Copilot select model";
-        silent = true;
-      };
-    }
-    {
-      mode = "n";
-      action = "<cmd>CopilotChatReset<cr>";
-      key = "<leader>cx";
-      options = {
-        desc = "Copilot reset chat";
-        silent = true;
-      };
-    }
-
   ];
 }

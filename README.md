@@ -4,7 +4,9 @@
 
 To be used in upstream flakes but WSL can be used as standalone.
 
-Also provides a `homeManagerModules` output for non-NixOS systems where Nix is used as a package manager.
+Also provides a `homeModules.default` output for non-NixOS systems where Nix is used as a package manager.
+
+The exported `nixosModules` and `homeModules.default` do not set `system.stateVersion` / `home.stateVersion`. Set them in each consumer host to the release it was first installed with, and never bump them afterwards.
 
 ## Prerequisites `nerd-fonts`
 
@@ -96,7 +98,7 @@ Disable it with `wsl.usbip.enable = false;`.
 ### Apply Directly
 
 ```sh
-# x86_64
+# aarch64 (use #home-x86_64 on x86_64)
 nix run home-manager -- switch --flake github:apphousero/nixos-dev#home-aarch64
 
 # or from local checkout
@@ -159,10 +161,16 @@ nix build .#nixosConfigurations.wsl-aarch64.config.system.build.toplevel --show-
 
 ## Build ISO
 
+The `dev-*` and `desktop-*` configurations are bootable installer ISOs
+(`installation-cd-minimal` plus the `development` / `desktop` modules):
+
 ```sh
-nix build --flake .#nixosConfigurations.desktop-x86_64.config.system.build.isoImage
-nix build --flake github:apphousero/nixos-dev#nixosConfigurations.desktop-x86_64.config.system.build.isoImage
+nix build .#nixosConfigurations.desktop-x86_64.config.system.build.isoImage
+nix build .#nixosConfigurations.dev-aarch64.config.system.build.isoImage
+nix build github:apphousero/nixos-dev#nixosConfigurations.desktop-x86_64.config.system.build.isoImage
 ```
+
+The image is written to `result/iso/`.
 
 ## Build WSL Distro From Scratch
 

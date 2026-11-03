@@ -14,10 +14,8 @@
       basics = { };
       bracketed = { };
       bufremove = { };
-      comment = { };
       cursorword = { };
       colors = { };
-      comment = { };
       #completion = { };
       diff = {
         view = {
@@ -31,7 +29,6 @@
           use_as_default_explorer = false;
         };
       };
-      fuzzy = { };
       git = { };
       icons = {
         style = "glyph";
@@ -52,8 +49,6 @@
       notify = { };
       operators = { };
       # pairs = { };
-      pick = { };
-      snippets = { };
       splitjoin = { };
       surround = { };
       statusline = {

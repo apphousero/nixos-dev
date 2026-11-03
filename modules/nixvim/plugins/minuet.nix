@@ -1,7 +1,7 @@
-{ nixvim, ... }:
+{ config, ... }:
 {
   programs.nixvim.plugins.minuet = {
-    enable = nixvim.mistral.code or false;
+    enable = config.nixos-dev.nixvim.mistral.code;
     luaConfig.pre = ''
       if (vim.env.MISTRAL_API_KEY or "") ~= "" then
     '';

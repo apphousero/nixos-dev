@@ -49,8 +49,7 @@ in
   };
 
   config = {
-    # Get latest from here https://github.com/nix-community/NixOS-WSL/releases
-    system.stateVersion = "26.05";
+    users.allowNoPasswordLogin = lib.mkDefault true;
 
     wsl = {
       enable = lib.mkDefault true;

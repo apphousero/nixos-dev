@@ -10,7 +10,7 @@ This flake is referenced by other flakes - changes may affect downstream consume
 
 - `flake.nix` - Main flake with `homeModules` and `nixosModules` exports
 - `flake.lock` - Lock file
-- `hosts/` - Host-specific configurations (`dev.nix`, `wsl.nix`, `desktop.nix`)
+- `hosts/` - Host-specific configurations (`dev.nix`, `wsl.nix`, `desktop.nix`; `dev`/`desktop` import `iso.nix` and build installer ISOs)
 - `modules/` - Reusable NixOS modules
   - `base.nix` - Base configuration
   - `common.nix` - Shared/common configuration
@@ -48,6 +48,8 @@ This flake is referenced by other flakes - changes may affect downstream consume
 
 Host-specific modules (`devModules`, `desktopModules`, `wslModules`) are applied inside the flake's `nixosConfigurations` based on hostname.
 
+Exported modules never set `system.stateVersion` or `home.stateVersion`; only this flake's own `hosts/*.nix` and `homeConfigurations` do. Consumers pin them per host.
+
 ## Key Dependencies
 
 - nixpkgs (unstable)
@@ -78,6 +80,10 @@ nix flake check
 ```
 
 This validates syntax, types, and integrity quickly — use this for routine testing. A full `nix build` should only be run on **explicit user request** and must be capped with a timeout.
+
+### ISO Images
+
+The `dev-*` and `desktop-*` configurations build installer ISOs (`config.system.build.isoImage`). Never build or evaluate `isoImage` (`nix build`/`nix eval` on `.config.system.build.isoImage`) unless the user explicitly asks for an ISO build. `nix flake check` is sufficient validation for these hosts.
 
 ## Flake Update and Build
 

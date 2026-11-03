@@ -3,7 +3,14 @@
   lib,
   ...
 }:
-
+let
+  dotnetSdk =
+    with pkgs.dotnetCorePackages;
+    combinePackages [
+      sdk_8_0
+      sdk_10_0
+    ];
+in
 {
   # Import configurations
   imports = [
@@ -13,23 +20,7 @@
 
   # True if it is NixOS install, false if it is other OS with Nix and Home Manager
   _module.args.isNixOS = lib.mkDefault true;
-  _module.args.nixvim = lib.mkDefault {
-    copilot = {
-      chat = false;
-      code = false;
-    };
-    mistral = {
-      chat = false;
-      code = false;
-    };
-    dotnet = {
-      useOmnisharp = false;
-    };
-  };
-
-  # Copilot disabled by default
-  _module.args.copilot = lib.mkDefault {
-  };
+  _module.args.dotnetSdk = dotnetSdk;
 
   # Shared packages available in both NixOS and Home Manager contexts
   _module.args.sharedPackages = with pkgs; [
@@ -45,7 +36,7 @@
     # Simple CLI GUI Postman like
     atac
     # Can't remember
-    atuin
+    (if stdenv.hostPlatform.isAarch64 then atuin.overrideAttrs { doCheck = false; } else atuin)
     # Cause cat is not styled enough
     bat
     # Monitor resources
@@ -149,8 +140,8 @@
     zellij
     # Zip
     zip
-    # zoxide
-    zoxide
+    # Extra zsh completion definitions
+    zsh-completions
   ];
 
   _module.args.devPackages = with pkgs; [
@@ -159,21 +150,13 @@
     # Python package manager and runner (provides uvx)
     uv
     # .NET SDK packages
-    (
-      with dotnetCorePackages;
-      combinePackages [
-        sdk_8_0
-        sdk_10_0
-      ]
-    )
+    dotnetSdk
     # Aider
     # aider-chat-full
     # Claude
     claude-code
     # Some lil DOS box for development
     dosbox
-    # Analyse docker images
-    dive
     # HTML Tools
     htmlq
     hyperfine
@@ -202,8 +185,6 @@
     mermaid-cli
     # HTTP load generator
     oha
-    # For certificates
-    openssl
     # For docs
     python3Packages.markitdown
     pandoc
@@ -215,8 +196,6 @@
         xcolor
       ]
     ))
-    # tldr any command instead of man, e.g. tldr fd
-    tldr
     # HTTP load testing tool
     vegeta
     # XML
@@ -232,14 +211,13 @@
   _module.args.sharedShellAliases = {
     la = "eza -la";
     l = "la";
-    ld = "lazydocker";
+    lzd = "lazydocker";
     lg = "lazygit";
     lj = "lazyjournal";
     gs = "git status";
     node24 = "nix shell nixpkgs#nodejs_24";
     node22 = "nix shell nixpkgs#nodejs_22";
     node20 = "nix shell nixpkgs#nodejs_20";
-    node18 = "nix shell nixpkgs#nodejs_18";
     md = "mkdir -p";
     myvim = "nvim .";
     mn = "myvim";
@@ -253,22 +231,12 @@
 
   _module.args.zsh = {
     promptInit = ''
-      # Load zinit
-      if [[ ! -f ~/.zinit/bin/zinit.zsh ]]; then
-        mkdir -p ~/.zinit
-        git clone https://github.com/zdharma-continuum/zinit.git ~/.zinit/bin
-      fi
-      source ~/.zinit/bin/zinit.zsh
-
       # Plugins from ThePrimeagen’s setup
-      zinit light zsh-users/zsh-autosuggestions
-      zinit light zsh-users/zsh-syntax-highlighting
-      zinit light zsh-users/zsh-completions
-      zinit light djui/alias-tips
-      zinit light agkozak/zsh-z
+      source ${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/you-should-use.plugin.zsh
+      source ${pkgs.zsh-z}/share/zsh-z/zsh-z.plugin.zsh
 
       # Prompt (powerlevel10k, as in video)
-      zinit light romkatv/powerlevel10k
+      source ${pkgs.zsh-powerlevel10k}/share/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
       eval "$(atuin init zsh)"
