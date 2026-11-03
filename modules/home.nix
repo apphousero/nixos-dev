@@ -30,6 +30,10 @@ in
       chat = false;
       code = false;
     };
+    mistral = {
+      chat = true;
+      code = true;
+    };
     dotnet = {
       useOmnisharp = true;
     };

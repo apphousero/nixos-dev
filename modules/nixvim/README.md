@@ -74,8 +74,9 @@ All leader-based to work reliably in terminal, tmux, SSH+tmux, and WSL2.
 ### CodeCompanion Keymaps (plugins/codecompanion.nix)
 
 CodeCompanion uses the Mistral API with model `zai-glm-latest` for chat, inline and command interactions; `mistral-medium-latest` is selectable from the chat (`ga`).
-It is set up only when `MISTRAL_API_KEY` is set and non-empty when Neovim starts; otherwise the plugin, its commands and these keymaps are not registered.
-Every chat starts with the `files` tool group (`read_file`, `file_search`, `grep_search`, `get_changed_files`, `create_file`, `insert_edit_into_file`, `delete_file`) scoped to Neovim's working directory. Reads, greps and deletes ask for approval; created and edited files ask for confirmation afterwards. Add `@{agent}` to a message to also allow `run_command` and `get_diagnostics`.
+Enabled by the `nixvim.mistral.chat` feature flag (`_module.args.nixvim`, like `copilot.chat`): on in `development.nix` and `home.nix`, off in `base.nix` and `server.nix`.
+At runtime it is set up only when `MISTRAL_API_KEY` is set and non-empty when Neovim starts; otherwise the plugin, its commands and these keymaps are not registered.
+Every chat starts with the `files` tool group (`read_file`, `file_search`, `grep_search`, `get_changed_files`, `create_file`, `insert_edit_into_file`, `delete_file`) scoped to Neovim's working directory. The read-only tools (`read_file`, `file_search`, `grep_search`, `get_changed_files`) run without approval; deletes ask for approval; created and edited files ask for confirmation afterwards. Add `@{agent}` to a message to also allow `run_command` and `get_diagnostics`.
 
 | Mode | Key | Action | Description |
 |------|-----|--------|-------------|
@@ -92,7 +93,8 @@ Every chat starts with the `files` tool group (`read_file`, `file_search`, `grep
 ### AI Autocomplete (plugins/minuet.nix, plugins/cmp.nix)
 
 minuet-ai adds fill-in-the-middle completions from Mistral `codestral-latest` (`https://api.mistral.ai/v1/fim/completions`) as the `minuet` nvim-cmp source.
-Like CodeCompanion, it is set up only when `MISTRAL_API_KEY` is set and non-empty when Neovim starts.
+Enabled by the `nixvim.mistral.code` feature flag (`_module.args.nixvim`, like `copilot.code`): on in `development.nix` and `home.nix`, off in `base.nix` and `server.nix`.
+When the flag is off, the `minuet` source and `<A-y>` mapping are not added to nvim-cmp. At runtime it is set up only when `MISTRAL_API_KEY` is set and non-empty when Neovim starts.
 
 | Mode | Key | Action | Description |
 |------|-----|--------|-------------|

@@ -1,4 +1,4 @@
-{ ... }:
+{ nixvim, ... }:
 let
   adapter = {
     name = "mistral";
@@ -7,7 +7,7 @@ let
 in
 {
   programs.nixvim.plugins.codecompanion = {
-    enable = true;
+    enable = nixvim.mistral.chat or false;
     luaConfig.pre = ''
       if (vim.env.MISTRAL_API_KEY or "") ~= "" then
     '';
@@ -81,7 +81,13 @@ in
       interactions = {
         chat = {
           inherit adapter;
-          tools.opts.default_tools = [ "files" ];
+          tools = {
+            opts.default_tools = [ "files" ];
+            grep_search.opts.require_approval_before = false;
+            read_file.opts.require_approval_before = false;
+            file_search.opts.require_approval_before = false;
+            get_changed_files.opts.require_approval_before = false;
+          };
         };
         inline.adapter = adapter;
         cmd.adapter = adapter;
