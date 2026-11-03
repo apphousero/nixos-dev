@@ -151,6 +151,9 @@
             "src/main.py",
             ".zshrc",
             ".bashrc",
+            "CLAUDE.md",
+            "AGENTS.md",
+            ".github/copilot-instructions.md",
           }
 
           local cwd = vim.fn.getcwd()
