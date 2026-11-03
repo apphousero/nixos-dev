@@ -75,6 +75,7 @@ All leader-based to work reliably in terminal, tmux, SSH+tmux, and WSL2.
 
 CodeCompanion uses the Mistral API with model `zai-glm-latest` for chat, inline and command interactions; `mistral-medium-latest` is selectable from the chat (`ga`).
 It is set up only when `MISTRAL_API_KEY` is set and non-empty when Neovim starts; otherwise the plugin, its commands and these keymaps are not registered.
+Every chat starts with the `files` tool group (`read_file`, `file_search`, `grep_search`, `get_changed_files`, `create_file`, `insert_edit_into_file`, `delete_file`) scoped to Neovim's working directory. Reads, greps and deletes ask for approval; created and edited files ask for confirmation afterwards. Add `@{agent}` to a message to also allow `run_command` and `get_diagnostics`.
 
 | Mode | Key | Action | Description |
 |------|-----|--------|-------------|

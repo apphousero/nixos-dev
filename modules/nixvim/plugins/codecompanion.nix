@@ -31,26 +31,37 @@ in
       adapters.http.mistral.__raw = ''
         function()
           local base = require("codecompanion.adapters.http.mistral")
-          local utils = require("codecompanion.utils.adapters")
           return require("codecompanion.adapters").extend("mistral", {
             schema = {
               model = {
                 default = "${adapter.model}",
-                choices = {
-                  ["zai-glm-latest"] = { opts = { can_reason = true, has_vision = false } },
-                  ["mistral-medium-latest"] = { opts = { can_reason = true, has_vision = true } },
-                },
               },
             },
             handlers = {
               chat_output = function(self, data, tools)
-                local result = base.handlers.chat_output(self, data, tools)
+                if not data or data == "" then
+                  return nil
+                end
+                local body = type(data) == "table" and data.body or data:sub(data:find("{", 1, true) or 1)
+                local ok, json = pcall(vim.json.decode, body, { luanil = { object = true } })
+                if not ok or type(json) ~= "table" or type(json.choices) ~= "table" then
+                  return base.handlers.chat_output(self, data, tools)
+                end
+                local patched = false
+                for _, choice in ipairs(json.choices) do
+                  for _, call in ipairs(choice.delta and choice.delta.tool_calls or {}) do
+                    local known = tools and call.index and tools[call.index + 1]
+                    if (call.id == nil or call.id == "") and known then
+                      call.id = known.id
+                      patched = true
+                    end
+                  end
+                end
+                local result = base.handlers.chat_output(self, patched and { body = vim.json.encode(json) } or data, tools)
                 if not (result and result.output and result.output.reasoning) then
                   return result
                 end
-                local body = type(data) == "table" and data.body or utils.clean_streamed_data(data)
-                local ok, json = pcall(vim.json.decode, body, { luanil = { object = true } })
-                local choice = ok and json.choices and json.choices[1]
+                local choice = json.choices[1]
                 local delta = choice and (self.opts.stream and choice.delta or choice.message)
                 local text = ""
                 for _, c in ipairs(type(delta and delta.content) == "table" and delta.content or {}) do
@@ -68,7 +79,10 @@ in
         end
       '';
       interactions = {
-        chat.adapter = adapter;
+        chat = {
+          inherit adapter;
+          tools.opts.default_tools = [ "files" ];
+        };
         inline.adapter = adapter;
         cmd.adapter = adapter;
         background.adapter = adapter;
