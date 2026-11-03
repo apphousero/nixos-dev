@@ -3,7 +3,7 @@
 # @agentclientprotocol/claude-agent-acp.
 #
 # Usage:
-#   ./packages/update-claude-agent-acp.sh                    # interactively pick latest version
+#   ./packages/update-claude-agent-acp.sh                    # update to the latest npm version
 #   ./packages/update-claude-agent-acp.sh 0.58.1             # update to a specific version
 #   ./packages/update-claude-agent-acp.sh --dry-run 0.58.1   # show what would change without writing
 #

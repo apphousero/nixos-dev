@@ -1,10 +1,11 @@
 {
-  nixvim,
+  config,
   lib,
   ...
 }:
 let
-  mistralCode = nixvim.mistral.code or false;
+  cfg = config.nixos-dev.nixvim;
+  mistralCode = cfg.mistral.code;
 in
 {
   programs.nixvim.plugins = {
@@ -13,8 +14,8 @@ in
       autoEnableSources = true;
       settings = {
         mapping = {
-          "<C-p>" = "cmp.mapping.select_prev_item(cmp_select)";
-          "<C-n>" = "cmp.mapping.select_next_item(cmp_select)";
+          "<C-p>" = "cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select })";
+          "<C-n>" = "cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select })";
           "<C-y>" = "cmp.mapping.confirm({ select = true })";
           "<C-f>" = "cmp.mapping.complete()";
           "<CR>" = "cmp.mapping.confirm({ select = true })";
@@ -26,7 +27,7 @@ in
           fetching_timeout = 2000;
         };
         sources =
-          lib.optionals nixvim.copilot.code [
+          lib.optionals cfg.copilot.code [
             {
               name = "copilot";
               group_index = 2;
@@ -59,10 +60,8 @@ in
       };
     };
     cmp-buffer.enable = true;
-    cmp-cmdline.enable = true;
     cmp-nvim-lsp.enable = true;
     cmp-path.enable = true;
-    cmp-zsh.enable = true;
     luasnip.enable = true;
   };
 }

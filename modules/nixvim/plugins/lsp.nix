@@ -28,10 +28,6 @@ in
   programs.nixvim.lsp = {
     keymaps = [
       {
-        key = "gd";
-        lspBufAction = "definition";
-      }
-      {
         key = "gD";
         lspBufAction = "references";
       }

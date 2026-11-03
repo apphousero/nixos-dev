@@ -2,7 +2,7 @@
 # Automates updating pi-acp.nix to a newer version of svkozak/pi-acp.
 #
 # Usage:
-#   ./packages/update-pi-acp.sh                    # interactively pick latest version
+#   ./packages/update-pi-acp.sh                    # update to the latest npm version
 #   ./packages/update-pi-acp.sh 0.0.31             # update to a specific version
 #   ./packages/update-pi-acp.sh --dry-run 0.0.31   # show what would change without writing
 #

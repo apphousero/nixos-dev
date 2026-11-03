@@ -1,5 +1,7 @@
 {
   devPackages,
+  dotnetSdk,
+  lib,
   pkgs,
   ...
 }:
@@ -8,18 +10,12 @@
     ./common.nix
   ];
 
-  _module.args.nixvim = {
-    copilot = {
-      chat = false;
-      code = false;
-    };
+  nixos-dev.nixvim = {
     mistral = {
-      chat = true;
-      code = true;
+      chat = lib.mkDefault true;
+      code = lib.mkDefault true;
     };
-    dotnet = {
-      useOmnisharp = true;
-    };
+    dotnet.useOmnisharp = lib.mkDefault true;
   };
 
   # Development system packages that should be available everywhere
@@ -29,7 +25,6 @@
   ];
 
   environment.sessionVariables = {
-    DOTNET_ROOT = "${pkgs.dotnetCorePackages.sdk_10_0}";
-    MC_SKIN = "dark";
+    DOTNET_ROOT = "${dotnetSdk}/share/dotnet";
   };
 }

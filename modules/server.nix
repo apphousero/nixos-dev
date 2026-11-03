@@ -7,22 +7,9 @@
   imports = [
     ./common.nix
   ];
-  _module.args.nixvim = {
-    copilot = {
-      chat = false;
-      code = false;
-    };
-    mistral = {
-      chat = false;
-      code = false;
-    };
-    dotnet = {
-      useOmnisharp = true;
-    };
-  };
+  nixos-dev.nixvim.dotnet.useOmnisharp = lib.mkDefault true;
+
   environment.systemPackages = with pkgs; [
-    # Analyse docker images
-    dive
     # ping but with graph
     gping
   ];
@@ -41,7 +28,7 @@
     root.hashedPassword = lib.mkDefault "!";
   };
 
-  security.sudo.wheelNeedsPassword = false;
+  security.sudo.wheelNeedsPassword = lib.mkDefault false;
 
   # Configure fail2ban
   services = {

@@ -21,7 +21,7 @@ This directory contains the Neovim configuration using nixvim.
 | Visual (x) | `<leader>p` | `"_dP` | Delete and paste from the black hole register |
 | Normal/Visual | `<leader>y` | `"+y` | Yank to system clipboard |
 | Normal | `<leader>Y` | `"+Y` | Yank entire line to system clipboard |
-| Normal/Visual | `<leader>d` | `"_d` | Delete into the black hole register |
+| Normal/Visual | `<leader>D` | `"_d` | Delete into the black hole register |
 | Normal | `<leader>f` | `vim.lsp.buf.format` | Format buffer with LSP |
 | Normal | `<leader>F` | (function) | Open default file from current directory |
 | Normal | `<leader>w` | `MiniFiles.open` | Open mini.files |
@@ -29,7 +29,6 @@ This directory contains the Neovim configuration using nixvim.
 | Normal | `<C-k>` | `:cnext<CR>zz` | Navigate to next quickfix item |
 | Normal | `<C-j>` | `:cprev<CR>zz` | Navigate to previous quickfix item |
 | Normal | `<leader>n` | `:set list!` | Toggle display of white spaces |
-| Normal | `<leader>l` | `0v$y` | Copy current line |
 | Normal | `<leader>b` | `:b#` | Previous buffer |
 
 ### DAP Keymaps (keymaps.nix)
@@ -55,7 +54,7 @@ All leader-based to work reliably in terminal, tmux, SSH+tmux, and WSL2.
 | Normal/Visual | `<leader>ca` | `vim.lsp.buf.code_action` | Code action (quick fix, imports, etc.) |
 | Normal | `<leader>rn` | `vim.lsp.buf.rename` | Rename symbol |
 
-### Copilot Chat Keymaps (keymaps.nix)
+### Copilot Chat Keymaps (plugins/copilot.nix, only when `nixos-dev.nixvim.copilot.chat` is enabled)
 
 | Mode | Key | Action | Description |
 |------|-----|--------|-------------|
@@ -74,7 +73,7 @@ All leader-based to work reliably in terminal, tmux, SSH+tmux, and WSL2.
 ### CodeCompanion Keymaps (plugins/codecompanion.nix)
 
 CodeCompanion uses the Mistral API with model `zai-glm-latest` for chat, inline and command interactions; `mistral-medium-latest` is selectable from the chat (`ga`).
-Enabled by the `nixvim.mistral.chat` feature flag (`_module.args.nixvim`, like `copilot.chat`): on in `development.nix` and `home.nix`, off in `base.nix` and `server.nix`.
+Enabled by the `nixos-dev.nixvim.mistral.chat` option (default `false`, like `copilot.chat`): set with `lib.mkDefault true` in `development.nix` and `home.nix`, left off in `base.nix` and `server.nix`.
 At runtime it is set up only when `MISTRAL_API_KEY` is set and non-empty when Neovim starts; otherwise the plugin, its commands and these keymaps are not registered.
 Every chat starts with the `files` tool group (`read_file`, `file_search`, `grep_search`, `get_changed_files`, `create_file`, `insert_edit_into_file`, `delete_file`) scoped to Neovim's working directory. The read-only tools (`read_file`, `file_search`, `grep_search`, `get_changed_files`) run without approval; deletes ask for approval; created and edited files ask for confirmation afterwards. Add `@{agent}` to a message to also allow `run_command` and `get_diagnostics`.
 
@@ -93,8 +92,8 @@ Every chat starts with the `files` tool group (`read_file`, `file_search`, `grep
 ### AI Autocomplete (plugins/minuet.nix, plugins/cmp.nix)
 
 minuet-ai adds fill-in-the-middle completions from Mistral `codestral-latest` (`https://api.mistral.ai/v1/fim/completions`) as the `minuet` nvim-cmp source.
-Enabled by the `nixvim.mistral.code` feature flag (`_module.args.nixvim`, like `copilot.code`): on in `development.nix` and `home.nix`, off in `base.nix` and `server.nix`.
-When the flag is off, the `minuet` source and `<A-y>` mapping are not added to nvim-cmp. At runtime it is set up only when `MISTRAL_API_KEY` is set and non-empty when Neovim starts.
+Enabled by the `nixos-dev.nixvim.mistral.code` option (default `false`, like `copilot.code`): set with `lib.mkDefault true` in `development.nix` and `home.nix`, left off in `base.nix` and `server.nix`.
+When the option is off, the `minuet` source and `<A-y>` mapping are not added to nvim-cmp. At runtime it is set up only when `MISTRAL_API_KEY` is set and non-empty when Neovim starts.
 
 | Mode | Key | Action | Description |
 |------|-----|--------|-------------|
@@ -132,7 +131,7 @@ When the flag is off, the `minuet` source and `<A-y>` mapping are not added to n
 | lua_ls | Lua | Always |
 | marksman | Markdown | Always |
 | nil_ls | Nix | Always |
-| roslyn/omnisharp | C# | .NET SDK installed |
+| roslyn/omnisharp | C# | .NET SDK installed; omnisharp when `nixos-dev.nixvim.dotnet.useOmnisharp` is enabled (default `false`; `lib.mkDefault true` in `development.nix`, `home.nix` and `server.nix`), roslyn otherwise |
 | pylsp | Python | Python installed |
 | tsserver | TypeScript/JavaScript | Node.js installed |
 | yamlls | YAML | Always |

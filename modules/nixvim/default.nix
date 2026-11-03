@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   sharedPackages,
   devPackages,
@@ -18,7 +19,16 @@ in
     ./mini
     ./plugins
   ];
-  programs.nixvim = {
+
+  options.nixos-dev.nixvim = {
+    copilot.chat = lib.mkEnableOption "GitHub Copilot chat in nixvim";
+    copilot.code = lib.mkEnableOption "GitHub Copilot completions in nixvim";
+    mistral.chat = lib.mkEnableOption "Mistral CodeCompanion chat in nixvim";
+    mistral.code = lib.mkEnableOption "Mistral minuet completions in nixvim";
+    dotnet.useOmnisharp = lib.mkEnableOption "OmniSharp instead of Roslyn for C# in nixvim";
+  };
+
+  config.programs.nixvim = {
     enable = true;
     # Pin nixvim's nixpkgs to the same source used to build this system.
     # This suppresses the `programs.nixvim.nixpkgs.source` follows warning and
@@ -26,6 +36,9 @@ in
     # for downstream consumers that set `inputs.nixvim.inputs.nixpkgs.follows`.
     nixpkgs.source = pkgs.path;
     version.enableNixpkgsReleaseCheck = false;
+    extraConfigLuaPre = ''
+      vim.api.nvim_create_augroup("FileExplorer", { clear = false })
+    '';
     autoCmd = [
       {
         event = [ "FileType" ];

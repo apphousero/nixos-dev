@@ -4,7 +4,7 @@
 
 To be used in upstream flakes but WSL can be used as standalone.
 
-Also provides a `homeManagerModules` output for non-NixOS systems where Nix is used as a package manager.
+Also provides a `homeModules.default` output for non-NixOS systems where Nix is used as a package manager.
 
 ## Prerequisites `nerd-fonts`
 
@@ -96,7 +96,7 @@ Disable it with `wsl.usbip.enable = false;`.
 ### Apply Directly
 
 ```sh
-# x86_64
+# aarch64 (use #home-x86_64 on x86_64)
 nix run home-manager -- switch --flake github:apphousero/nixos-dev#home-aarch64
 
 # or from local checkout

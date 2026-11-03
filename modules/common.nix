@@ -102,7 +102,6 @@ in
       settings = {
         PasswordAuthentication = lib.mkDefault false;
         PermitRootLogin = lib.mkDefault "no";
-        ChallengeResponseAuthentication = false;
         X11Forwarding = lib.mkDefault false;
       };
     };
@@ -120,10 +119,7 @@ in
   users = {
     # Disable mutable users by default (declare users in configuration)
     mutableUsers = lib.mkDefault false;
-    # Default shell
     defaultUserShell = pkgs.zsh;
-    # Allow no password login
-    allowNoPasswordLogin = lib.mkDefault true;
   };
 
   documentation = {

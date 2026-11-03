@@ -1,6 +1,7 @@
 {
   config,
   devPackages,
+  dotnetSdk,
   lib,
   pkgs,
   sharedPackages,
@@ -25,18 +26,12 @@ in
   home.file.".profile".force = true;
 
   _module.args.isNixOS = false;
-  _module.args.nixvim = {
-    copilot = {
-      chat = false;
-      code = false;
-    };
+  nixos-dev.nixvim = {
     mistral = {
-      chat = true;
-      code = true;
+      chat = lib.mkDefault true;
+      code = lib.mkDefault true;
     };
-    dotnet = {
-      useOmnisharp = true;
-    };
+    dotnet.useOmnisharp = lib.mkDefault true;
   };
 
   # ── Packages (shared + home-only) ──────────────────────────────────────
@@ -57,6 +52,7 @@ in
     VISUAL = "nvim";
     EDITOR = "nvim";
     MC_SKIN = "dark";
+    DOTNET_ROOT = "${dotnetSdk}/share/dotnet";
   };
 
   # ── Programs ────────────────────────────────────────────────────────────
@@ -65,7 +61,7 @@ in
       enable = true;
       enableCompletion = true;
       initExtra = ''
-        if [[ $- == *i* ]] && [[ -x "${pkgs.zsh}/bin/zsh" ]]; then
+        if [[ $- == *i* ]] && [[ -x "${pkgs.zsh}/bin/zsh" ]] && [[ "$(</proc/$PPID/comm)" != zsh ]]; then
           exec "${pkgs.zsh}/bin/zsh"
         fi
       '';
@@ -90,6 +86,8 @@ in
     };
     zsh = {
       enable = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
       initContent = ''
         ${zsh.promptInit}
         ${zsh.interactiveShellInit}

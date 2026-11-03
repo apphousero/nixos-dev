@@ -8,7 +8,7 @@
 # around this script.
 #
 # Usage (via a wrapper, or directly with the env vars set):
-#   ./packages/update-<pkg>.sh                  # interactively pick latest version
+#   ./packages/update-<pkg>.sh                  # update to the latest npm version
 #   ./packages/update-<pkg>.sh 1.2.3            # update to a specific version
 #   ./packages/update-<pkg>.sh --dry-run 1.2.3  # show what would change without writing
 #
@@ -59,6 +59,9 @@ DATA_NPM_PKG="${DATA_NPM_PKG:-}"
 # Basename of the npm package (strip any @scope/), used for the .tgz fallback URL.
 PKG_BASENAME="${NPM_PKG##*/}"
 
+# Repo root, used to pin nixpkgs to this flake's lock.
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+
 DRY_RUN=false
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -69,7 +72,11 @@ done
 
 if [[ -z "${TARGET_VERSION:-}" ]]; then
   echo "Fetching latest version..."
-  TARGET_VERSION=$(curl -s "https://registry.npmjs.org/${NPM_PKG}/latest" | jq -r '.version')
+  TARGET_VERSION=$(curl -fsS "https://registry.npmjs.org/${NPM_PKG}/latest" | jq -r '.version')
+  if [[ -z "$TARGET_VERSION" || "$TARGET_VERSION" == "null" ]]; then
+    echo "ERROR: Could not resolve latest version of ${NPM_PKG}"
+    exit 1
+  fi
 fi
 
 echo "Target version: ${TARGET_VERSION}"
@@ -79,7 +86,7 @@ TAG="v${TARGET_VERSION}"
 case "$REV_STRATEGY" in
   commit)
     echo "Fetching git commit for ${TAG}..."
-    REV=$(curl -s "https://registry.npmjs.org/${NPM_PKG}/${TARGET_VERSION}" | jq -r '.gitHead // empty')
+    REV=$(curl -fsS "https://registry.npmjs.org/${NPM_PKG}/${TARGET_VERSION}" | jq -r '.gitHead // empty')
     if [[ -z "$REV" || "$REV" == "null" ]]; then
       echo "ERROR: Could not resolve gitHead for version ${TARGET_VERSION}"
       exit 1
@@ -90,7 +97,7 @@ case "$REV_STRATEGY" in
     ;;
   commit-from-tag)
     echo "Resolving ${TAG} to a commit SHA..."
-    REV=$(curl -s "https://api.github.com/repos/${REPO}/commits/${TAG}" | jq -r '.sha // empty')
+    REV=$(curl -fsS "https://api.github.com/repos/${REPO}/commits/${TAG}" | jq -r '.sha // empty')
     if [[ -z "$REV" || "$REV" == "null" ]]; then
       echo "ERROR: Could not resolve ${TAG} to a commit via the GitHub API"
       exit 1
@@ -132,15 +139,15 @@ if [[ "$HTTP_CODE" != "200" ]]; then
     echo "Could not fetch ${LOCK_URL} (HTTP ${HTTP_CODE})"
     echo "Attempting to compute npm deps hash from npm tarball..."
     TMP_TARBALL=$(mktemp --suffix=.tar.gz)
-    curl -sL "https://registry.npmjs.org/${NPM_PKG}/-/${PKG_BASENAME}-${TARGET_VERSION}.tgz" -o "$TMP_TARBALL"
-    NPM_DEPS_HASH=$(nix run --quiet nixpkgs#prefetch-npm-deps -- "$TMP_TARBALL" 2>/dev/null || true)
+    curl -fsSL "https://registry.npmjs.org/${NPM_PKG}/-/${PKG_BASENAME}-${TARGET_VERSION}.tgz" -o "$TMP_TARBALL"
+    NPM_DEPS_HASH=$(nix run --quiet --inputs-from "$REPO_ROOT" nixpkgs#prefetch-npm-deps -- "$TMP_TARBALL" 2>/dev/null || true)
     rm -f "$TMP_TARBALL"
   else
     echo "ERROR: Could not fetch ${LOCK_URL} (HTTP ${HTTP_CODE})"
     exit 1
   fi
 else
-  NPM_DEPS_HASH=$(nix run --quiet nixpkgs#prefetch-npm-deps -- "$TMP_LOCK" 2>/dev/null || true)
+  NPM_DEPS_HASH=$(nix run --quiet --inputs-from "$REPO_ROOT" nixpkgs#prefetch-npm-deps -- "$TMP_LOCK" 2>/dev/null || true)
 fi
 if [[ -z "$NPM_DEPS_HASH" || "$NPM_DEPS_HASH" != sha256-* ]]; then
   echo "ERROR: prefetch-npm-deps did not return a valid SRI hash."

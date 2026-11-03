@@ -19,7 +19,9 @@
       gitattributes
       gitcommit
       gitignore
+      go
       html
+      java
       javascript
       json
       json5
@@ -28,17 +30,18 @@
       markdown_inline
       mermaid
       nix
-      ql
       python
       query
       regex
       rust
       sql
       ssh_config
+      toml
       tsx
       typescript
       vim
       vimdoc
+      xml
       yaml
       zig
     ];

@@ -28,7 +28,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    dosbox
     # terminals
     alacritty
     foot
