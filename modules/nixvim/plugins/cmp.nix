@@ -3,6 +3,9 @@
   lib,
   ...
 }:
+let
+  mistralCode = nixvim.mistral.code or false;
+in
 {
   programs.nixvim.plugins = {
     cmp = {
@@ -15,11 +18,23 @@
           "<C-y>" = "cmp.mapping.confirm({ select = true })";
           "<C-f>" = "cmp.mapping.complete()";
           "<CR>" = "cmp.mapping.confirm({ select = true })";
+        }
+        // lib.optionalAttrs mistralCode {
+          "<A-y>" = "require('minuet').make_cmp_map()";
+        };
+        performance = lib.optionalAttrs mistralCode {
+          fetching_timeout = 2000;
         };
         sources =
           lib.optionals nixvim.copilot.code [
             {
               name = "copilot";
+              group_index = 2;
+            }
+          ]
+          ++ lib.optionals mistralCode [
+            {
+              name = "minuet";
               group_index = 2;
             }
           ]

@@ -12,6 +12,10 @@
       chat = false;
       code = false;
     };
+    mistral = {
+      chat = false;
+      code = false;
+    };
     dotnet = {
       useOmnisharp = true;
     };

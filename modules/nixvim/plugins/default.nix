@@ -2,7 +2,9 @@
 {
   imports = [
     ./copilot.nix
+    ./codecompanion.nix
     ./cmp.nix
+    ./minuet.nix
     ./lsp.nix
     ./lsp.omnisharp.nix
     ./lsp.roslyn.nix
