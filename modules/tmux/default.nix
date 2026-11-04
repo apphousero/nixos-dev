@@ -19,8 +19,7 @@ let
 
   pluginOptions = ''
     # Catppuccin theme configuration
-    set -g @catppuccin_flavor "frappe"
-    if-shell '${sshCheck}' 'set -g @catppuccin_flavor "mocha"'
+    set -g @catppuccin_flavor "mocha"
     set -g @catppuccin_window_number "#I"
     set -g @catppuccin_window_text "#W"
     set -g @catppuccin_window_current_number "#I"

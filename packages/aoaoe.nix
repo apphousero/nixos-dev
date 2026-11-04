@@ -10,16 +10,16 @@
 
 buildNpmPackage (finalAttrs: {
   pname = "aoaoe";
-  version = "8.0.0";
+  version = "7.5.0";
 
   src = fetchFromGitHub {
     owner = "Talador12";
     repo = "agent-of-agent-of-empires";
-    rev = "34926ae9684d2bfaa7ba3bcace417deee06d7b01";
-    hash = "sha256-/UF8S21XC1kjp6TNjmjBDxau2lEQ11xNQR2HENFXPjk=";
+    rev = "31b61380325950f00a2613838a56d4c60a88394f";
+    hash = "sha256-jqvQcS8hhXcPidipOAgfVRN3fdqjOukp966XOdGv5Pg=";
   };
 
-  npmDepsHash = "sha256-qwdC9I3L/ntxtwxP/BpIzjwBgEaudrv6SEC1xB8qZ3U=";
+  npmDepsHash = "sha256-ZP4xTjcB/o/rJCWOQuLt3hgGk9cFFGaDOP9SBqL/1Z8=";
 
   nodejs = nodejs_22;
 

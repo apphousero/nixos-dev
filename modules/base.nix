@@ -59,6 +59,8 @@ in
     eza
     # Easy alternative to find
     fd
+    # Audio/video CLI (ffmpeg, ffprobe)
+    ffmpeg-headless
     # file command
     file
     # Flakehub CLI

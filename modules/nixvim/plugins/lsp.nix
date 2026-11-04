@@ -106,9 +106,7 @@ in
       marksman.enable = true;
       nil_ls = {
         enable = true;
-        config = {
-          autoArchive = true;
-        };
+        config.settings.nil.nix.flake.autoArchive = true;
       };
       pylsp = {
         enable = lib.mkDefault hasPython;
