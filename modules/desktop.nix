@@ -27,18 +27,24 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [
-    # terminals
-    alacritty
-    foot
-    kitty
-    # browsers
-    brave
-    chromium
-    firefox
-    # file browsers
-    file-roller
-    # RDP
-    remmina
-  ];
+  environment.systemPackages =
+    with pkgs;
+    [
+      # terminals
+      alacritty
+      foot
+      kitty
+      # browsers
+      firefox
+      # file browsers
+      file-roller
+      # RDP
+      remmina
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isx86_64 [
+      google-chrome
+    ]
+    ++ lib.optionals (!stdenv.hostPlatform.isx86_64) [
+      chromium
+    ];
 }
