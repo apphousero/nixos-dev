@@ -184,7 +184,9 @@ in
     #nodejs_18
     node-gyp
     # aaah, mermaid
-    mermaid-cli
+    (mermaid-cli.override (
+      lib.optionalAttrs stdenv.hostPlatform.isx86_64 { chromium = google-chrome; }
+    ))
     # HTTP load generator
     oha
     # For docs
