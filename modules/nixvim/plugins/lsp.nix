@@ -77,7 +77,6 @@ in
       clangd.enable = true;
       cssls.enable = lib.mkDefault hasNodejs;
       csharp_ls = {
-        # enable = lib.mkDefault hasDotnetSdk;
         enable = false;
         config = {
           cmd = [

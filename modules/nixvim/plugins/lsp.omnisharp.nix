@@ -1,19 +1,15 @@
 {
   config,
   lib,
-  sharedPackages,
-  devPackages,
   ...
 }:
 let
-  helpers = import ../../lib.nix { packages = sharedPackages ++ devPackages; };
-  inherit (helpers) hasDotnetSdk;
-  useOmnisharp = config.nixos-dev.nixvim.dotnet.useOmnisharp;
+  inherit (config.nixos-dev.nixvim) dotnet;
 in
 {
-  programs.nixvim.lsp.servers = lib.mkIf useOmnisharp {
+  programs.nixvim.lsp.servers = lib.mkIf dotnet.useOmnisharp {
     omnisharp = {
-      enable = lib.mkDefault hasDotnetSdk;
+      enable = lib.mkDefault dotnet.enable;
       config = {
         settings = {
           RoslynExtensionsOptions = {
