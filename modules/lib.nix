@@ -4,7 +4,6 @@ let
 in
 {
   inherit hasPackage;
-  hasDotnetSdk = hasPackage "dotnet" || hasPackage "dotnet-sdk" || hasPackage "dotnet-sdk-wrapped";
   hasNodejs = hasPackage "nodejs";
   hasPython = hasPackage "python3";
   hasGo = hasPackage "go";

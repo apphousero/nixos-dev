@@ -7,7 +7,7 @@
   imports = [
     ./common.nix
   ];
-  nixos-dev.nixvim.dotnet.useOmnisharp = lib.mkDefault true;
+  nixos-dev.nixvim.dotnet.enable = lib.mkDefault false;
 
   environment.systemPackages = with pkgs; [
     # ping but with graph

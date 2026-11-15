@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   sharedPackages,
@@ -7,7 +8,7 @@
 }:
 let
   helpers = import ../lib.nix { packages = sharedPackages ++ devPackages; };
-  inherit (helpers) hasDotnetSdk hasNodejs;
+  inherit (helpers) hasNodejs;
 in
 {
   imports = [
@@ -25,6 +26,9 @@ in
     copilot.code = lib.mkEnableOption "GitHub Copilot completions in nixvim";
     mistral.chat = lib.mkEnableOption "Mistral CodeCompanion chat in nixvim";
     mistral.code = lib.mkEnableOption "Mistral minuet completions in nixvim";
+    dotnet.enable = lib.mkEnableOption ".NET SDK, debugger and C# language server in nixvim" // {
+      default = true;
+    };
     dotnet.useOmnisharp = lib.mkEnableOption "OmniSharp instead of Roslyn for C# in nixvim";
   };
 
@@ -66,7 +70,7 @@ in
         gcc
         nil
       ]
-      ++ lib.lists.optionals hasDotnetSdk [
+      ++ lib.lists.optionals config.nixos-dev.nixvim.dotnet.enable [
         dotnetCorePackages.sdk_10_0
         netcoredbg
         omnisharp-roslyn
